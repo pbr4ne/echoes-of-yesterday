@@ -3,11 +3,15 @@
     <n-space style="padding-left: 5px;" width="100%">
       <span>{{ titleValue }}</span>
     </n-space>
+      <n-icon size="40">
+        <sun-icon color="#f7de5e" />
+      </n-icon>
   </n-space>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { SunnyOutline as SunIcon } from '@vicons/ionicons5'
 
 const titleValue = ref(getTitleValue());
 

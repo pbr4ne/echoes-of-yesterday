@@ -5,6 +5,7 @@ import {
   NButton, 
   NCard, 
   NConfigProvider,
+  NIcon,
   NLayout,
   NLayoutContent,
   NLayoutHeader,
@@ -16,11 +17,13 @@ import {
   NSpace,
 } from 'naive-ui';
 
+
 const naive = create({
   components: [
     NButton, 
     NCard, 
     NConfigProvider,
+    NIcon,
     NLayout,
     NLayoutContent,
     NLayoutHeader,
