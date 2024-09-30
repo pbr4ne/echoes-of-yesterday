@@ -74,67 +74,67 @@
         <span>Restart</span>
       </n-tooltip>
     </n-space>
-  </template>
+</template>
   
-  <script>
-  import { defineComponent, h, ref } from 'vue'
-  
-  import { 
-    NButton,
-    NIcon,
-    NSpace,
-    NTooltip,
-  } from 'naive-ui'
-  
-  import {
-    QuestionOutlined as AboutIcon,
-    PauseOutlined as PauseIcon,
-  } from '@vicons/antd'
-  
-  import {
-    IosGitBranch as VersionIcon,
-  } from '@vicons/ionicons4'
-  
-  import { 
-    DarkModeOutlined as DarkModeIcon,
-    FileUploadOutlined as ImportIcon,
-    LightModeOutlined as LightModeIcon,
-    RestartAltOutlined as RestartIcon,
-    SaveOutlined as ExportIcon,
-  } from '@vicons/material'
-  
-  import useTheme from '../composables/useTheme'
-  export default defineComponent({
+<script>
+    import { defineComponent, h, ref } from 'vue'
+
+    import { 
+        NButton,
+        NIcon,
+        NSpace,
+        NTooltip,
+    } from 'naive-ui'
+
+    import {
+        QuestionOutlined as AboutIcon,
+        PauseOutlined as PauseIcon,
+    } from '@vicons/antd'
+
+    import {
+        IosGitBranch as VersionIcon,
+    } from '@vicons/ionicons4'
+
+    import { 
+        DarkModeOutlined as DarkModeIcon,
+        FileUploadOutlined as ImportIcon,
+        LightModeOutlined as LightModeIcon,
+        RestartAltOutlined as RestartIcon,
+        SaveOutlined as ExportIcon,
+    } from '@vicons/material'
+
+    import useTheme from '../composables/useTheme'
+    export default defineComponent({
     components: {
-      AboutIcon,
-      DarkModeIcon,
-      ExportIcon,
-      ImportIcon,
-      LightModeIcon,
-      NButton,
-      NIcon,
-      NSpace,
-      NTooltip,
-      PauseIcon,
-      RestartIcon,
-      VersionIcon,
+        AboutIcon,
+        DarkModeIcon,
+        ExportIcon,
+        ImportIcon,
+        LightModeIcon,
+        NButton,
+        NIcon,
+        NSpace,
+        NTooltip,
+        PauseIcon,
+        RestartIcon,
+        VersionIcon,
     },
     setup() {
-      const { lightMode, switchTheme } = useTheme();
+        const { lightMode, switchTheme } = useTheme();
 
-      const otherThemeName = () => {
+        const otherThemeName = () => {
         if (lightMode.value) {
-          return 'Dark Mode';
+            return 'Dark Mode';
         } else {
-          return 'Light Mode';
+            return 'Light Mode';
         }
-      }
-  
-      return {
+        }
+
+        return {
         lightMode,
         otherThemeName,
         switchTheme,
-      }
+        }
     },
-  })
-  </script>
+    })
+</script>

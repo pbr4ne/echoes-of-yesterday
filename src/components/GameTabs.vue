@@ -49,21 +49,21 @@ const icons = [
 </script>
 
 <style scoped>
-  @import url('https://fonts.googleapis.com/css2?family=Fondamento:ital@0;1&display=swap');
-  
-  .eoyHeader {
-    font-family: 'Fondamento', sans-serif;
-    font-size: 40px;
-    padding-right: 5px;
-    padding-left: 5px;
-  }
+    @import url('https://fonts.googleapis.com/css2?family=Fondamento:ital@0;1&display=swap');
 
-  .tab-icon {
-    margin-right: 8px;
-    font-size: 20px;
-  }
+    .eoyHeader {
+        font-family: 'Fondamento', sans-serif;
+        font-size: 40px;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
 
-  .tab-text {
-    vertical-align: middle
-  }
+    .tab-icon {
+        margin-right: 8px;
+        font-size: 20px;
+    }
+
+    .tab-text {
+        vertical-align: middle
+    }
 </style>
