@@ -54,6 +54,6 @@
   import { ref } from 'vue';
   import GameHeader from './GameHeader.vue'
 
-  const leftCollapsed = ref(false);
-  const rightCollapsed = ref(false);
+  const leftCollapsed = ref(window.innerWidth < 700);
+  const rightCollapsed = ref(window.innerWidth < 700);
 </script>
