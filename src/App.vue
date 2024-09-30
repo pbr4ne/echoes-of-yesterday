@@ -1,13 +1,27 @@
 <template>
   <n-config-provider :theme="darkTheme">
     <div :style="{ backgroundColor: backgroundColor, height: '100vh' }">
-      <n-card size="small">
-        Fear: {{ fear }}
-      </n-card>
-      <n-button type="primary" @click="startFearTimer" :disabled="fearTimerActive">Reduce Fear</n-button>
-      <n-card size="small">
-        <p v-if="fearTimerActive">Reducing fear in {{ fearTimer / 1000 }} seconds...</p>
-      </n-card>
+      <n-tabs
+      v-model:value="name"
+      type="card"
+      tab-style="min-width: 80px;"
+      @close="handleClose"
+    >
+      <n-tab-pane
+        v-for="panel in panels"
+        :key="panel"
+        :tab="panel.toString()"
+        :name="panel"
+      >
+        <n-card size="small">
+            Fear: {{ fear }}
+          </n-card>
+          <n-button type="primary" @click="startFearTimer" :disabled="fearTimerActive">Reduce Fear</n-button>
+          <n-card size="small">
+            <p v-if="fearTimerActive">Reducing fear in {{ fearTimer / 1000 }} seconds...</p>
+          </n-card>
+        </n-tab-pane>
+      </n-tabs>
     </div>
   </n-config-provider>
 </template>
@@ -21,6 +35,8 @@
   const fearTimer = ref(0); 
   const fearTimerActive = ref(false);
   const randomEventTimer = ref(0);
+  const name = ref('Living Room');
+  const panels = ref(['Living Room', 'Kitchen', 'Bedroom'])
 
   let gameLoopInterval: ReturnType<typeof setInterval>;
 
