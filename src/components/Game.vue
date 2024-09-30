@@ -83,7 +83,7 @@
 
   const updateScreenSize = () => {
     const wasSmallScreen = isSmallScreen.value;
-    isSmallScreen.value = window.innerWidth < 700;
+    isSmallScreen.value = window.innerWidth < 730;
     
     if (isSmallScreen.value && !wasSmallScreen) {
       rightCollapsed.value = true;
@@ -91,7 +91,7 @@
   };
 
   function isSmallWindow() {
-    return window.innerWidth < 700;
+    return window.innerWidth < 730;
   }
 
   window.addEventListener('resize', updateScreenSize);

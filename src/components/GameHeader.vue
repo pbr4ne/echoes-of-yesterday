@@ -15,7 +15,7 @@
   const titleValue = ref(getTitleValue());
 
   function getTitleValue() {
-    return window.innerWidth > 500 ? 'Echoes of Yesterday' : 'EoY';
+    return window.innerWidth >= 450 ? 'Echoes of Yesterday' : 'EoY';
   }
 
   const updateTitle = () => {

@@ -9,13 +9,13 @@
       v-for="(panel, index) in panels"
       :key="panel"
       :name="panel"
-       style="padding: 20px;"
+      style="padding: 20px;"
     >
       <template #tab>
         <n-icon class="tab-icon">
           <component :is="icons[index]" />
         </n-icon>
-        <span class="tab-text">{{ panel }}</span>
+        <span v-if="showText" class="tab-text">{{ panel }}</span>
       </template>
       <n-card style="width: 200px;" title="Couch">
         <n-space justify="center">
@@ -29,7 +29,7 @@
 </template>
   
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { NIcon } from 'naive-ui'
 
 import LivingRoomIcon from '@vicons/tabler/Lamp'
@@ -42,7 +42,6 @@ import CrawlspaceIcon from '@vicons/fluent/ConferenceRoom24Regular'
 
 const name = ref('Living Room')
 const panels = ref(['Living Room', 'Kitchen', 'Bedroom', 'Sunroom', 'Bathroom', 'Den', 'Crawlspace'])
-
 const icons = [
   LivingRoomIcon,
   KitchenIcon,
@@ -52,6 +51,20 @@ const icons = [
   DenIcon,
   CrawlspaceIcon
 ]
+
+const showText = ref(window.innerWidth > 650)
+
+const updateShowText = () => {
+  showText.value = window.innerWidth > 650
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateShowText)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateShowText)
+})
 </script>
 
 <style scoped>
@@ -70,6 +83,6 @@ const icons = [
   }
 
   .tab-text {
-    vertical-align: middle
+    vertical-align: middle;
   }
 </style>
