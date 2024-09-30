@@ -5,7 +5,7 @@
     content-style="height: 100%; display: flex; flex-direction: column"
   >
     <n-layout-header bordered style="padding-top: 5px">
-      header
+      <game-header />
     </n-layout-header>
 
     <n-layout has-sider>
@@ -52,6 +52,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
+  import GameHeader from './GameHeader.vue'
 
   const leftCollapsed = ref(false);
   const rightCollapsed = ref(false);

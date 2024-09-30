@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import Game from './components/Game.vue'
 import { 
   create,
   NButton, 
@@ -14,12 +13,11 @@ import {
   NNotificationProvider,
   NTabs,
   NTabPane,
+  NSpace,
 } from 'naive-ui';
 
 const naive = create({
   components: [
-    App,
-    Game,
     NButton, 
     NCard, 
     NConfigProvider,
@@ -31,6 +29,7 @@ const naive = create({
     NNotificationProvider,
     NTabs,
     NTabPane,
+    NSpace,
   ],
 });
 
