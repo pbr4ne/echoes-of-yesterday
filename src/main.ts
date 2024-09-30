@@ -15,6 +15,8 @@ import {
   NNotificationProvider,
   NTabs,
   NTabPane,
+  NTimeline,
+  NTimelineItem,
   NSpace,
 } from 'naive-ui';
 
@@ -34,6 +36,8 @@ const naive = create({
     NNotificationProvider,
     NTabs,
     NTabPane,
+    NTimeline,
+    NTimelineItem,
     NSpace,
   ],
 });
