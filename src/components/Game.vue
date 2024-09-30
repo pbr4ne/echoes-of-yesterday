@@ -1,5 +1,5 @@
 <template>
-  <n-layout 
+<n-layout 
     position="absolute" 
     :native-scrollbar="false"
     content-style="height: 100%; display: flex; flex-direction: column"
@@ -25,7 +25,7 @@
 
       <n-layout has-sider sider-placement="right">
         <n-layout-content>
-          tabs
+          <game-tabs />
         </n-layout-content>
 
         <n-layout-sider
@@ -54,6 +54,7 @@
 import { ref, watchEffect, onBeforeUnmount } from 'vue';
 import GameFooter from './GameFooter.vue';
 import GameHeader from './GameHeader.vue';
+import GameTabs from './GameTabs.vue';
 
 const leftCollapsed = ref(isSmallWindow());
 const rightCollapsed = ref(isSmallWindow());
