@@ -20,7 +20,7 @@
         @collapse="() => handleCollapse('left')"
         @expand="() => handleExpand('left')"
       >
-        sider (left)
+        <game-sidebar :collapsed="leftCollapsed" />
       </n-layout-sider>
 
       <n-layout has-sider sider-placement="right">
@@ -54,6 +54,7 @@
 import { ref, watchEffect, onBeforeUnmount } from 'vue';
 import GameFooter from './GameFooter.vue';
 import GameHeader from './GameHeader.vue';
+import GameSidebar from './GameSidebar.vue';
 import GameTabs from './GameTabs.vue';
 
 const leftCollapsed = ref(isSmallWindow());
