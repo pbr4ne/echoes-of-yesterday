@@ -9,6 +9,7 @@
       v-for="(panel, index) in panels"
       :key="panel"
       :name="panel"
+       style="padding: 20px;"
     >
       <template #tab>
         <n-icon class="tab-icon">
@@ -16,7 +17,13 @@
         </n-icon>
         <span class="tab-text">{{ panel }}</span>
       </template>
-      {{ panel }}
+      <n-card style="width: 200px;" title="Couch">
+        <n-space justify="center">
+          <n-button>Sit on Couch</n-button>
+          <n-button>Watch Television</n-button>
+          <n-button>Take a Nap</n-button>
+        </n-space>
+      </n-card>
     </n-tab-pane>
   </n-tabs>
 </template>
