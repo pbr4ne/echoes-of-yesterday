@@ -17,8 +17,8 @@
         :collapsed="leftCollapsed"
         :width="245"
         :native-scrollbar="false"
-        @collapse="leftCollapsed = true"
-        @expand="leftCollapsed = false"
+        @collapse="() => handleCollapse('left')"
+        @expand="() => handleExpand('left')"
       >
         sider (left)
       </n-layout-sider>
@@ -36,8 +36,8 @@
           :collapsed="rightCollapsed"
           :width="245"
           :native-scrollbar="false"
-          @collapse="rightCollapsed = true"
-          @expand="rightCollapsed = false"
+          @collapse="() => handleCollapse('right')"
+          @expand="() => handleExpand('right')"
         >
           sider (right)
         </n-layout-sider>
@@ -51,9 +51,48 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import GameHeader from './GameHeader.vue'
+import { ref, watchEffect, onBeforeUnmount } from 'vue';
+import GameHeader from './GameHeader.vue';
 
-  const leftCollapsed = ref(window.innerWidth < 700);
-  const rightCollapsed = ref(window.innerWidth < 700);
+const leftCollapsed = ref(isSmallWindow());
+const rightCollapsed = ref(isSmallWindow());
+const isSmallScreen = ref(isSmallWindow());
+
+const handleExpand = (side: 'left' | 'right') => {
+  if (side === 'left') {
+    leftCollapsed.value = false;
+    if (isSmallScreen.value) rightCollapsed.value = true;
+  } else {
+    rightCollapsed.value = false;
+    if (isSmallScreen.value) leftCollapsed.value = true;
+  }
+};
+
+const handleCollapse = (side: 'left' | 'right') => {
+  if (side === 'left') leftCollapsed.value = true;
+  else rightCollapsed.value = true;
+};
+
+const updateScreenSize = () => {
+  const wasSmallScreen = isSmallScreen.value;
+  isSmallScreen.value = window.innerWidth < 700;
+  
+  if (isSmallScreen.value && !wasSmallScreen) {
+    rightCollapsed.value = true;
+  }
+};
+
+function isSmallWindow() {
+  return window.innerWidth < 700;
+}
+
+window.addEventListener('resize', updateScreenSize);
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateScreenSize);
+});
+
+watchEffect(() => {
+  updateScreenSize();
+});
 </script>

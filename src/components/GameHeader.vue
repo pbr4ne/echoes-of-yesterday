@@ -7,8 +7,25 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  const titleValue = window.innerWidth > 700 ? ref('Echoes of Yesterday') : ref('EoY');
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+const titleValue = ref(getTitleValue());
+
+function getTitleValue() {
+  return window.innerWidth > 500 ? 'Echoes of Yesterday' : 'EoY';
+}
+
+const updateTitle = () => {
+  titleValue.value = getTitleValue();
+};
+
+onMounted(() => {
+  window.addEventListener('resize', updateTitle);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateTitle);
+});
 </script>
 
 <style scoped>
