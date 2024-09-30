@@ -45,13 +45,14 @@
     </n-layout>
 
     <n-layout-footer bordered style="flex-shrink: 0">
-      footer
+      <game-footer />
     </n-layout-footer>
   </n-layout>
 </template>
 
 <script setup lang="ts">
 import { ref, watchEffect, onBeforeUnmount } from 'vue';
+import GameFooter from './GameFooter.vue';
 import GameHeader from './GameHeader.vue';
 
 const leftCollapsed = ref(isSmallWindow());
