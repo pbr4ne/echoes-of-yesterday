@@ -18,17 +18,56 @@
         <span v-if="showText" class="tab-text">{{ panel }}</span>
       </template>
       
-      <n-flex>
-        <n-card style="width: 200px;" title="Television">
-          <n-flex>
-            <n-button>Watch Reruns</n-button>
+      <n-flex :size="[20, 20]">
+        <n-card style="width: 200px; height: 200px;" title="Television">
+          <n-flex vertical>
+              <n-button round
+                :style="buttonProgressStyle(progress.television)"
+                @click="startProgress('television')"
+              >
+                Watch Reruns
+              </n-button>
           </n-flex>
         </n-card>
 
-        <n-card style="width: 200px;" title="Couch">
-          <n-flex>
-            <n-button>Sit on Couch</n-button>
-            <n-button>Take a Nap</n-button>
+        <n-card style="width: 200px; height: 200px;" title="Couch">
+          <n-flex vertical>
+              <n-button round
+                :style="buttonProgressStyle(progress.sitOnCouch)"
+                @click="startProgress('sitOnCouch')"
+              >
+                Sit on Couch
+              </n-button>
+              
+              <n-button round
+                :style="buttonProgressStyle(progress.takeANap)"
+                @click="startProgress('takeANap')"
+              >
+                Take a Nap
+              </n-button>
+              <n-button round
+                :style="buttonProgressStyle(progress.stareIntoSpace)"
+                @click="startProgress('stareIntoSpace')"
+              >
+                Stare into Space
+              </n-button>
+          </n-flex>
+        </n-card>
+
+        <n-card style="width: 200px; height: 200px;" title="Lamp">
+          <n-flex vertical>
+              <n-button round
+                :style="buttonProgressStyle(progress.turnOnLamp)"
+                @click="startProgress('turnOnLamp')"
+              >
+                Turn on Lamp
+              </n-button>
+              <n-button round
+                :style="buttonProgressStyle(progress.doSomething)"
+                @click="startProgress('doSomething')"
+              >
+                Do Something
+              </n-button>
           </n-flex>
         </n-card>
       </n-flex>
@@ -74,18 +113,35 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateShowText)
 })
+
+const progress = ref({
+  television: 0,
+  sitOnCouch: 0,
+  takeANap: 0,
+  stareIntoSpace: 0,
+  turnOnLamp: 0,
+  doSomething: 0
+})
+
+const startProgress = (key: keyof typeof progress.value) => {
+  if (progress.value[key] === 100) return
+  const interval = setInterval(() => {
+    if (progress.value[key] < 100) {
+      progress.value[key] += 1;
+    } else {
+      clearInterval(interval);
+      progress.value[key] = 0;
+    }
+  }, 50);
+}
+
+const buttonProgressStyle = (progressValue: number) => ({
+  backgroundImage: `linear-gradient(90deg, #43738B ${progressValue}%, transparent 0%)`,
+  transition: 'background 0.3s'
+})
 </script>
 
 <style scoped>
-  @import url('https://fonts.googleapis.com/css2?family=Fondamento:ital@0;1&display=swap');
-
-  .eoyHeader {
-    font-family: 'Fondamento', sans-serif;
-    font-size: 40px;
-    padding-right: 5px;
-    padding-left: 5px;
-  }
-
   .tab-icon {
     margin-right: 8px;
     font-size: 20px;
