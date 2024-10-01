@@ -17,13 +17,22 @@
         </n-icon>
         <span v-if="showText" class="tab-text">{{ panel }}</span>
       </template>
-      <n-card style="width: 200px;" title="Couch">
-        <n-space justify="center">
-          <n-button>Sit on Couch</n-button>
-          <n-button>Watch Television</n-button>
-          <n-button>Take a Nap</n-button>
-        </n-space>
-      </n-card>
+      
+      <n-flex>
+        <n-card style="width: 200px;" title="Television">
+          <n-flex>
+            <n-button>Watch Reruns</n-button>
+          </n-flex>
+        </n-card>
+
+        <n-card style="width: 200px;" title="Couch">
+          <n-flex>
+            <n-button>Sit on Couch</n-button>
+            <n-button>Take a Nap</n-button>
+          </n-flex>
+        </n-card>
+      </n-flex>
+
     </n-tab-pane>
   </n-tabs>
 </template>
