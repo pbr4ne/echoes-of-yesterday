@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, defineAsyncComponent } from 'vue';
+import { ref, onMounted, onBeforeUnmount, defineAsyncComponent, shallowRef } from 'vue';
 import { NIcon } from 'naive-ui';
 
 const LivingRoom = defineAsyncComponent(() => import('./rooms/LivingRoom.vue'));
@@ -45,13 +45,13 @@ import CrawlspaceIcon from '@vicons/fluent/ConferenceRoom24Regular';
 
 const name = ref('Living Room');
 const panels = ref([
-  { name: 'Living Room', label: 'Living Room', component: LivingRoom },
-  { name: 'Kitchen', label: 'Kitchen', component: Kitchen },
-  { name: 'Bedroom', label: 'Bedroom', component: Bedroom },
-  { name: 'Sunroom', label: 'Sunroom', component: Sunroom },
-  { name: 'Bathroom', label: 'Bathroom', component: Bathroom },
-  { name: 'Den', label: 'Den', component: Den },
-  { name: 'Cellar', label: 'Crawlspace', component: Cellar }
+  { name: 'Living Room', label: 'Living Room', component: shallowRef(LivingRoom) },
+  { name: 'Kitchen', label: 'Kitchen', component: shallowRef(Kitchen) },
+  { name: 'Bedroom', label: 'Bedroom', component: shallowRef(Bedroom) },
+  { name: 'Sunroom', label: 'Sunroom', component: shallowRef(Sunroom) },
+  { name: 'Bathroom', label: 'Bathroom', component: shallowRef(Bathroom) },
+  { name: 'Den', label: 'Den', component: shallowRef(Den) },
+  { name: 'Cellar', label: 'Crawlspace', component: shallowRef(Cellar) }
 ]);
 
 const icons = [
