@@ -12,7 +12,7 @@
           :key="task.id"
           round
           :style="buttonProgressStyle(progress[task.id])"
-          @click="startProgress(task)"
+          @click="startProgress(task.id)"
         >
           {{ task.label }}
         </n-button>
@@ -23,7 +23,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useGameLoop } from '../../composables/useGameLoop';
+import { useTasks } from '../../composables/useTasks';
+import { useGameStore } from '../../composables/useGameStore';
 
 const taskGroups = [
   {
@@ -49,40 +50,15 @@ const taskGroups = [
   }
 ];
 
-const taskIds = taskGroups.flatMap(card => card.tasks.map(task => task.id));
+const gameStore = useGameStore();
 
-const progress = ref(Object.fromEntries(taskIds.map(id => [id, 0])));
-const activeTask = ref(Object.fromEntries(taskIds.map(id => [id, false])));
-
-const boredom = ref(100);
-
-const { subscribe } = useGameLoop();
-
-subscribe((tick: number) => {
-  taskIds.forEach((id) => {
-    if (activeTask.value[id] && progress.value[id] < 100) {
-      progress.value[id] += 1;
-    }
-    if (progress.value[id] >= 100) {
-      activeTask.value[id] = false;
-      progress.value[id] = 0;
-
-      if (id === 'television') {
-        boredom.value = Math.max(boredom.value - 1, 0); 
-        console.log('Boredom:', boredom.value); 
-      }
-    }
-  });
-});
-
-const startProgress = (task: { id: keyof typeof progress.value }) => {
-  if (progress.value[task.id] < 100) {
-    activeTask.value[task.id] = true;
+const handleTaskCompletion = (id: string) => {
+  if (id === 'television') {
+    gameStore.decreaseBoredom(1);
+    console.log('Boredom:', gameStore.boredom);
   }
 };
 
-const buttonProgressStyle = (progressValue: number) => ({
-  backgroundImage: `linear-gradient(90deg, #43738B ${progressValue}%, transparent 0%)`,
-  transition: 'background 0.3s'
-});
+const { progress, startProgress, buttonProgressStyle } = useTasks(taskGroups, handleTaskCompletion);
 </script>
+
