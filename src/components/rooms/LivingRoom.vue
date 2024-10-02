@@ -54,6 +54,8 @@ const taskIds = taskGroups.flatMap(card => card.tasks.map(task => task.id));
 const progress = ref(Object.fromEntries(taskIds.map(id => [id, 0])));
 const activeTask = ref(Object.fromEntries(taskIds.map(id => [id, false])));
 
+const boredom = ref(100);
+
 const { subscribe } = useGameLoop();
 
 subscribe((tick: number) => {
@@ -64,6 +66,11 @@ subscribe((tick: number) => {
     if (progress.value[id] >= 100) {
       activeTask.value[id] = false;
       progress.value[id] = 0;
+
+      if (id === 'television') {
+        boredom.value = Math.max(boredom.value - 1, 0); 
+        console.log('Boredom:', boredom.value); 
+      }
     }
   });
 });

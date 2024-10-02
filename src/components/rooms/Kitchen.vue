@@ -46,6 +46,9 @@ const taskIds = taskGroups.flatMap(card => card.tasks.map(task => task.id));
 const progress = ref(Object.fromEntries(taskIds.map(id => [id, 0])));
 const activeTask = ref(Object.fromEntries(taskIds.map(id => [id, false])));
 
+const food = ref(0);
+const hunger = ref(100);
+
 const { subscribe } = useGameLoop();
 
 subscribe((tick: number) => {
@@ -56,6 +59,16 @@ subscribe((tick: number) => {
     if (progress.value[id] >= 100) {
       activeTask.value[id] = false;
       progress.value[id] = 0;
+
+      if (id === 'fridge') {
+        food.value += 1;
+        console.log('Food:', food.value); 
+      } else if (id === 'cook' && food.value > 0) {
+        hunger.value = Math.max(hunger.value - 1, 0); 
+        food.value -= 1;
+        console.log('Hunger:', hunger.value);
+        console.log('Food:', food.value);
+      }
     }
   });
 });
