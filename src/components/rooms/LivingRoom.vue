@@ -1,84 +1,81 @@
 <template>
   <n-flex :size="[20, 20]">
-    <n-card style="width: 200px; height: 200px;" title="Television">
+    <n-card
+      v-for="(card, cardIndex) in taskGroups"
+      :key="cardIndex"
+      :title="card.title"
+      style="width: 200px; height: 200px;"
+    >
       <n-flex vertical>
-          <n-button round
-            :style="buttonProgressStyle(progress.television)"
-            @click="startProgress('television')"
-          >
-            Watch Reruns
-          </n-button>
-      </n-flex>
-    </n-card>
-
-    <n-card style="width: 200px; height: 200px;" title="Couch">
-      <n-flex vertical>
-          <n-button round
-            :style="buttonProgressStyle(progress.sitOnCouch)"
-            @click="startProgress('sitOnCouch')"
-          >
-            Sit on Couch
-          </n-button>
-          
-          <n-button round
-            :style="buttonProgressStyle(progress.takeANap)"
-            @click="startProgress('takeANap')"
-          >
-            Take a Nap
-          </n-button>
-          <n-button round
-            :style="buttonProgressStyle(progress.stareIntoSpace)"
-            @click="startProgress('stareIntoSpace')"
-          >
-            Stare into Space
-          </n-button>
-      </n-flex>
-    </n-card>
-
-    <n-card style="width: 200px; height: 200px;" title="Lamp">
-      <n-flex vertical>
-          <n-button round
-            :style="buttonProgressStyle(progress.turnOnLamp)"
-            @click="startProgress('turnOnLamp')"
-          >
-            Turn on Lamp
-          </n-button>
-          <n-button round
-            :style="buttonProgressStyle(progress.doSomething)"
-            @click="startProgress('doSomething')"
-          >
-            Do Something
-          </n-button>
+        <n-button
+          v-for="task in card.tasks"
+          :key="task.id"
+          round
+          :style="buttonProgressStyle(progress[task.id])"
+          @click="startProgress(task)"
+        >
+          {{ task.label }}
+        </n-button>
       </n-flex>
     </n-card>
   </n-flex>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-const progress = ref({
-  television: 0,
-  sitOnCouch: 0,
-  takeANap: 0,
-  stareIntoSpace: 0,
-  turnOnLamp: 0,
-  doSomething: 0
-})
+import { ref } from 'vue';
+import { useGameLoop } from '../../composables/useGameLoop';
 
-const startProgress = (key: keyof typeof progress.value) => {
-  if (progress.value[key] === 100) return
-  const interval = setInterval(() => {
-    if (progress.value[key] < 100) {
-      progress.value[key] += 1;
-    } else {
-      clearInterval(interval);
-      progress.value[key] = 0;
+const taskGroups = [
+  {
+    title: 'Television',
+    tasks: [
+      { id: 'television', label: 'Watch Reruns' }
+    ]
+  },
+  {
+    title: 'Couch',
+    tasks: [
+      { id: 'sitOnCouch', label: 'Sit on Couch' },
+      { id: 'takeANap', label: 'Take a Nap' },
+      { id: 'stareIntoSpace', label: 'Stare into Space' }
+    ]
+  },
+  {
+    title: 'Lamp',
+    tasks: [
+      { id: 'turnOnLamp', label: 'Turn on Lamp' },
+      { id: 'doSomething', label: 'Do Something' }
+    ]
+  }
+];
+
+const taskIds = taskGroups.flatMap(card => card.tasks.map(task => task.id));
+
+const progress = ref(Object.fromEntries(taskIds.map(id => [id, 0])));
+const activeTask = ref(Object.fromEntries(taskIds.map(id => [id, false])));
+
+const { subscribe } = useGameLoop();
+
+subscribe((tick: number) => {
+  taskIds.forEach((id) => {
+    if (activeTask.value[id] && progress.value[id] < 100) {
+      progress.value[id] += 1;
     }
-  }, 50);
-}
+    if (progress.value[id] >= 100) {
+      activeTask.value[id] = false;
+      progress.value[id] = 0;
+    }
+  });
+});
+
+const startProgress = (task: { id: keyof typeof progress.value }) => {
+  if (progress.value[task.id] < 100) {
+    activeTask.value[task.id] = true;
+  }
+};
 
 const buttonProgressStyle = (progressValue: number) => ({
   backgroundImage: `linear-gradient(90deg, #43738B ${progressValue}%, transparent 0%)`,
   transition: 'background 0.3s'
-})
+});
 </script>
