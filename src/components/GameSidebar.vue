@@ -53,6 +53,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { NIcon, NTag } from 'naive-ui';
+import { useStore } from '../composables/useStore';
 
 import { FoodToast24Regular as HungerIcon } from '@vicons/fluent';
 import { Coffee as ThirstIcon, DeviceTv as BoredomIcon } from '@vicons/tabler';
@@ -71,9 +72,11 @@ const { collapsed } = defineProps({
   },
 });
 
+const gameStore = useStore();
+
 const sidebar = computed(() => [
-  { label: 'Hunger', key: 'hunger', icon: HungerIcon, percentage: 40 },
-  { label: 'Thirst', key: 'thirst', icon: ThirstIcon, percentage: 60 },
+  { label: 'Hunger', key: 'hunger', icon: HungerIcon, percentage: gameStore.hunger },
+  { label: 'Thirst', key: 'thirst', icon: ThirstIcon, percentage: gameStore.thirst },
   { label: 'Boredom', key: 'boredom', icon: BoredomIcon, percentage: 80 },
   { label: 'Fatigue', key: 'fatigue', icon: FatigueIcon, percentage: 50 },
   { label: 'Fear', key: 'fear', icon: FearIcon, percentage: 30 }

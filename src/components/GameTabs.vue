@@ -43,7 +43,7 @@ import BathroomIcon from '@vicons/material/ShowerOutlined';
 import DenIcon from '@vicons/ionicons5/BookOutline';
 import CrawlspaceIcon from '@vicons/fluent/ConferenceRoom24Regular';
 
-const name = ref('Living Room');
+const name = ref('Kitchen');
 const panels = ref([
   { name: 'Living Room', label: 'Living Room', component: shallowRef(LivingRoom) },
   { name: 'Kitchen', label: 'Kitchen', component: shallowRef(Kitchen) },

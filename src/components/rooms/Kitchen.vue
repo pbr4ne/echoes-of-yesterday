@@ -11,8 +11,8 @@
           v-for="task in card.tasks"
           :key="task.id"
           round
-          :style="buttonProgressStyle(progress[task.id])"
-          @click="startProgress(task.id)"
+          :style="getButtonStyle(task.id)"
+          @click="handleTask(task.id)"
         >
           {{ task.label }}
         </n-button>
@@ -22,39 +22,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useTasks } from '../../composables/useTasks';
-import { useGameStore } from '../../composables/useGameStore';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { useStore, StateKeys, emitter } from '../../composables/useStore';
 
-const taskGroups = [
+const store = useStore();
+
+const taskGroups: { title: string, tasks: { id: StateKeys, label: string }[] }[] = [
   {
     title: 'Fridge',
     tasks: [
-      { id: 'fridge', label: 'Gather ingredients' }
+      { id: 'food', label: 'Gather ingredients' },
     ]
   },
   {
     title: 'Stove',
     tasks: [
-      { id: 'cook', label: 'Cook food' },
-      { id: 'boil', label: 'Boil Tea' },
+      { id: 'hunger', label: 'Cook food' },
+      { id: 'thirst', label: 'Boil Tea' },
     ]
   },
 ];
 
-const gameStore = useGameStore();
+const progressStyles = ref<{ [key in StateKeys]?: string }>({});
 
-const handleTaskCompletion = (id: string) => {
-  if (id === 'fridge') {
-    gameStore.addFood(1);
-    console.log('Food:', gameStore.food); 
-  } else if (id === 'cook' && gameStore.food > 0) {
-    gameStore.decreaseHunger(1);
-    gameStore.addFood(-1);
-    console.log('Hunger:', gameStore.hunger);
-    console.log('Food:', gameStore.food);
-  }
+const handleProgressUpdate = (event: { key: StateKeys; progress: number }) => {
+  progressStyles.value[event.key] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
 };
 
-const { progress, startProgress, buttonProgressStyle } = useTasks(taskGroups, handleTaskCompletion);
+const handleTask = (taskId: StateKeys) => {
+  store.scheduleTask(taskId, taskId === 'food' ? 'increase' : 'decrease', 1);
+};
+
+onMounted(() => {
+  emitter.on('taskProgress', handleProgressUpdate);
+});
+
+onBeforeUnmount(() => {
+  emitter.off('taskProgress', handleProgressUpdate);
+});
+
+const getButtonStyle = (taskId: StateKeys) => {
+  return {
+    backgroundImage: progressStyles.value[taskId],
+    transition: 'background 0.3s',
+  };
+};
 </script>

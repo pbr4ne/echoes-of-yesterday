@@ -11,8 +11,6 @@
           v-for="task in card.tasks"
           :key="task.id"
           round
-          :style="buttonProgressStyle(progress[task.id])"
-          @click="startProgress(task.id)"
         >
           {{ task.label }}
         </n-button>
@@ -22,9 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useTasks } from '../../composables/useTasks';
-import { useGameStore } from '../../composables/useGameStore';
 
 const taskGroups = [
   {
@@ -49,16 +44,5 @@ const taskGroups = [
     ]
   }
 ];
-
-const gameStore = useGameStore();
-
-const handleTaskCompletion = (id: string) => {
-  if (id === 'television') {
-    gameStore.decreaseBoredom(1);
-    console.log('Boredom:', gameStore.boredom);
-  }
-};
-
-const { progress, startProgress, buttonProgressStyle } = useTasks(taskGroups, handleTaskCompletion);
 </script>
 
