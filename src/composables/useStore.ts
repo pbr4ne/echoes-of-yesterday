@@ -10,12 +10,12 @@ export const useStore = defineStore('gameState', {
     food: 10,
     water: 10,
     pendingTasks: [] as { key: StateKeys; action: 'increase' | 'decrease'; startTime: number; duration: number }[],
-    gameLoopId: null as null | number,
   }),
   actions: {
+    _gameLoopId: null as null | number,
+
     adjustValue(key: StateKeys, amount: number, max = 100, min = 0) {
       this[key] = Math.max(Math.min(this[key] + amount, max), min);
-      this.saveState();
     },
 
     scheduleTask(key: StateKeys, action: 'increase' | 'decrease', amount: number, duration = 10000) {
@@ -25,40 +25,37 @@ export const useStore = defineStore('gameState', {
     },
 
     startGameLoop() {
+      const TICK_RATE = 50;
+      let lastTick = Date.now();
+    
       const gameLoop = () => {
         const now = Date.now();
-
-        this.pendingTasks = this.pendingTasks.filter(task => {
-          const elapsed = now - task.startTime;
-          const progress = Math.min((elapsed / task.duration) * 100, 100);
-          emitter.emit('taskProgress', { key: task.key, progress });
-
-          if (progress >= 100) {
-            if (task.action === 'increase') {
-              this.adjustValue(task.key, 1);
-            } else {
-              this.adjustValue(task.key, -1);
+        const delta = now - lastTick;
+    
+        if (delta >= TICK_RATE) {
+          lastTick = now;    
+       
+          this.pendingTasks = this.pendingTasks.filter(task => {
+            const elapsed = now - task.startTime;
+            const progress = Math.min((elapsed / task.duration) * 100, 100);
+            emitter.emit('taskProgress', { key: task.key, progress });
+    
+            if (progress >= 100) {
+              if (task.action === 'increase') {
+                this.adjustValue(task.key, 1);
+              } else {
+                this.adjustValue(task.key, -1);
+              }
+              return false;
             }
-            return false;
-          }
-          return true;
-        });
-
-        this.gameLoopId = requestAnimationFrame(gameLoop);
+            return true;
+          });
+        }
+    
+        this._gameLoopId = requestAnimationFrame(gameLoop);
       };
-
-      this.gameLoopId = requestAnimationFrame(gameLoop);
-    },
-
-    saveState() {
-      localStorage.setItem('gameState', JSON.stringify(this.$state));
-    },
-
-    loadState() {
-      const savedState = localStorage.getItem('gameState');
-      if (savedState) {
-        this.$state = JSON.parse(savedState);
-      }
+    
+      this._gameLoopId = requestAnimationFrame(gameLoop);
     },
   },
 });
