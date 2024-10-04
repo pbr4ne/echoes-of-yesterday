@@ -1,4 +1,5 @@
 import { PiniaPluginContext } from 'pinia';
+import { emitter } from './emitter';
 
 export const piniaPlugin = (context: PiniaPluginContext) => {
   const { store } = context;
@@ -8,7 +9,10 @@ export const piniaPlugin = (context: PiniaPluginContext) => {
     store.$patch(JSON.parse(savedState));
   }
 
-  store.$subscribe((mutation, state) => {
-    localStorage.setItem(store.$id, JSON.stringify(state));
-  });
+  const saveInterval = 30000;
+  setInterval(() => {
+    localStorage.setItem(store.$id, JSON.stringify(store.$state));
+    console.log('saved to localStorage');
+    emitter.emit('autosave', { timestamp: new Date(), storeId: store.$id });
+  }, saveInterval);
 };
