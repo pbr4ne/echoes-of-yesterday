@@ -1,13 +1,7 @@
 import { defineStore } from 'pinia';
-import mitt from 'mitt';
+import { emitter } from '../utilities/emitter';
 
 export type StateKeys = 'hunger' | 'thirst' | 'food' | 'water';
-
-type GameEvent = {
-  taskProgress: { key: StateKeys; progress: number };
-};
-
-export const emitter = mitt<GameEvent>();
 
 export const useStore = defineStore('gameState', {
   state: () => ({

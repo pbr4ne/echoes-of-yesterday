@@ -23,7 +23,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useStore, StateKeys, emitter } from '../../composables/useStore';
+import { useStore, StateKeys } from '../../composables/useStore';
+import { emitter } from '../../utilities/emitter';
 
 const store = useStore();
 
