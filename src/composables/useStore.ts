@@ -1,24 +1,31 @@
 import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
 
-export type StateKeys = 'hunger' | 'thirst' | 'food' | 'water';
+interface GameState {
+  hunger: number;
+  thirst: number;
+  food: number;
+  water: number;
+  pendingTasks: { key: string; action: 'increase' | 'decrease'; startTime: number; duration: number }[];
+}
 
 export const useStore = defineStore('gameState', {
-  state: () => ({
+  state: (): GameState => ({
     hunger: 100,
     thirst: 100,
     food: 10,
     water: 10,
-    pendingTasks: [] as { key: StateKeys; action: 'increase' | 'decrease'; startTime: number; duration: number }[],
+    pendingTasks: [],
   }),
+
   actions: {
     _gameLoopId: null as null | number,
 
-    adjustValue(key: StateKeys, amount: number, max = 100, min = 0) {
-      this[key] = Math.max(Math.min(this[key] + amount, max), min);
+    adjustValue(key: string, amount: number, max = 100, min = 0) {
+      (this as Record<string, any>)[key] = Math.max(Math.min((this as Record<string, any>)[key] + amount, max), min);
     },
 
-    scheduleTask(key: StateKeys, action: 'increase' | 'decrease', amount: number, duration = 10000) {
+    scheduleTask(key: string, action: 'increase' | 'decrease', amount: number, duration = 10000) {
       const startTime = Date.now();
       const task = { key, action, startTime, duration };
       this.pendingTasks.push(task);
@@ -33,8 +40,8 @@ export const useStore = defineStore('gameState', {
         const delta = now - lastTick;
     
         if (delta >= TICK_RATE) {
-          lastTick = now;    
-       
+          lastTick = now;
+
           this.pendingTasks = this.pendingTasks.filter(task => {
             const elapsed = now - task.startTime;
             const progress = Math.min((elapsed / task.duration) * 100, 100);

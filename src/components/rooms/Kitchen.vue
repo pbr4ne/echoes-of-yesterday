@@ -23,12 +23,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useStore, StateKeys } from '../../composables/useStore';
+import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
 
 const store = useStore();
 
-const taskGroups: { title: string, tasks: { id: StateKeys, label: string }[] }[] = [
+const taskGroups: { title: string, tasks: { id: string, label: string }[] }[] = [
   {
     title: 'Fridge',
     tasks: [
@@ -44,13 +44,13 @@ const taskGroups: { title: string, tasks: { id: StateKeys, label: string }[] }[]
   },
 ];
 
-const progressStyles = ref<{ [key in StateKeys]?: string }>({});
+const progressStyles = ref<{ [key: string]: string }>({});
 
-const handleProgressUpdate = (event: { key: StateKeys; progress: number }) => {
+const handleProgressUpdate = (event: { key: string; progress: number }) => {
   progressStyles.value[event.key] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
 };
 
-const handleTask = (taskId: StateKeys) => {
+const handleTask = (taskId: string) => {
   store.scheduleTask(taskId, taskId === 'food' ? 'increase' : 'decrease', 1);
 };
 
@@ -62,7 +62,7 @@ onBeforeUnmount(() => {
   emitter.off('taskProgress', handleProgressUpdate);
 });
 
-const getButtonStyle = (taskId: StateKeys) => {
+const getButtonStyle = (taskId: string) => {
   return {
     backgroundImage: progressStyles.value[taskId],
     transition: 'background 0.3s',
