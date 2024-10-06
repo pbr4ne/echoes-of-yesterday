@@ -60,6 +60,6 @@ app.use(naive);
 app.use(pinia);
 
 const store = useStore();
-store.startGameLoop(); 
+store.initGame(); 
 
 app.mount('#app');

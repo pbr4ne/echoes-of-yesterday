@@ -1,7 +1,14 @@
 import mitt from 'mitt';
 
+export type ActionType = 'increase' | 'decrease';
+
 type GameEvent = {
-  taskProgress: { key: string; progress: number };
+  //actions
+  actionCompleted: { key: string };
+  actionStarted: { key: string, actionType: ActionType };
+  actionCancelled: { key: string };
+  actionProgressed: { key: string; progress: number };
+
   autosave: { timestamp: Date; storeId: string };
 };
 

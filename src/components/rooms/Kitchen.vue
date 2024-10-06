@@ -12,7 +12,7 @@
           :key="task.id"
           round
           :style="getButtonStyle(task.id)"
-          @click="handleTask(task.id)"
+          @click="startAction(task.id)"
         >
           {{ task.label }}
         </n-button>
@@ -46,20 +46,25 @@ const taskGroups: { title: string, tasks: { id: string, label: string }[] }[] = 
 
 const progressStyles = ref<{ [key: string]: string }>({});
 
-const handleProgressUpdate = (event: { key: string; progress: number }) => {
+const handleActionProgressed = (event: { key: string; progress: number }) => {
   progressStyles.value[event.key] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
 };
 
-const handleTask = (taskId: string) => {
-  store.scheduleTask(taskId, taskId === 'food' ? 'increase' : 'decrease', 1);
+const handleActionCompleted = (event: {key: string} ) => {
+  progressStyles.value[event.key] = '';
+};
+
+const startAction = (taskId: string) => {
+  emitter.emit('actionStarted', { key: taskId, actionType: 'decrease' });
 };
 
 onMounted(() => {
-  emitter.on('taskProgress', handleProgressUpdate);
+  emitter.on('actionProgressed', handleActionProgressed);
+  emitter.on('actionCompleted', handleActionCompleted);
 });
 
 onBeforeUnmount(() => {
-  emitter.off('taskProgress', handleProgressUpdate);
+  emitter.off('actionProgressed', handleActionProgressed);
 });
 
 const getButtonStyle = (taskId: string) => {
