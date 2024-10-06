@@ -1,13 +1,12 @@
 import mitt from 'mitt';
-
-export type ActionType = 'increase' | 'decrease';
+import { ActionKey, ActionType } from './actions';
 
 type GameEvent = {
   //actions
-  actionCompleted: { key: string };
-  actionStarted: { key: string, actionType: ActionType };
-  actionCancelled: { key: string };
-  actionProgressed: { key: string; progress: number };
+  actionCompleted: { actionKey: ActionKey };
+  actionStarted: { actionKey: ActionKey, actionType: ActionType };
+  actionCancelled: { actionKey: ActionKey };
+  actionProgressed: { actionKey: ActionKey; progress: number };
 
   autosave: { timestamp: Date; storeId: string };
 };

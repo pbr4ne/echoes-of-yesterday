@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia';
-import { emitter, ActionType } from '../utilities/emitter';
+import { emitter } from '../utilities/emitter';
+import { ActionKey, ActionType } from '../utilities/actions';
 
 interface GameState {
   hunger: number;
   thirst: number;
   food: number;
   water: number;
-  pendingTasks: { key: string; actionType: ActionType; startTime: number; duration: number }[];
+  pendingTasks: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
 }
 
 export const useStore = defineStore('gameState', {
@@ -21,19 +22,19 @@ export const useStore = defineStore('gameState', {
   actions: {
     _gameLoopId: null as null | number,
 
-    adjustValue(key: string, amount: number, max = 100, min = 0) {
-      (this as Record<string, any>)[key] = Math.max(Math.min((this as Record<string, any>)[key] + amount, max), min);
+    adjustValue(actionKey: ActionKey, amount: number, max = 100, min = 0) {
+      this[actionKey] = Math.min(Math.max(this[actionKey] + amount, min), max);
     },
 
-    scheduleTask(key: string, actionType: ActionType, amount: number, duration = 10000) {
+    scheduleTask(actionKey: ActionKey, actionType: ActionType, amount: number, duration = 10000) {
       const startTime = Date.now();
-      const task = { key, actionType, startTime, duration };
+      const task = { actionKey, actionType, startTime, duration };
       this.pendingTasks.push(task);
     },
 
     listenForEvents() {
-      emitter.on('actionStarted', ({ key, actionType }) => {
-        this.scheduleTask(key, actionType, 1);
+      emitter.on('actionStarted', ({ actionKey, actionType }) => {
+        this.scheduleTask(actionKey, actionType, 1);
       });
     },
 
@@ -51,15 +52,15 @@ export const useStore = defineStore('gameState', {
           this.pendingTasks = this.pendingTasks.filter(task => {
             const elapsed = now - task.startTime;
             const progress = Math.min((elapsed / task.duration) * 100, 100);
-            emitter.emit('actionProgressed', { key: task.key, progress });
+            emitter.emit('actionProgressed', { actionKey: task.actionKey, progress });
 
             if (progress >= 100) {
               if (task.actionType === 'increase') {
-                this.adjustValue(task.key, 1);
+                this.adjustValue(task.actionKey, 1);
               } else {
-                this.adjustValue(task.key, -1);
+                this.adjustValue(task.actionKey, -1);
               }
-              emitter.emit('actionCompleted', { key: task.key });
+              emitter.emit('actionCompleted', { actionKey: task.actionKey });
               return false;
             }
             return true;

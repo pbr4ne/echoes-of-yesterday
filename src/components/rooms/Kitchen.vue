@@ -44,18 +44,18 @@ const taskGroups: { title: string, tasks: { id: string, label: string }[] }[] = 
   },
 ];
 
-const progressStyles = ref<{ [key: string]: string }>({});
+const progressStyles = ref<{ [actionKey: string]: string }>({});
 
-const handleActionProgressed = (event: { key: string; progress: number }) => {
-  progressStyles.value[event.key] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
+const handleActionProgressed = (event: { actionKey: string; progress: number }) => {
+  progressStyles.value[event.actionKey] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
 };
 
-const handleActionCompleted = (event: {key: string} ) => {
-  progressStyles.value[event.key] = '';
+const handleActionCompleted = (event: {actionKey: string} ) => {
+  progressStyles.value[event.actionKey] = '';
 };
 
 const startAction = (taskId: string) => {
-  emitter.emit('actionStarted', { key: taskId, actionType: 'decrease' });
+  emitter.emit('actionStarted', { actionKey: taskId, actionType: 'decrease' });
 };
 
 onMounted(() => {
