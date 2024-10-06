@@ -8,7 +8,7 @@ type GameEvent = {
   actionCancelled: { actionKey: ActionKey };
   actionProgressed: { actionKey: ActionKey; progress: number };
 
-  autosave: { timestamp: Date; storeId: string };
+  autosaved: { timestamp: Date; storeId: string };
 };
 
 export const emitter = mitt<GameEvent>();

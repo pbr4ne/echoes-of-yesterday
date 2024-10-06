@@ -13,6 +13,6 @@ export const piniaPlugin = (context: PiniaPluginContext) => {
   setInterval(() => {
     localStorage.setItem(store.$id, JSON.stringify(store.$state));
     console.log('saved to localStorage');
-    emitter.emit('autosave', { timestamp: new Date(), storeId: store.$id });
+    emitter.emit('autosaved', { timestamp: new Date(), storeId: store.$id });
   }, saveInterval);
 };
