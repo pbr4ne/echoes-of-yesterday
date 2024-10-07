@@ -10,15 +10,15 @@
           :percentage="item.percentage"
           type="line"
           :height="20"
-          color="#43738B"
+          :color="getProgressColor(item.percentage)"
           :show-indicator="false"
         />
         <div class="progress-label">
-          <span class="progress-text">{{ item.label }}</span>
+          <span class="progress-text" :style="{ color: getTextColor(item.percentage) }">{{ item.label }}</span>
         </div>
       </div>
     </div>
-    
+
     <n-divider />
 
     <div v-for="(ghost, index) in ghosts" :key="ghost.key" class="sidebar-item">
@@ -28,7 +28,7 @@
       <span class="ghost-label" style="padding-left: 10px;" v-if="!collapsed">
         {{ ghost.label }}
       </span>
-      <n-tag :type="ghost.status == 'Communicated'? 'warning' : 'info'" size="small" round v-if="!collapsed">
+      <n-tag :type="ghost.status == 'Communicated' ? 'warning' : 'info'" size="small" round v-if="!collapsed">
         {{ ghost.status }}
       </n-tag>
     </div>
@@ -46,15 +46,12 @@
         {{ r.progress }}/10
       </n-tag>
     </div>
-
   </n-space>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { NIcon, NTag } from 'naive-ui';
 import { useStore } from '../composables/useStore';
-
 import { FoodToast24Regular as HungerIcon } from '@vicons/fluent';
 import { Coffee as ThirstIcon, DeviceTv as BoredomIcon } from '@vicons/tabler';
 import { Sleep24Regular as FatigueIcon } from '@vicons/fluent';
@@ -77,9 +74,9 @@ const gameStore = useStore();
 const sidebar = computed(() => [
   { label: 'Hunger', key: 'hunger', icon: HungerIcon, percentage: gameStore.hunger },
   { label: 'Thirst', key: 'thirst', icon: ThirstIcon, percentage: gameStore.thirst },
-  { label: 'Boredom', key: 'boredom', icon: BoredomIcon, percentage: 80 },
-  { label: 'Fatigue', key: 'fatigue', icon: FatigueIcon, percentage: 50 },
-  { label: 'Fear', key: 'fear', icon: FearIcon, percentage: 30 }
+  { label: 'Boredom', key: 'boredom', icon: BoredomIcon, percentage: 74 },
+  { label: 'Fatigue', key: 'fatigue', icon: FatigueIcon, percentage: 49 },
+  { label: 'Fear', key: 'fear', icon: FearIcon, percentage: 5 }
 ]);
 
 const ghosts = computed(() => [
@@ -97,6 +94,25 @@ const research = computed(() => [
   { label: 'Illusionary Visions', key: 'illusionaryVisions', icon: FearIcon, progress: 2 },
   { label: 'Meditation', key: 'meditation', icon: FearIcon, progress: 10 },
 ]);
+
+const getProgressColor = (percentage: number) => {
+  if (percentage <= 25) {
+    return '#43738B';
+  } else if (percentage <= 50) {
+    return '#4CAF50';
+  } else if (percentage <= 75) {
+    return '#FFC107';
+  } else {
+    return '#F44336';
+  }
+};
+
+const getTextColor = (percentage: number) => {
+  if (percentage > 50 && percentage <= 75) {
+    return '#333639';
+  }
+  return '#FFFFFFD1';
+};
 </script>
 
 <style scoped>
