@@ -11,6 +11,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "gsap": "^3.12.5",
     "mitt": "^3.0.1",
     "naive-ui": "^2.40.1",
     "pinia": "^2.2.4",
