@@ -1,20 +1,20 @@
 <template>
   <n-flex :size="[20, 20]">
     <n-card
-      v-for="(card, cardIndex) in taskGroups"
+      v-for="(card, cardIndex) in actionGroups"
       :key="cardIndex"
       :title="card.title"
       style="width: 200px; height: 200px;"
     >
       <n-flex vertical>
         <n-button
-          v-for="task in card.tasks"
-          :key="task.id"
+          v-for="action in card.actions"
+          :key="action.actionKey"
           round
-          :style="getButtonStyle(task.id)"
-          @click="startAction(task.id)"
+          :style="getButtonStyle(action.actionKey)"
+          @click="startAction(action.actionKey)"
         >
-          {{ task.label }}
+          {{ action.label }}
         </n-button>
       </n-flex>
     </n-card>
@@ -28,18 +28,18 @@ import { emitter } from '../../utilities/emitter';
 
 const store = useStore();
 
-const taskGroups: { title: string, tasks: { id: string, label: string }[] }[] = [
+const actionGroups: { title: string, actions: { actionKey: string, label: string }[] }[] = [
   {
     title: 'Fridge',
-    tasks: [
-      { id: 'food', label: 'Gather ingredients' },
+    actions: [
+      { actionKey: 'food', label: 'Gather ingredients' },
     ]
   },
   {
     title: 'Stove',
-    tasks: [
-      { id: 'hunger', label: 'Cook food' },
-      { id: 'thirst', label: 'Boil Tea' },
+    actions: [
+      { actionKey: 'hunger', label: 'Cook food' },
+      { actionKey: 'thirst', label: 'Boil Tea' },
     ]
   },
 ];
@@ -54,8 +54,8 @@ const handleActionCompleted = (event: {actionKey: string} ) => {
   progressStyles.value[event.actionKey] = '';
 };
 
-const startAction = (taskId: string) => {
-  emitter.emit('actionStarted', { actionKey: taskId, actionType: 'decrease' });
+const startAction = (actionKey: string) => {
+  emitter.emit('actionStarted', { actionKey, actionType: 'decrease' });
 };
 
 onMounted(() => {
@@ -67,9 +67,9 @@ onBeforeUnmount(() => {
   emitter.off('actionProgressed', handleActionProgressed);
 });
 
-const getButtonStyle = (taskId: string) => {
+const getButtonStyle = (actionKey: string) => {
   return {
-    backgroundImage: progressStyles.value[taskId],
+    backgroundImage: progressStyles.value[actionKey],
     transition: 'background 0.3s',
   };
 };
