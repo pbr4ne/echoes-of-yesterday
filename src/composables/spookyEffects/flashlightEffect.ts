@@ -18,6 +18,14 @@ export const applyFlashlightEffect = () => {
 
   document.body.appendChild(flashlight);
 
+  const initializeFlashlightPosition = () => {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    flashlight.style.background = `radial-gradient(circle at ${centerX}px ${centerY}px, rgba(255, 255, 255, 0.2) 80px, rgba(0, 0, 0, 0.85) 150px)`;
+  };
+
+  initializeFlashlightPosition();
+
   const moveFlashlight = (event: MouseEvent) => {
     const x = event.clientX;
     const y = event.clientY;

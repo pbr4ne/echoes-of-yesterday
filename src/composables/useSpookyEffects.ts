@@ -12,6 +12,7 @@ export const useSpookyEffects = (toggleCursorTrail: Function, toggleClickableOrb
 
     const randomEffect = Math.random();
 
+    console.log("random effect: ", randomEffect);
     if (randomEffect < 0.2) {
       console.log("attempting flicker");
       if (flickerableComponents.length === 0) return;
