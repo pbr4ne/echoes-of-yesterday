@@ -1,6 +1,8 @@
 import { onMounted } from 'vue';
 import gsap from 'gsap';
 
+let flashlightActive = false;
+
 const applyFlickerEffect = (component: HTMLElement) => {
   gsap.to(component, {
     opacity: 0.3, 
@@ -62,6 +64,42 @@ const applyGlitchEffect = (component: HTMLElement) => {
   console.log("glitching");
 };
 
+const applyFlashlightEffect = () => {
+  if (flashlightActive) return;
+
+  flashlightActive = true;
+
+  const flashlight = document.createElement('div');
+
+  flashlight.style.position = 'fixed';
+  flashlight.style.top = '0';
+  flashlight.style.left = '0';
+  flashlight.style.width = '100vw';
+  flashlight.style.height = '100vh';
+  flashlight.style.pointerEvents = 'none';
+  flashlight.style.zIndex = '9999';
+  flashlight.style.transition = 'background 0.1s ease';
+
+  document.body.appendChild(flashlight);
+
+  const moveFlashlight = (event: MouseEvent) => {
+    const x = event.clientX;
+    const y = event.clientY;
+    flashlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.2) 80px, rgba(0, 0, 0, 0.85) 150px)`;
+  };
+
+  window.addEventListener('mousemove', moveFlashlight);
+
+  setTimeout(() => {
+    window.removeEventListener('mousemove', moveFlashlight);
+    flashlight.remove();
+    flashlightActive = false;
+    console.log("flashlight effect removed");
+  }, 10000);
+
+  console.log("flashlight effect applied");
+};
+
 const applyRandomEffect = () => {
   const flickerableComponents = document.querySelectorAll('.flickerable');
   const warpableComponents = document.querySelectorAll('.warpable');
@@ -69,15 +107,17 @@ const applyRandomEffect = () => {
 
   const randomEffect = Math.random();
 
-  if (randomEffect < 0.25 && flickerableComponents.length > 0) {
+  if (randomEffect < 0.2 && flickerableComponents.length > 0) {
     const randomComponent = flickerableComponents[Math.floor(Math.random() * flickerableComponents.length)];
     applyFlickerEffect(randomComponent as HTMLElement);
-  } else if (randomEffect < 0.5 && warpableComponents.length > 0) {
+  } else if (randomEffect < 0.4 && warpableComponents.length > 0) {
     const randomComponent = warpableComponents[Math.floor(Math.random() * warpableComponents.length)];
     applyWarpEffect(randomComponent as HTMLElement);
-  } else if (randomEffect < 0.75 && glitchableComponents.length > 0) {
+  } else if (randomEffect < 0.6 && glitchableComponents.length > 0) {
     const randomComponent = glitchableComponents[Math.floor(Math.random() * glitchableComponents.length)];
     applyGlitchEffect(randomComponent as HTMLElement);
+  } else if (randomEffect < 0.8) {
+    applyFlashlightEffect();
   }
 };
 
@@ -91,7 +131,7 @@ const setRandomInterval = (callback: Function) => {
 
 export const useSpookyEffects = () => {
   onMounted(() => {
-    setRandomInterval(applyRandomEffect); 
+    setRandomInterval(applyRandomEffect);
   });
 };
 

@@ -1,7 +1,7 @@
 <template>
   <n-flex :size="[20, 20]">
     <n-card
-      class="glitchable"
+      class="flickerable"
       v-for="(card, cardIndex) in actionGroups"
       :key="cardIndex"
       :title="card.title"
