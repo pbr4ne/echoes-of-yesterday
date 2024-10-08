@@ -1,7 +1,9 @@
 let flashlightActive = false;
 
 export const applyFlashlightEffect = () => {
-  if (flashlightActive) return;
+  if (flashlightActive) {
+    return () => {};
+  }
 
   flashlightActive = true;
 
@@ -34,12 +36,12 @@ export const applyFlashlightEffect = () => {
 
   window.addEventListener('mousemove', moveFlashlight);
 
-  setTimeout(() => {
+  const cleanup = () => {
     window.removeEventListener('mousemove', moveFlashlight);
     flashlight.remove();
     flashlightActive = false;
     console.log("flashlight effect removed");
-  }, 10000);
+  };
 
-  console.log("flashlight effect applied");
+  return cleanup;
 };
