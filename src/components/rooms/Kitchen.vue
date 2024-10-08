@@ -25,11 +25,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
+import { ActionKey } from '../../utilities/actions';
 import { emitter } from '../../utilities/emitter';
 
 const store = useStore();
 
-const actionGroups: { title: string, actions: { actionKey: string, label: string }[] }[] = [
+const actionGroups: { title: string, actions: { actionKey: ActionKey, label: string }[] }[] = [
   {
     title: 'Fridge',
     actions: [
@@ -47,15 +48,15 @@ const actionGroups: { title: string, actions: { actionKey: string, label: string
 
 const progressStyles = ref<{ [actionKey: string]: string }>({});
 
-const handleActionProgressed = (event: { actionKey: string; progress: number }) => {
+const handleActionProgressed = (event: { actionKey: ActionKey; progress: number }) => {
   progressStyles.value[event.actionKey] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
 };
 
-const handleActionCompleted = (event: {actionKey: string} ) => {
+const handleActionCompleted = (event: {actionKey: ActionKey} ) => {
   progressStyles.value[event.actionKey] = '';
 };
 
-const startAction = (actionKey: string) => {
+const startAction = (actionKey: ActionKey) => {
   emitter.emit('actionStarted', { actionKey, actionType: 'decrease' });
 };
 
@@ -68,7 +69,7 @@ onBeforeUnmount(() => {
   emitter.off('actionProgressed', handleActionProgressed);
 });
 
-const getButtonStyle = (actionKey: string) => {
+const getButtonStyle = (actionKey: ActionKey) => {
   return {
     backgroundImage: progressStyles.value[actionKey],
     transition: 'background 0.3s',

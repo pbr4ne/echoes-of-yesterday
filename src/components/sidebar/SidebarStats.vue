@@ -37,11 +37,11 @@ const { collapsed } = defineProps({
 const gameStore = useStore();
 
 const sidebar = computed(() => [
-  { label: 'Hunger', key: 'hunger', icon: HungerIcon, percentage: gameStore.hunger },
-  { label: 'Thirst', key: 'thirst', icon: ThirstIcon, percentage: gameStore.thirst },
-  { label: 'Boredom', key: 'boredom', icon: BoredomIcon, percentage: gameStore.boredom },
-  { label: 'Fatigue', key: 'fatigue', icon: FatigueIcon, percentage: gameStore.fatigue },
-  { label: 'Fear', key: 'fear', icon: FearIcon, percentage: gameStore.fear }
+  { label: 'Hunger', key: 'hunger', icon: HungerIcon, percentage: gameStore.stats.hunger.percentage },
+  { label: 'Thirst', key: 'thirst', icon: ThirstIcon, percentage: gameStore.stats.thirst.percentage },
+  { label: 'Boredom', key: 'boredom', icon: BoredomIcon, percentage: gameStore.stats.boredom.percentage },
+  { label: 'Fatigue', key: 'fatigue', icon: FatigueIcon, percentage: gameStore.stats.fatigue.percentage },
+  { label: 'Fear', key: 'fear', icon: FearIcon, percentage: gameStore.stats.fear.percentage }
 ]);
 
 const getProgressColor = (percentage: number) => {

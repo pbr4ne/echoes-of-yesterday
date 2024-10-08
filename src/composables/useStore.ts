@@ -2,25 +2,38 @@ import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
 import { ActionKey, ActionType } from '../utilities/actions';
 
+interface Stat {
+  percentage: number;
+  decayRate: number;
+}
+
 interface GameState {
-  hunger: number;
-  thirst: number;
-  boredom: number;
-  fatigue: number;
-  fear: number;
-  food: number;
-  water: number;
+  stats: {
+    hunger: Stat;
+    thirst: Stat;
+    boredom: Stat;
+    fatigue: Stat;
+    fear: Stat;
+  };
+  inventory: {
+    food: number;
+    water: number;
+  };
   pendingTasks: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
 }
 
 const initialState = (): GameState => ({
-  hunger: 99,
-  thirst: 74,
-  boredom: 49,
-  fatigue: 24,
-  fear: 5,
-  food: 10,
-  water: 10,
+  stats: {
+    hunger: { percentage: 99, decayRate: 0.5 },
+    thirst: { percentage: 74, decayRate: 0.3 },
+    boredom: { percentage: 49, decayRate: 0.2 },
+    fatigue: { percentage: 24, decayRate: 0.1 },
+    fear: { percentage: 5, decayRate: 0.05 },
+  },
+  inventory: {
+    food: 10,
+    water: 10,
+  },
   pendingTasks: [],
 });
 
@@ -30,11 +43,12 @@ export const useStore = defineStore('gameState', {
   actions: {
     _gameLoopId: null as null | number,
 
-    adjustValue(actionKey: ActionKey, amount: number, max = 100, min = 0) {
-      this[actionKey] = Math.min(Math.max(this[actionKey] + amount, min), max);
+    adjustValue(actionKey: keyof GameState['stats'], amount: number, max = 100, min = 0) {
+      const stat = this.stats[actionKey];
+      stat.percentage = Math.min(Math.max(stat.percentage + amount, min), max);
     },
 
-    scheduleTask(actionKey: ActionKey, actionType: ActionType, amount: number, duration = 10000) {
+    scheduleTask(actionKey: keyof GameState['stats'], actionType: ActionType, amount: number, duration = 10000) {
       const startTime = Date.now();
       const task = { actionKey, actionType, startTime, duration };
       this.pendingTasks.push(task);
@@ -42,7 +56,7 @@ export const useStore = defineStore('gameState', {
 
     listenForEvents() {
       emitter.on('actionStarted', ({ actionKey, actionType }) => {
-        this.scheduleTask(actionKey, actionType, 1);
+        this.scheduleTask(actionKey as keyof GameState['stats'], actionType, 1);
       });
     },
 
@@ -63,10 +77,11 @@ export const useStore = defineStore('gameState', {
             emitter.emit('actionProgressed', { actionKey: task.actionKey, progress });
 
             if (progress >= 100) {
+              const statKey = task.actionKey as keyof GameState['stats'];
               if (task.actionType === 'increase') {
-                this.adjustValue(task.actionKey, 1);
+                this.adjustValue(statKey, 5);
               } else {
-                this.adjustValue(task.actionKey, -1);
+                this.adjustValue(statKey, -5);
               }
               emitter.emit('actionCompleted', { actionKey: task.actionKey });
               return false;
