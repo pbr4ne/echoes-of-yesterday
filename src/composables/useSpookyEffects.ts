@@ -5,8 +5,9 @@ import { applyGlitchEffect } from './spookyEffects/glitchEffect';
 import { applyFlashlightEffect } from './spookyEffects/flashlightEffect';
 import { applyOrbEffect, orbStyles } from './spookyEffects/orbEffect';
 
-export const useSpookyEffects = () => {
+export const useSpookyEffects = (toggleCursorTrail: Function) => {
   const applyRandomEffect = () => {
+    console.log('applying random effect');
     const flickerableComponents = document.querySelectorAll('.flickerable');
     const warpableComponents = document.querySelectorAll('.warpable');
     const glitchableComponents = document.querySelectorAll('.glitchable');
@@ -28,7 +29,11 @@ export const useSpookyEffects = () => {
       applyGlitchEffect(randomComponent as HTMLElement);
     } else if (randomEffect < 0.8) {
       cleanup = applyFlashlightEffect();
-    } else {
+    } else if (randomEffect < 0.9) {
+      toggleCursorTrail(true);
+      setTimeout(() => toggleCursorTrail(false), 10000);
+    }
+    else {
       cleanup = applyOrbEffect();
     }
 
@@ -48,7 +53,7 @@ export const useSpookyEffects = () => {
     style.textContent = orbStyles;
     document.head.appendChild(style);
 
-    setFixedInterval(applyRandomEffect, 10000);
+    setFixedInterval(applyRandomEffect, 11000);
   });
 
   onUnmounted(() => {
