@@ -5,19 +5,27 @@ import { ActionKey, ActionType } from '../utilities/actions';
 interface GameState {
   hunger: number;
   thirst: number;
+  boredom: number;
+  fatigue: number;
+  fear: number;
   food: number;
   water: number;
   pendingTasks: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
 }
 
+const initialState = (): GameState => ({
+  hunger: 99,
+  thirst: 74,
+  boredom: 49,
+  fatigue: 24,
+  fear: 5,
+  food: 10,
+  water: 10,
+  pendingTasks: [],
+});
+
 export const useStore = defineStore('gameState', {
-  state: (): GameState => ({
-    hunger: 100,
-    thirst: 100,
-    food: 10,
-    water: 10,
-    pendingTasks: [],
-  }),
+  state: (): GameState => initialState(),
 
   actions: {
     _gameLoopId: null as null | number,
@@ -71,6 +79,10 @@ export const useStore = defineStore('gameState', {
       };
 
       this._gameLoopId = requestAnimationFrame(gameLoop);
+    },
+
+    reset() {
+      Object.assign(this.$state, initialState());
     },
 
     initGame() {

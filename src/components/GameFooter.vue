@@ -31,7 +31,7 @@
           </template>
         </n-button>
       </template>
-      <span>{{ otherThemeName() }}</span>
+      <span>{{ otherThemeName }}</span>
     </n-tooltip>
     <n-tooltip placement="top" trigger="hover">
       <template #trigger>
@@ -65,7 +65,7 @@
     </n-tooltip>
     <n-tooltip placement="top" trigger="hover">
       <template #trigger>
-        <n-button strong circle>
+        <n-button strong circle @click="restart">
           <template #icon>
             <n-icon><restart-icon /></n-icon>
           </template>
@@ -75,66 +75,31 @@
     </n-tooltip>
   </n-space>
 </template>
-  
-<script>
-  import { defineComponent, h, ref } from 'vue'
 
-  import { 
-    NButton,
-    NIcon,
-    NSpace,
-    NTooltip,
-  } from 'naive-ui'
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import { useStore } from '../composables/useStore';
+import {
+  QuestionOutlined as AboutIcon,
+  PauseOutlined as PauseIcon
+} from '@vicons/antd';
+import { IosGitBranch as VersionIcon } from '@vicons/ionicons4';
+import {
+  DarkModeOutlined as DarkModeIcon,
+  FileUploadOutlined as ImportIcon,
+  LightModeOutlined as LightModeIcon,
+  RestartAltOutlined as RestartIcon,
+  SaveOutlined as ExportIcon
+} from '@vicons/material';
+import { NButton, NIcon, NSpace, NTooltip } from 'naive-ui';
+import useTheme from '../composables/useTheme';
 
-  import {
-    QuestionOutlined as AboutIcon,
-    PauseOutlined as PauseIcon,
-  } from '@vicons/antd'
+const { lightMode, switchTheme } = useTheme();
 
-  import {
-    IosGitBranch as VersionIcon,
-  } from '@vicons/ionicons4'
+const otherThemeName = computed(() => (lightMode.value ? 'Dark Mode' : 'Light Mode'));
 
-  import { 
-    DarkModeOutlined as DarkModeIcon,
-    FileUploadOutlined as ImportIcon,
-    LightModeOutlined as LightModeIcon,
-    RestartAltOutlined as RestartIcon,
-    SaveOutlined as ExportIcon,
-  } from '@vicons/material'
-
-  import useTheme from '../composables/useTheme'
-  export default defineComponent({
-    components: {
-      AboutIcon,
-      DarkModeIcon,
-      ExportIcon,
-      ImportIcon,
-      LightModeIcon,
-      NButton,
-      NIcon,
-      NSpace,
-      NTooltip,
-      PauseIcon,
-      RestartIcon,
-      VersionIcon,
-    },
-    setup() {
-      const { lightMode, switchTheme } = useTheme();
-
-      const otherThemeName = () => {
-        if (lightMode.value) {
-            return 'Dark Mode';
-        } else {
-            return 'Light Mode';
-        }
-      }
-
-      return {
-        lightMode,
-        otherThemeName,
-        switchTheme,
-      }
-    },
-  })
+const restart = () => {
+  console.log('restart');
+  useStore().reset();
+}
 </script>

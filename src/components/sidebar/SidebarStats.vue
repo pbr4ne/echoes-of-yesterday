@@ -39,9 +39,9 @@ const gameStore = useStore();
 const sidebar = computed(() => [
   { label: 'Hunger', key: 'hunger', icon: HungerIcon, percentage: gameStore.hunger },
   { label: 'Thirst', key: 'thirst', icon: ThirstIcon, percentage: gameStore.thirst },
-  { label: 'Boredom', key: 'boredom', icon: BoredomIcon, percentage: 74 },
-  { label: 'Fatigue', key: 'fatigue', icon: FatigueIcon, percentage: 49 },
-  { label: 'Fear', key: 'fear', icon: FearIcon, percentage: 5 }
+  { label: 'Boredom', key: 'boredom', icon: BoredomIcon, percentage: gameStore.boredom },
+  { label: 'Fatigue', key: 'fatigue', icon: FatigueIcon, percentage: gameStore.fatigue },
+  { label: 'Fear', key: 'fear', icon: FearIcon, percentage: gameStore.fear }
 ]);
 
 const getProgressColor = (percentage: number) => {
