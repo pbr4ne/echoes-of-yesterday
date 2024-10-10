@@ -77,12 +77,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useStore } from '../composables/useStore';
-import {
-  QuestionOutlined as AboutIcon,
-  PauseOutlined as PauseIcon
-} from '@vicons/antd';
+import { QuestionOutlined as AboutIcon, PauseOutlined as PauseIcon } from '@vicons/antd';
 import { IosGitBranch as VersionIcon } from '@vicons/ionicons4';
 import {
   DarkModeOutlined as DarkModeIcon,

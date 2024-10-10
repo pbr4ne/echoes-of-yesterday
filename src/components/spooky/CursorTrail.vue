@@ -15,19 +15,26 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import type { CSSProperties } from 'vue';
 import gsap from 'gsap';
 
-const snowflakes = ref([]);
+interface Snowflake {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+}
+
+const snowflakes = ref<Snowflake[]>([]);
 
 const handleMouseMove = (event: MouseEvent) => {
   if (Math.random() > 0.95) {
-    const snowflake = {
+    const snowflake: Snowflake = {
       id: Math.floor(Date.now() + Math.random() * 1000),
       x: event.clientX,
       y: event.clientY,
       size: Math.random() * (30 - 10) + 10,
     };
-
 
     snowflakes.value.push(snowflake);
 
@@ -56,7 +63,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('mousemove', handleMouseMove);
 });
 
-const getSnowflakeStyle = (snowflake) => {
+const getSnowflakeStyle = (snowflake: Snowflake): CSSProperties => {
   return {
     position: "absolute",
     left: `${snowflake.x}px`,

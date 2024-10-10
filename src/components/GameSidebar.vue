@@ -20,6 +20,3 @@ const { collapsed } = defineProps({
   },
 });
 </script>
-
-<style scoped>
-</style>

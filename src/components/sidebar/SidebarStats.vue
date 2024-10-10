@@ -22,9 +22,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from '../../composables/useStore';
-import { FoodToast24Regular as HungerIcon } from '@vicons/fluent';
+import { FoodToast24Regular as HungerIcon, Sleep24Regular as FatigueIcon } from '@vicons/fluent';
 import { Coffee as ThirstIcon, DeviceTv as BoredomIcon } from '@vicons/tabler';
-import { Sleep24Regular as FatigueIcon } from '@vicons/fluent';
 import { ExclamationCircleOutlined as FearIcon } from '@vicons/antd';
 
 const { collapsed } = defineProps({
