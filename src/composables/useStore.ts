@@ -8,8 +8,10 @@ interface Stat {
 }
 
 interface Ghost {
-  name: string,
+  name: string;
   state: GhostState;
+  isActive: boolean;
+  activeRoom: string | null;
 }
 
 type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
@@ -49,11 +51,11 @@ const initialState = (): GameState => ({
     water: 10,
   },
   ghosts: {
-    poltergeist: { state: 'Befriended', name: 'P' },
-    orb: { state: 'Communicated', name: 'O' },
-    wraith: { state: 'Identified', name: 'W' },
-    spirit: { state: 'Encountered', name: 'S' },
-    phantom: { state: 'Unknown', name: 'P' },
+    poltergeist: { state: 'Befriended', name: 'P', isActive: false, activeRoom: null },
+    orb: { state: 'Communicated', name: 'O', isActive: false, activeRoom: null },
+    wraith: { state: 'Identified', name: 'W', isActive: false, activeRoom: null },
+    spirit: { state: 'Encountered', name: 'S', isActive: false, activeRoom: null },
+    phantom: { state: 'Unknown', name: 'P', isActive: false, activeRoom: null },
   },
   pendingActions: [],
 });
@@ -84,7 +86,7 @@ export const useStore = defineStore('gameState', {
     startGameLoop() {
       const TICK_RATE = 50;
       let lastTick = Date.now();
-    
+      
       const gameLoop = () => {
         const now = Date.now();
         const delta = now - lastTick;
@@ -92,7 +94,16 @@ export const useStore = defineStore('gameState', {
         if (delta >= TICK_RATE) {
           lastTick = now;
     
-          //progress actions
+          const ghostKeys = Object.keys(this.ghosts) as Array<keyof GameState['ghosts']>;
+          const activeGhost = ghostKeys.find(key => this.ghosts[key].isActive === true);
+    
+          if (!activeGhost) {
+            const randomGhostKey = ghostKeys[Math.floor(Math.random() * ghostKeys.length)];
+            const randomDuration = Math.random() * (15000 - 5000) + 5000;
+    
+            this.activateGhost(randomGhostKey, randomDuration);
+          }
+    
           this.pendingActions = this.pendingActions.filter(action => {
             const elapsed = now - action.startTime;
             const progress = Math.min((elapsed / action.duration) * 100, 100);
@@ -111,11 +122,9 @@ export const useStore = defineStore('gameState', {
             return true;
           });
     
-          //decay stats
           Object.keys(this.stats).forEach(statKey => {
             const key = statKey as keyof GameState['stats'];
             const stat = this.stats[key];
-    
             const decayAmount = stat.decayRate * (delta / 1000);
             this.adjustValue(key, decayAmount);
           });
@@ -125,7 +134,20 @@ export const useStore = defineStore('gameState', {
       };
     
       this._gameLoopId = requestAnimationFrame(gameLoop);
-    },    
+    },
+    
+    activateGhost(ghostKey: keyof GameState['ghosts'], duration: number) {
+      const rooms = ['Bathroom', 'Bedroom', 'Cellar', 'Den', 'Kitchen', 'LivingRoom', 'Sunroom'];
+      const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
+      
+      this.ghosts[ghostKey].isActive = true;
+      this.ghosts[ghostKey].activeRoom = randomRoom;
+    
+      setTimeout(() => {
+        this.ghosts[ghostKey].isActive = false;
+        this.ghosts[ghostKey].activeRoom = null;
+      }, duration);
+    },      
 
     reset() {
       Object.assign(this.$state, initialState());

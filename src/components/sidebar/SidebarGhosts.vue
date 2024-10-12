@@ -1,12 +1,12 @@
 <template>
   <div v-for="(ghost, key) in ghosts" :key="key" class="sidebar-item">
-    <n-icon size="24" class="sidebar-icon">
+    <n-icon size="24" class="sidebar-icon" :class="{ pulsate: ghost.isActive }">
       <component :is="ghost.icon" />
     </n-icon>
-    <span class="ghost-label" style="padding-left: 10px;" v-if="!collapsed">
+    <span class="ghost-label" style="padding-left: 10px;" :class="{ pulsate: ghost.isActive }" v-if="!collapsed">
       {{ ghost.label }}
     </span>
-    <n-tag :color="ghost.tagColor" size="small" round v-if="!collapsed">
+    <n-tag :color="ghost.tagColor" size="small" round :class="{ pulsate: ghost.isActive }" v-if="!collapsed">
       {{ ghost.status }}
     </n-tag>
   </div>
@@ -76,6 +76,7 @@ const ghosts = computed(() => {
         key,
         icon: ghostIcons[key as keyof typeof ghostIcons],
         status: ghost.state,
+        isActive: ghost.isActive,
         tagColor: getTagColor(ghost.state),
       };
     });
@@ -101,4 +102,24 @@ const ghosts = computed(() => {
 .n-tag {
   margin-left: auto;
 }
+
+.pulsate {
+  animation: pulsate 1.5s infinite;
+}
+
+@keyframes pulsate {
+  0% {
+    filter: brightness(1);
+    opacity: 1;
+  }
+  50% {
+    filter: brightness(1.5);
+    opacity: 0.2;
+  }
+  100% {
+    filter: brightness(1);
+    opacity: 1;
+  }
+}
+
 </style>
