@@ -12,7 +12,10 @@ interface Ghost {
   state: GhostState;
   isActive: boolean;
   activeRoom: string | null;
+  activeDuration: number | null;
+  activationStart: number | null;
 }
+
 
 type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 
@@ -51,11 +54,11 @@ const initialState = (): GameState => ({
     water: 10,
   },
   ghosts: {
-    poltergeist: { state: 'Befriended', name: 'P', isActive: false, activeRoom: null },
-    orb: { state: 'Communicated', name: 'O', isActive: false, activeRoom: null },
-    wraith: { state: 'Identified', name: 'W', isActive: false, activeRoom: null },
-    spirit: { state: 'Encountered', name: 'S', isActive: false, activeRoom: null },
-    phantom: { state: 'Unknown', name: 'P', isActive: false, activeRoom: null },
+    poltergeist: { state: 'Befriended', name: 'P', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
+    orb: { state: 'Communicated', name: 'O', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
+    wraith: { state: 'Identified', name: 'W', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
+    spirit: { state: 'Encountered', name: 'S', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
+    phantom: { state: 'Unknown', name: 'P', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
   },
   pendingActions: [],
 });
@@ -97,7 +100,12 @@ export const useStore = defineStore('gameState', {
           const ghostKeys = Object.keys(this.ghosts) as Array<keyof GameState['ghosts']>;
           const activeGhost = ghostKeys.find(key => this.ghosts[key].isActive === true);
     
-          if (!activeGhost) {
+          if (activeGhost) {
+            const ghost = this.ghosts[activeGhost];
+            if (ghost.activationStart && ghost.activeDuration && now - ghost.activationStart >= ghost.activeDuration) {
+              this.deactivateGhost(activeGhost);
+            }
+          } else {
             const randomGhostKey = ghostKeys[Math.floor(Math.random() * ghostKeys.length)];
             const randomDuration = Math.random() * (15000 - 5000) + 5000;
     
@@ -142,12 +150,16 @@ export const useStore = defineStore('gameState', {
       
       this.ghosts[ghostKey].isActive = true;
       this.ghosts[ghostKey].activeRoom = randomRoom;
+      this.ghosts[ghostKey].activeDuration = duration;
+      this.ghosts[ghostKey].activationStart = Date.now();
+    },
     
-      setTimeout(() => {
-        this.ghosts[ghostKey].isActive = false;
-        this.ghosts[ghostKey].activeRoom = null;
-      }, duration);
-    },      
+    deactivateGhost(ghostKey: keyof GameState['ghosts']) {
+      this.ghosts[ghostKey].isActive = false;
+      this.ghosts[ghostKey].activeRoom = null;
+      this.ghosts[ghostKey].activeDuration = null;
+      this.ghosts[ghostKey].activationStart = null;
+    },
 
     reset() {
       Object.assign(this.$state, initialState());
