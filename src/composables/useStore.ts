@@ -16,7 +16,6 @@ interface Ghost {
   activationStart: number | null;
 }
 
-
 type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 
 interface GameState {

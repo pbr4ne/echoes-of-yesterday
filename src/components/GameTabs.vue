@@ -12,10 +12,12 @@
       style="padding: 20px;"
     >
       <template #tab>
-        <n-icon class="tab-icon">
+        <n-icon :class="{ 'pulsate': isRoomActive(panel.name) }" class="tab-icon">
           <component :is="icons[index]" />
         </n-icon>
-        <span v-if="showText" class="tab-text">{{ panel.label }}</span>
+        <span v-if="showText" :class="{ 'pulsate': isRoomActive(panel.name) }" class="tab-text">
+          {{ panel.label }}
+        </span>
       </template>
 
       <component :is="panel.component" />
@@ -25,6 +27,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, defineAsyncComponent, shallowRef } from 'vue';
+import { useStore } from '../composables/useStore';
 import { NIcon } from 'naive-ui';
 
 const LivingRoom = defineAsyncComponent(() => import('./rooms/LivingRoom.vue'));
@@ -77,6 +80,12 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateShowText);
 });
+
+const gameStore = useStore();
+
+const isRoomActive = (roomName: string) => {
+  return Object.values(gameStore.ghosts).some(ghost => ghost.activeRoom === roomName && ghost.isActive);
+};
 </script>
 
 <style scoped>
@@ -87,5 +96,24 @@ onBeforeUnmount(() => {
 
   .tab-text {
     vertical-align: middle;
+  }
+
+  .pulsate {
+    animation: pulsate 1.5s infinite;
+  }
+
+  @keyframes pulsate {
+    0% {
+      filter: brightness(1);
+      opacity: 1;
+    }
+    50% {
+      filter: brightness(1.5);
+      opacity: 0.2;
+    }
+    100% {
+      filter: brightness(1);
+      opacity: 1;
+    }
   }
 </style>
