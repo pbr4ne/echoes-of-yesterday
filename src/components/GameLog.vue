@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import KitchenIcon from '@vicons/material/KitchenOutlined';
 import BedroomIcon from '@vicons/ionicons5/BedOutline';
 import SunroomIcon from '@vicons/tabler/Plant';
