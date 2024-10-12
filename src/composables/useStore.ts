@@ -19,7 +19,7 @@ interface GameState {
     food: number;
     water: number;
   };
-  pendingTasks: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
+  pendingActions: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
 }
 
 const initialState = (): GameState => ({
@@ -28,13 +28,13 @@ const initialState = (): GameState => ({
     thirst: { percentage: 74, decayRate: 0.3 },
     boredom: { percentage: 49, decayRate: 0.2 },
     fatigue: { percentage: 24, decayRate: 0.1 },
-    fear: { percentage: 5, decayRate: 0.05 },
+    fear: { percentage: 15, decayRate: -0.1 },
   },
   inventory: {
     food: 10,
     water: 10,
   },
-  pendingTasks: [],
+  pendingActions: [],
 });
 
 export const useStore = defineStore('gameState', {
@@ -48,53 +48,63 @@ export const useStore = defineStore('gameState', {
       stat.percentage = Math.min(Math.max(stat.percentage + amount, min), max);
     },
 
-    scheduleTask(actionKey: keyof GameState['stats'], actionType: ActionType, amount: number, duration = 10000) {
+    scheduleAction(actionKey: keyof GameState['stats'], actionType: ActionType, amount: number, duration = 10000) {
       const startTime = Date.now();
-      const task = { actionKey, actionType, startTime, duration };
-      this.pendingTasks.push(task);
+      const action = { actionKey, actionType, startTime, duration };
+      this.pendingActions.push(action);
     },
 
     listenForEvents() {
       emitter.on('actionStarted', ({ actionKey, actionType }) => {
-        this.scheduleTask(actionKey as keyof GameState['stats'], actionType, 1);
+        this.scheduleAction(actionKey as keyof GameState['stats'], actionType, 1);
       });
     },
 
     startGameLoop() {
       const TICK_RATE = 50;
       let lastTick = Date.now();
-
+    
       const gameLoop = () => {
         const now = Date.now();
         const delta = now - lastTick;
-
+    
         if (delta >= TICK_RATE) {
           lastTick = now;
-
-          this.pendingTasks = this.pendingTasks.filter(task => {
-            const elapsed = now - task.startTime;
-            const progress = Math.min((elapsed / task.duration) * 100, 100);
-            emitter.emit('actionProgressed', { actionKey: task.actionKey, progress });
-
+    
+          //progress actions
+          this.pendingActions = this.pendingActions.filter(action => {
+            const elapsed = now - action.startTime;
+            const progress = Math.min((elapsed / action.duration) * 100, 100);
+            emitter.emit('actionProgressed', { actionKey: action.actionKey, progress });
+    
             if (progress >= 100) {
-              const statKey = task.actionKey as keyof GameState['stats'];
-              if (task.actionType === 'increase') {
+              const statKey = action.actionKey as keyof GameState['stats'];
+              if (action.actionType === 'increase') {
                 this.adjustValue(statKey, 5);
               } else {
                 this.adjustValue(statKey, -5);
               }
-              emitter.emit('actionCompleted', { actionKey: task.actionKey });
+              emitter.emit('actionCompleted', { actionKey: action.actionKey });
               return false;
             }
             return true;
           });
+    
+          //decay stats
+          Object.keys(this.stats).forEach(statKey => {
+            const key = statKey as keyof GameState['stats'];
+            const stat = this.stats[key];
+    
+            const decayAmount = stat.decayRate * (delta / 1000);
+            this.adjustValue(key, decayAmount);
+          });
         }
-
+    
         this._gameLoopId = requestAnimationFrame(gameLoop);
       };
-
+    
       this._gameLoopId = requestAnimationFrame(gameLoop);
-    },
+    },    
 
     reset() {
       Object.assign(this.$state, initialState());
