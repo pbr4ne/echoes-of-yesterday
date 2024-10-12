@@ -1,15 +1,15 @@
 <template>
-  <div v-for="(ghost, index) in ghosts" :key="ghost.key" class="sidebar-item">
-      <n-icon size="24" class="sidebar-icon">
-        <component :is="ghost.icon" />
-      </n-icon>
-      <span class="ghost-label" style="padding-left: 10px;" v-if="!collapsed">
-        {{ ghost.label }}
-      </span>
-      <n-tag :type="ghost.status == 'Communicated' ? 'warning' : 'info'" size="small" round v-if="!collapsed">
-        {{ ghost.status }}
-      </n-tag>
-    </div>
+  <div v-for="(ghost, key) in ghosts" :key="key" class="sidebar-item">
+    <n-icon size="24" class="sidebar-icon">
+      <component :is="ghost.icon" />
+    </n-icon>
+    <span class="ghost-label" style="padding-left: 10px;" v-if="!collapsed">
+      {{ ghost.label }}
+    </span>
+    <n-tag :color="ghost.tagColor" size="small" round v-if="!collapsed">
+      {{ ghost.status }}
+    </n-tag>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -26,15 +26,60 @@ const { collapsed } = defineProps({
   },
 });
 
+const ghostIcons = {
+  poltergeist: PoltergeistIcon,
+  orb: OrbIcon,
+  wraith: WraithIcon,
+  spirit: SpiritIcon,
+  phantom: ApparitionIcon,
+};
+
 const gameStore = useStore();
 
-const ghosts = computed(() => [
-  { label: 'Poltergeist', key: 'poltergeist', icon: PoltergeistIcon, status: 'Encountered' },
-  { label: 'Orb', key: 'orb', icon: OrbIcon, status: 'Encountered' },
-  { label: 'Wraith', key: 'wraith', icon: WraithIcon, status: 'Encountered' },
-  { label: 'Spirit', key: 'spirit', icon: SpiritIcon, status: 'Communicated' },
-  { label: '???', key: 'apparition', icon: ApparitionIcon, status: 'Encountered' },
-]);
+const getTagColor = (state: string) => {
+  switch (state) {
+    case 'Unknown':
+      return { borderColor: '#8b8763', textColor: '#8b8763' };
+    case 'Encountered':
+      return { borderColor: '#8b8763', textColor: '#8b8763' };
+    case 'Identified':
+      return { borderColor: '#8a9574', textColor: '#8a9574' };
+    case 'Communicated':
+      return { borderColor: '#99b182', textColor: '#99b182' };
+    case 'Befriended':
+      return { borderColor: '#d7dd99', textColor: '#b7bd83' };
+    case 'Banished':
+      return { borderColor: '#d7dd99', textColor: '#d7dd99' };
+    default:
+      return { borderColor: '#8b8763', textColor: '#8b8763' };
+  }
+};
+
+const ghosts = computed(() => {
+  return Object.entries(gameStore.ghosts)
+    .filter(([_, ghost]) => ghost.state !== 'Unknown')
+    .map(([key, ghost]) => {
+      let label;
+
+      if (ghost.state === 'Encountered') {
+        label = '???';
+      } 
+      else if (ghost.state === 'Befriended' || ghost.state === 'Banished') {
+        label = ghost.name;
+      } 
+      else {
+        label = key.charAt(0).toUpperCase() + key.slice(1);
+      }
+
+      return {
+        label,
+        key,
+        icon: ghostIcons[key as keyof typeof ghostIcons],
+        status: ghost.state,
+        tagColor: getTagColor(ghost.state),
+      };
+    });
+});
 </script>
 
 <style scoped>

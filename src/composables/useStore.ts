@@ -7,6 +7,13 @@ interface Stat {
   decayRate: number;
 }
 
+interface Ghost {
+  name: string,
+  state: GhostState;
+}
+
+type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
+
 interface GameState {
   stats: {
     hunger: Stat;
@@ -18,6 +25,13 @@ interface GameState {
   inventory: {
     food: number;
     water: number;
+  };
+  ghosts: {
+    poltergeist: Ghost;
+    orb: Ghost;
+    wraith: Ghost;
+    spirit: Ghost;
+    phantom: Ghost;
   };
   pendingActions: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
 }
@@ -33,6 +47,13 @@ const initialState = (): GameState => ({
   inventory: {
     food: 10,
     water: 10,
+  },
+  ghosts: {
+    poltergeist: { state: 'Befriended', name: 'P' },
+    orb: { state: 'Communicated', name: 'O' },
+    wraith: { state: 'Identified', name: 'W' },
+    spirit: { state: 'Encountered', name: 'S' },
+    phantom: { state: 'Unknown', name: 'P' },
   },
   pendingActions: [],
 });
