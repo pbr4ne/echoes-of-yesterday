@@ -1,51 +1,6 @@
 import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
-import { ActionKey, ActionType } from '../utilities/actions';
-
-interface Stat {
-  percentage: number;
-  decayRate: number;
-}
-
-interface Ghost {
-  name: string;
-  state: GhostState;
-  isActive: boolean;
-  activeRoom: string | null;
-  activeDuration: number | null;
-  activationStart: number | null;
-}
-
-interface LogEntry {
-  description: string;
-  time: string;
-  room: string;
-}
-
-type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
-
-interface GameState {
-  stats: {
-    hunger: Stat;
-    thirst: Stat;
-    boredom: Stat;
-    fatigue: Stat;
-    fear: Stat;
-  };
-  inventory: {
-    food: number;
-    water: number;
-  };
-  ghosts: {
-    poltergeist: Ghost;
-    orb: Ghost;
-    wraith: Ghost;
-    spirit: Ghost;
-    phantom: Ghost;
-  };
-  pendingActions: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
-  log: LogEntry[];
-}
+import { ActionType, GameState } from '../utilities/types';
 
 const initialState = (): GameState => ({
   stats: {
@@ -60,7 +15,7 @@ const initialState = (): GameState => ({
     water: 10,
   },
   ghosts: {
-    poltergeist: { state: 'Befriended', name: 'P', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
+    poltergeist: { state: 'Befriended', name: 'Polty', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
     orb: { state: 'Communicated', name: 'O', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
     wraith: { state: 'Identified', name: 'W', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
     spirit: { state: 'Encountered', name: 'S', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
@@ -91,42 +46,6 @@ export const useStore = defineStore('gameState', {
       emitter.on('actionStarted', ({ actionKey, actionType }) => {
         this.scheduleAction(actionKey as keyof GameState['stats'], actionType, 1);
       });
-    },    
-    
-    activateGhost(ghostKey: keyof GameState['ghosts'], duration: number) {
-      console.log(`Activating ${ghostKey} for ${duration}ms`);
-      const rooms = ['Bathroom', 'Bedroom', 'Cellar', 'Den', 'Kitchen', 'LivingRoom', 'Sunroom'];
-      const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
-    
-      this.ghosts[ghostKey].isActive = true;
-      this.ghosts[ghostKey].activeRoom = randomRoom;
-      this.ghosts[ghostKey].activeDuration = duration;
-      this.ghosts[ghostKey].activationStart = Date.now();
-    
-      const ghostDescriptions: Record<keyof GameState['ghosts'], string> = {
-        poltergeist: 'Strange noise',
-        orb: 'Strange lights',
-        wraith: 'Eerie flicker',
-        spirit: 'Whispering sound',
-        phantom: 'Cold breeze'
-      };
-      
-      const description = ghostDescriptions[ghostKey];
-      const time = new Date().toLocaleTimeString();
-      const room = randomRoom;
-    
-      this.log.push({
-        description,
-        time,
-        room
-      });
-    },    
-    
-    deactivateGhost(ghostKey: keyof GameState['ghosts']) {
-      this.ghosts[ghostKey].isActive = false;
-      this.ghosts[ghostKey].activeRoom = null;
-      this.ghosts[ghostKey].activeDuration = null;
-      this.ghosts[ghostKey].activationStart = null;
     },
 
     reset() {

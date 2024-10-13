@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
-import { ActionKey } from '../../utilities/actions';
+import { ActionKey } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
 
 const store = useStore();

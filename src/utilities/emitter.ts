@@ -1,5 +1,5 @@
 import mitt from 'mitt';
-import { ActionKey, ActionType } from './actions';
+import { ActionKey, ActionType } from './types';
 
 type GameEvent = {
   //actions

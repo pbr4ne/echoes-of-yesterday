@@ -1,8 +1,10 @@
 import { useStore } from './useStore';
+import { useGhosts } from './useGhosts';
 import { emitter } from '../utilities/emitter';
 
 export function startGameLoop() {
   const store = useStore();
+  const ghosts = useGhosts();
 
   const TICK_RATE = 50;
   let lastTick = Date.now();
@@ -20,13 +22,13 @@ export function startGameLoop() {
       if (activeGhost) {
         const ghost = store.ghosts[activeGhost];
         if (ghost.activationStart && ghost.activeDuration && now - ghost.activationStart >= ghost.activeDuration) {
-          store.deactivateGhost(activeGhost);
+          ghosts.deactivateGhost(activeGhost);
         }
       } else {
         const randomGhostKey = ghostKeys[Math.floor(Math.random() * ghostKeys.length)];
         const randomDuration = Math.random() * (15000 - 5000) + 5000;
 
-        store.activateGhost(randomGhostKey, randomDuration);
+        ghosts.activateGhost(randomGhostKey, randomDuration);
       }
 
       store.pendingActions = store.pendingActions.filter(action => {
