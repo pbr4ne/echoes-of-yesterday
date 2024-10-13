@@ -19,10 +19,15 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from '../composables/useStore';
+import LivingRoomIcon from '@vicons/tabler/Lamp';
 import KitchenIcon from '@vicons/material/KitchenOutlined';
 import BedroomIcon from '@vicons/ionicons5/BedOutline';
 import SunroomIcon from '@vicons/tabler/Plant';
+import BathroomIcon from '@vicons/material/ShowerOutlined';
 import DenIcon from '@vicons/ionicons5/BookOutline';
+import CrawlspaceIcon from '@vicons/fluent/ConferenceRoom24Regular';
 
 const { collapsed } = defineProps({
   collapsed: {
@@ -31,12 +36,27 @@ const { collapsed } = defineProps({
   },
 });
 
-const timelineItems = [
-  { content: 'Took a nap', time: 'Just now', icon: BedroomIcon },
-  { content: 'Strange noise', time: 'About an hour ago', icon: SunroomIcon },
-  { content: 'Research complete', time: 'Yesterday', icon: DenIcon },
-  { content: 'Strange lights', time: 'Last week', icon: KitchenIcon }
-];
+const roomIcons: Record<string, any> = {
+  Kitchen: KitchenIcon,
+  Bedroom: BedroomIcon,
+  Sunroom: SunroomIcon,
+  Den: DenIcon,
+  LivingRoom: LivingRoomIcon,
+  Cellar: CrawlspaceIcon,
+  Bathroom: BedroomIcon
+};
+
+const store = useStore();
+
+const timelineItems = computed(() => {
+  return store.log.slice().reverse().map((entry) => {
+    return {
+      content: entry.description,
+      time: entry.time,
+      icon: roomIcons[entry.room]
+    };
+  });
+});
 </script>
 
 <style scoped>

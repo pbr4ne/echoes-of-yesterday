@@ -16,6 +16,12 @@ interface Ghost {
   activationStart: number | null;
 }
 
+interface LogEntry {
+  description: string;
+  time: string;
+  room: string;
+}
+
 type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 
 interface GameState {
@@ -38,6 +44,7 @@ interface GameState {
     phantom: Ghost;
   };
   pendingActions: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
+  log: LogEntry[];
 }
 
 const initialState = (): GameState => ({
@@ -60,6 +67,7 @@ const initialState = (): GameState => ({
     phantom: { state: 'Unknown', name: 'P', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
   },
   pendingActions: [],
+  log: [],
 });
 
 export const useStore = defineStore('gameState', {
@@ -147,12 +155,30 @@ export const useStore = defineStore('gameState', {
       console.log(`Activating ${ghostKey} for ${duration}ms`);
       const rooms = ['Bathroom', 'Bedroom', 'Cellar', 'Den', 'Kitchen', 'LivingRoom', 'Sunroom'];
       const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
-      
+    
       this.ghosts[ghostKey].isActive = true;
       this.ghosts[ghostKey].activeRoom = randomRoom;
       this.ghosts[ghostKey].activeDuration = duration;
       this.ghosts[ghostKey].activationStart = Date.now();
-    },
+    
+      const ghostDescriptions: Record<keyof GameState['ghosts'], string> = {
+        poltergeist: 'Strange noise',
+        orb: 'Strange lights',
+        wraith: 'Eerie flicker',
+        spirit: 'Whispering sound',
+        phantom: 'Cold breeze'
+      };
+      
+      const description = ghostDescriptions[ghostKey];
+      const time = new Date().toLocaleTimeString();
+      const room = randomRoom;
+    
+      this.log.push({
+        description,
+        time,
+        room
+      });
+    },    
     
     deactivateGhost(ghostKey: keyof GameState['ghosts']) {
       this.ghosts[ghostKey].isActive = false;
