@@ -5,20 +5,20 @@ import { applyFlashlightEffect } from './spookyEffects/flashlightEffect';
 import { applyOrbEffect, orbStyles } from './spookyEffects/orbEffect';
 import { applyWhisperEffect } from './spookyEffects/whisperEffect';
 
-export const useSpookyEffects = (toggleCursorTrail: Function) => {
+export const useSpookyEffects = (toggleColdTrail: Function) => {
   const store = useStore();
 
   let cleanupFlicker: Function | null = null;
   let cleanupFlashlight: Function | null = null;
   let cleanupOrb: Function | null = null;
-  let cleanupCursorTrail: Function | null = null;
+  let cleanupColdTrail: Function | null = null;
   let cleanupWhisper: Function | null = null;
 
   const applyGhostEffects = () => {
     if (cleanupFlicker) cleanupFlicker();
     if (cleanupFlashlight) cleanupFlashlight();
     if (cleanupOrb) cleanupOrb();
-    if (cleanupCursorTrail) toggleCursorTrail(false);
+    if (cleanupColdTrail) toggleColdTrail(false);
     if (cleanupWhisper) cleanupWhisper();
 
     const ghosts = store.ghosts;
@@ -43,8 +43,8 @@ export const useSpookyEffects = (toggleCursorTrail: Function) => {
           cleanupOrb = applyOrbEffect();
           break;
         case 'phantom':
-          toggleCursorTrail(true);
-          cleanupCursorTrail = () => toggleCursorTrail(false);
+          toggleColdTrail(true);
+          cleanupColdTrail = () => toggleColdTrail(false);
           break;
         case 'spirit':
           cleanupWhisper = applyWhisperEffect();
@@ -78,7 +78,7 @@ export const useSpookyEffects = (toggleCursorTrail: Function) => {
     if (cleanupFlicker) cleanupFlicker();
     if (cleanupFlashlight) cleanupFlashlight();
     if (cleanupOrb) cleanupOrb();
-    if (cleanupCursorTrail) toggleCursorTrail(false);
+    if (cleanupColdTrail) toggleColdTrail(false);
     if (cleanupWhisper) cleanupWhisper();
   });
 };

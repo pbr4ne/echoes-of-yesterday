@@ -26,41 +26,61 @@ interface Snowflake {
 }
 
 const snowflakes = ref<Snowflake[]>([]);
+const isTouchDevice = ref(false);
+
+const createSnowflake = (x: number, y: number) => {
+  const snowflake: Snowflake = {
+    id: Math.floor(Date.now() + Math.random() * 1000),
+    x,
+    y,
+    size: Math.random() * (30 - 10) + 10,
+  };
+
+  snowflakes.value.push(snowflake);
+
+  nextTick(() => {
+    gsap.to(`.snowflake-${snowflake.id}`, {
+      y: isTouchDevice.value ? "+=300" : "+=100",
+      opacity: 0,
+      duration: 3,
+      ease: "power1.out",
+      onComplete: () => {
+        const el = document.querySelector(`.snowflake-${snowflake.id}`);
+        if (el) {
+          el.remove();
+        }
+      },
+    });
+  });
+};
 
 const handleMouseMove = (event: MouseEvent) => {
-  if (Math.random() > 0.95) {
-    const snowflake: Snowflake = {
-      id: Math.floor(Date.now() + Math.random() * 1000),
-      x: event.clientX,
-      y: event.clientY,
-      size: Math.random() * (30 - 10) + 10,
-    };
-
-    snowflakes.value.push(snowflake);
-
-    nextTick(() => {
-      gsap.to(`.snowflake-${snowflake.id}`, {
-        y: "+=100",
-        opacity: 0,
-        duration: 3,
-        ease: "power1.out",
-        onComplete: () => {
-          const el = document.querySelector(`.snowflake-${snowflake.id}`);
-          if (el) {
-            el.remove();
-          }
-        },
-      });
-    });
+  if (!isTouchDevice.value && Math.random() > 0.95) {
+    createSnowflake(event.clientX, event.clientY);
   }
 };
 
+const createSnowflakesForTouch = () => {
+  const screenWidth = window.innerWidth;
+  const randomX = Math.random() * screenWidth;
+  createSnowflake(randomX, 0);
+};
+
 onMounted(() => {
-  window.addEventListener('mousemove', handleMouseMove);
+  isTouchDevice.value = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
+
+  if (isTouchDevice.value) {
+    const touchInterval = setInterval(createSnowflakesForTouch, 1000);
+    onBeforeUnmount(() => clearInterval(touchInterval));
+  } else {
+    window.addEventListener('mousemove', handleMouseMove);
+  }
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('mousemove', handleMouseMove);
+  if (!isTouchDevice.value) {
+    window.removeEventListener('mousemove', handleMouseMove);
+  }
 });
 
 const getSnowflakeStyle = (snowflake: Snowflake): CSSProperties => {
