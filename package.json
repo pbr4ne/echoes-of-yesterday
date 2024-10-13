@@ -15,7 +15,8 @@
     "mitt": "^3.0.1",
     "naive-ui": "^2.40.1",
     "pinia": "^2.2.4",
-    "vue": "^3.4.37"
+    "vue": "^3.4.37",
+    "vue3-blocks-tree": "^0.6.2"
   },
   "devDependencies": {
     "@types/node": "^22.7.4",

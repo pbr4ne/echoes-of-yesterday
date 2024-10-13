@@ -4,6 +4,8 @@ import { createPinia } from 'pinia';
 import { piniaPlugin } from './utilities/piniaPlugin';
 import { useStore } from './composables/useStore';
 import { startGameLoop } from './composables/useGameLoop'; 
+import VueBlocksTree from 'vue3-blocks-tree';
+import 'vue3-blocks-tree/dist/vue3-blocks-tree.css';
 
 import { 
   create,
@@ -12,6 +14,8 @@ import {
   NConfigProvider,
   NDivider,
   NFlex,
+  NGrid,
+  NGridItem,
   NIcon,
   NLayout,
   NLayoutContent,
@@ -21,12 +25,14 @@ import {
   NMenu,
   NNotificationProvider,
   NProgress,
+  NScrollbar,
+  NSpace,
   NTabs,
   NTabPane,
   NTag,
   NTimeline,
   NTimelineItem,
-  NSpace,
+  NTree,
 } from 'naive-ui';
 
 
@@ -37,6 +43,8 @@ const naive = create({
     NConfigProvider,
     NDivider,
     NFlex,
+    NGrid,
+    NGridItem,
     NIcon,
     NLayout,
     NLayoutContent,
@@ -46,14 +54,18 @@ const naive = create({
     NMenu,
     NNotificationProvider,
     NProgress,
+    NSpace,
+    NScrollbar,
     NTabs,
     NTabPane,
     NTag,
     NTimeline,
     NTimelineItem,
-    NSpace,
+    NTree,
   ],
 });
+
+let defaultoptions = {nodeName: 'default-node', treeName: 'blocks-tree'}
 
 const pinia = createPinia();
 pinia.use(piniaPlugin);
@@ -61,6 +73,7 @@ pinia.use(piniaPlugin);
 const app = createApp(App);
 app.use(naive);
 app.use(pinia);
+app.use(VueBlocksTree, defaultoptions);
 
 const store = useStore();
 store.listenForEvents();
