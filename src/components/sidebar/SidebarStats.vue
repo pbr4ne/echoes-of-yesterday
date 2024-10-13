@@ -44,22 +44,28 @@ const sidebar = computed(() => [
 ]);
 
 const getProgressColor = (percentage: number) => {
-  if (percentage <= 25) {
-    return '#43738B';
-  } else if (percentage <= 50) {
-    return '#4CAF50';
-  } else if (percentage <= 75) {
-    return '#FFC107';
+  if (percentage <= 14) {
+    return '#577590';
+  } else if (percentage <= 28) {
+    return '#43aa8b';
+  } else if (percentage <= 42) {
+    return '#90be6d';
+  } else if (percentage <= 57) {
+    return '#f9c74f';
+  } else if (percentage <= 71) {
+    return '#f8961e';
+  } else if (percentage <= 85) {
+    return '#f3722c';
   } else {
-    return '#F44336';
+    return '#f94144';
   }
 };
 
 const getTextColor = (percentage: number) => {
-  if (percentage > 50 && percentage <= 75) {
-    return '#333639';
+  if (percentage <= 42) {
+    return '#FFFFFFD1';
   }
-  return '#FFFFFFD1';
+  return '#333639';
 };
 </script>
 
