@@ -1,9 +1,7 @@
 
 <template>
   <div>
-    <div>
-        <blocks-tree :data="treeData" :horizontal="true" :collapsable="true"></blocks-tree>
-    </div>
+      <blocks-tree :data="treeData" :horizontal="true" :collapsable="true"></blocks-tree>
   </div>
 </template>
 
@@ -69,5 +67,8 @@
     box-shadow: none;
     border: 1px solid #ffd166;
     color: #ffd166;
+  }
+  .org-tree-node-btn {
+    background-color: rgb(16, 16, 20);
   }
 </style>
