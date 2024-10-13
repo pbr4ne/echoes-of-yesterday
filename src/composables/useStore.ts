@@ -144,6 +144,7 @@ export const useStore = defineStore('gameState', {
     },
     
     activateGhost(ghostKey: keyof GameState['ghosts'], duration: number) {
+      console.log(`Activating ${ghostKey} for ${duration}ms`);
       const rooms = ['Bathroom', 'Bedroom', 'Cellar', 'Den', 'Kitchen', 'LivingRoom', 'Sunroom'];
       const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
       

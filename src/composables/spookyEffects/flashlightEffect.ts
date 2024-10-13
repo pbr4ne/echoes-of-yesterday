@@ -40,7 +40,6 @@ export const applyFlashlightEffect = () => {
     window.removeEventListener('mousemove', moveFlashlight);
     flashlight.remove();
     flashlightActive = false;
-    console.log("flashlight effect removed");
   };
 
   return cleanup;
