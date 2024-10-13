@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 
 const spookyWords = [
-  'Help', 'Whimper', 'Psst', 'Hello?'
+  'Help', 'Fight', 'Hello?', 'Please', 'Soon', 'Listen', 'Leave'
 ];
 
 export const applyWhisperEffect = (): Function => {
