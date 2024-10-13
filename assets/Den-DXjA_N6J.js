@@ -1,0 +1,1 @@
+import{_ as o,r as e,o as c,c as s,w as r,e as _}from"./index-DzEawpAe.js";const a={};function f(l,p){const t=e("n-card"),n=e("n-flex");return c(),s(n,{size:[20,20]},{default:r(()=>[_(t,{style:{width:"200px",height:"200px"},title:"Den"})]),_:1})}const i=o(a,[["render",f]]);export{i as default};
