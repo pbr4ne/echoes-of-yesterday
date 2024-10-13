@@ -1,6 +1,5 @@
 import { useStore } from './useStore';
 
-
 export const useGhosts = () => {
   const store = useStore();
 
@@ -23,13 +22,17 @@ export const useGhosts = () => {
     };
 
     const description = ghostDescriptions[ghostKey];
-    const time = new Date().toLocaleTimeString();
-    const room = randomRoom;
+
+    const logTime = {
+      days: store.calendar.days,
+      hours: store.calendar.hours,
+      minutes: store.calendar.minutes
+    };
 
     store.log.push({
       description,
-      time,
-      room
+      time: logTime,
+      room: randomRoom
     });
   };
 

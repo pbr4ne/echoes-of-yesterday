@@ -2,6 +2,13 @@ export type ActionKey = 'hunger' | 'thirst' | 'boredom' | 'fatigue' | 'fear' | '
 export type ActionType = 'increase' | 'decrease';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 
+export interface Calendar {
+  days: number;
+  hours: number;
+  minutes: number;
+  accumulatedTime?: number;
+}
+
 export interface Stat {
   percentage: number;
   decayRate: number;
@@ -18,7 +25,7 @@ export interface Ghost {
 
 export interface LogEntry {
   description: string;
-  time: string;
+  time: Calendar;
   room: string;
 }
 
@@ -41,12 +48,7 @@ export interface GameState {
     spirit: Ghost;
     phantom: Ghost;
   };
-  calendar: {
-    days: number;
-    hours: number;
-    minutes: number;
-    accumulatedTime: number;
-  };
+  calendar: Calendar;
   pendingActions: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
   log: LogEntry[];
 }

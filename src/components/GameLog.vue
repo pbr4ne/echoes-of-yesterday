@@ -60,11 +60,39 @@ const roomIcons: Record<string, any> = {
 
 const store = useStore();
 
+function getRelativeTime(logTime, currentTime) {
+  const diffDays = currentTime.days - logTime.days;
+  const diffHours = currentTime.hours - logTime.hours;
+  const diffMinutes = currentTime.minutes - logTime.minutes;
+
+  if (diffDays < 1 && diffHours < 1 && diffMinutes < 60) {
+    return 'Just now';
+  } else if (diffDays < 1 && diffHours < 24) {
+    return `${diffHours} ${diffHours === 1 ? 'hour' : 'hours'} ago`;
+  } else if (diffDays < 7) {
+    return `${diffDays} ${diffDays === 1 ? 'day' : 'days'} ago`;
+  } else if (diffDays < 30) {
+    const weeksAgo = Math.floor(diffDays / 7);
+    return `${weeksAgo} ${weeksAgo === 1 ? 'week' : 'weeks'} ago`;
+  } else {
+    const monthsAgo = Math.floor(diffDays / 30);
+    return `${monthsAgo} ${monthsAgo === 1 ? 'month' : 'months'} ago`;
+  }
+}
+
 const timelineItems = computed(() => {
+  const currentTime = {
+    days: store.calendar.days,
+    hours: store.calendar.hours,
+    minutes: store.calendar.minutes
+  };
+
   return store.log.slice().reverse().map((entry) => {
+    const relativeTime = getRelativeTime(entry.time, currentTime);
+
     return {
       content: entry.description,
-      time: entry.time,
+      time: relativeTime,
       icon: roomIcons[entry.room],
     };
   });
