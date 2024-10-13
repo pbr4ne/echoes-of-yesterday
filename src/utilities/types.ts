@@ -41,6 +41,12 @@ export interface GameState {
     spirit: Ghost;
     phantom: Ghost;
   };
+  calendar: {
+    days: number;
+    hours: number;
+    minutes: number;
+    accumulatedTime: number;
+  };
   pendingActions: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
   log: LogEntry[];
 }

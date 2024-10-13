@@ -16,6 +16,8 @@ export function startGameLoop() {
     if (delta >= TICK_RATE) {
       lastTick = now;
 
+      store.updateTime(delta);
+
       const ghostKeys = Object.keys(store.ghosts) as Array<keyof typeof store.ghosts>;
       const activeGhost = ghostKeys.find(key => store.ghosts[key].isActive === true);
 
@@ -61,12 +63,4 @@ export function startGameLoop() {
   };
 
   store._gameLoopId = requestAnimationFrame(gameLoop);
-}
-
-export function stopGameLoop() {
-  const store = useStore();
-  if (store._gameLoopId !== null) {
-    cancelAnimationFrame(store._gameLoopId);
-    store._gameLoopId = null;
-  }
 }
