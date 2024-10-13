@@ -28,16 +28,31 @@ export const applyFlashlightEffect = () => {
 
   initializeFlashlightPosition();
 
-  const moveFlashlight = (event: MouseEvent) => {
-    const x = event.clientX;
-    const y = event.clientY;
+  const moveFlashlight = (x: number, y: number) => {
     flashlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.2) 80px, rgba(0, 0, 0, 0.85) 150px)`;
   };
 
-  window.addEventListener('mousemove', moveFlashlight);
+  const handleMouseMove = (event: MouseEvent) => {
+    const x = event.clientX;
+    const y = event.clientY;
+    moveFlashlight(x, y);
+  };
+
+  const handleTouchMove = (event: TouchEvent) => {
+    if (event.touches.length > 0) {
+      const touch = event.touches[0];
+      const x = touch.clientX;
+      const y = touch.clientY;
+      moveFlashlight(x, y);
+    }
+  };
+
+  window.addEventListener('mousemove', handleMouseMove);
+  window.addEventListener('touchmove', handleTouchMove);
 
   const cleanup = () => {
-    window.removeEventListener('mousemove', moveFlashlight);
+    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('touchmove', handleTouchMove);
     flashlight.remove();
     flashlightActive = false;
   };
