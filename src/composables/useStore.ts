@@ -91,65 +91,7 @@ export const useStore = defineStore('gameState', {
       emitter.on('actionStarted', ({ actionKey, actionType }) => {
         this.scheduleAction(actionKey as keyof GameState['stats'], actionType, 1);
       });
-    },
-
-    startGameLoop() {
-      const TICK_RATE = 50;
-      let lastTick = Date.now();
-      
-      const gameLoop = () => {
-        const now = Date.now();
-        const delta = now - lastTick;
-    
-        if (delta >= TICK_RATE) {
-          lastTick = now;
-    
-          const ghostKeys = Object.keys(this.ghosts) as Array<keyof GameState['ghosts']>;
-          const activeGhost = ghostKeys.find(key => this.ghosts[key].isActive === true);
-    
-          if (activeGhost) {
-            const ghost = this.ghosts[activeGhost];
-            if (ghost.activationStart && ghost.activeDuration && now - ghost.activationStart >= ghost.activeDuration) {
-              this.deactivateGhost(activeGhost);
-            }
-          } else {
-            const randomGhostKey = ghostKeys[Math.floor(Math.random() * ghostKeys.length)];
-            const randomDuration = Math.random() * (15000 - 5000) + 5000;
-    
-            this.activateGhost(randomGhostKey, randomDuration);
-          }
-    
-          this.pendingActions = this.pendingActions.filter(action => {
-            const elapsed = now - action.startTime;
-            const progress = Math.min((elapsed / action.duration) * 100, 100);
-            emitter.emit('actionProgressed', { actionKey: action.actionKey, progress });
-    
-            if (progress >= 100) {
-              const statKey = action.actionKey as keyof GameState['stats'];
-              if (action.actionType === 'increase') {
-                this.adjustValue(statKey, 5);
-              } else {
-                this.adjustValue(statKey, -5);
-              }
-              emitter.emit('actionCompleted', { actionKey: action.actionKey });
-              return false;
-            }
-            return true;
-          });
-    
-          Object.keys(this.stats).forEach(statKey => {
-            const key = statKey as keyof GameState['stats'];
-            const stat = this.stats[key];
-            const decayAmount = stat.decayRate * (delta / 1000);
-            this.adjustValue(key, decayAmount);
-          });
-        }
-    
-        this._gameLoopId = requestAnimationFrame(gameLoop);
-      };
-    
-      this._gameLoopId = requestAnimationFrame(gameLoop);
-    },
+    },    
     
     activateGhost(ghostKey: keyof GameState['ghosts'], duration: number) {
       console.log(`Activating ${ghostKey} for ${duration}ms`);
@@ -193,11 +135,6 @@ export const useStore = defineStore('gameState', {
 
     clearLog() {
       this.log = [];
-    },
-
-    initGame() {
-      this.startGameLoop();
-      this.listenForEvents();
     },
   },
 });

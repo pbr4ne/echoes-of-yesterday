@@ -3,6 +3,7 @@ import App from './App.vue';
 import { createPinia } from 'pinia';
 import { piniaPlugin } from './utilities/piniaPlugin';
 import { useStore } from './composables/useStore';
+import { startGameLoop } from './composables/useGameLoop'; 
 
 import { 
   create,
@@ -62,6 +63,8 @@ app.use(naive);
 app.use(pinia);
 
 const store = useStore();
-store.initGame(); 
+store.listenForEvents();
+
+startGameLoop();
 
 app.mount('#app');
