@@ -1,5 +1,14 @@
 <template>
-  <n-space vertical style="padding: 20px;">
+  <n-space vertical style="padding: 20px; position: relative;" @mouseenter="showTrash = true" @mouseleave="showTrash = false">
+    <n-icon
+      class="trash-icon"
+      size="24"
+      :style="{ opacity: showTrash ? 1 : 0, pointerEvents: showTrash ? 'auto' : 'none' }"
+      @click="clearLog"
+    >
+      <component :is="TrashIcon" />
+    </n-icon>
+
     <n-timeline>
       <n-timeline-item
         v-for="(item, index) in timelineItems"
@@ -19,8 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from '../composables/useStore';
+import TrashIcon from '@vicons/tabler/Trash';
 import LivingRoomIcon from '@vicons/tabler/Lamp';
 import KitchenIcon from '@vicons/material/KitchenOutlined';
 import BedroomIcon from '@vicons/ionicons5/BedOutline';
@@ -35,6 +45,8 @@ const { collapsed } = defineProps({
     required: true,
   },
 });
+
+const showTrash = ref(false);
 
 const roomIcons: Record<string, any> = {
   Kitchen: KitchenIcon,
@@ -53,14 +65,27 @@ const timelineItems = computed(() => {
     return {
       content: entry.description,
       time: entry.time,
-      icon: roomIcons[entry.room]
+      icon: roomIcons[entry.room],
     };
   });
 });
+
+const clearLog = () => {
+  store.clearLog();
+};
 </script>
 
 <style scoped>
-  .n-timeline-item {
-    min-height: 58.5px;
+  .trash-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 10;
+    transition: opacity 0.2s ease;
+  }
+
+  .n-space {
+    position: relative;
   }
 </style>

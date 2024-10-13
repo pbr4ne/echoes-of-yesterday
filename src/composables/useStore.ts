@@ -191,6 +191,10 @@ export const useStore = defineStore('gameState', {
       Object.assign(this.$state, initialState());
     },
 
+    clearLog() {
+      this.log = [];
+    },
+
     initGame() {
       this.startGameLoop();
       this.listenForEvents();
