@@ -13,7 +13,7 @@
           :key="action.actionKey"
           round
           :style="getButtonStyle(action.actionKey)"
-          @click="startAction(action.actionKey)"
+          @click="startAction(action.actionKey, action.amount)"
         >
           {{ action.label }}
         </n-button>
@@ -34,14 +34,14 @@ const actionGroups: { title: string, actions: { actionKey: ActionKey, label: str
   {
     title: 'Fridge',
     actions: [
-      { actionKey: 'food', label: 'Gather ingredients' },
+      { actionKey: 'food', amount: 1, label: 'Gather ingredients' },
     ]
   },
   {
     title: 'Stove',
     actions: [
-      { actionKey: 'hunger', label: 'Cook food' },
-      { actionKey: 'thirst', label: 'Boil Tea' },
+      { actionKey: 'hunger', amount: -5, label: 'Cook food' },
+      { actionKey: 'thirst', amount: -5, label: 'Boil Tea' },
     ]
   },
 ];
@@ -56,8 +56,8 @@ const handleActionCompleted = (event: {actionKey: ActionKey} ) => {
   progressStyles.value[event.actionKey] = '';
 };
 
-const startAction = (actionKey: ActionKey) => {
-  emitter.emit('actionStarted', { actionKey, actionType: 'decrease' });
+const startAction = (actionKey: ActionKey, amount: number) => {
+  emitter.emit('actionStarted', { actionKey, amount });
 };
 
 onMounted(() => {

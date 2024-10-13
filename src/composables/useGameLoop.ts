@@ -40,11 +40,7 @@ export function startGameLoop() {
 
         if (progress >= 100) {
           const statKey = action.actionKey as keyof typeof store.stats;
-          if (action.actionType === 'increase') {
-            store.adjustValue(statKey, 5);
-          } else {
-            store.adjustValue(statKey, -5);
-          }
+          store.adjustValue(statKey, action.amount);
           emitter.emit('actionCompleted', { actionKey: action.actionKey });
           return false;
         }

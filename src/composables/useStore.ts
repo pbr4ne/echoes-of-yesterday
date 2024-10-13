@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
-import { ActionType, GameState } from '../utilities/types';
+import { ActionKey, GameState } from '../utilities/types';
 
 const initialState = (): GameState => ({
   stats: {
@@ -32,11 +32,20 @@ export const useStore = defineStore('gameState', {
   actions: {
     _gameLoopId: null as null | number,
 
-    adjustValue(actionKey: keyof GameState['stats'], amount: number, max = 100, min = 0) {
-      const stat = this.stats[actionKey];
-      stat.percentage = Math.min(Math.max(stat.percentage + amount, min), max);
+    adjustValue(actionKey: ActionKey, amount: number, max = 100, min = 0) {
+      if (actionKey in this.stats) {
+        const stat = this.stats[actionKey as keyof GameState['stats']];
+        stat.percentage = Math.min(Math.max(stat.percentage + amount, min), max);
+      } 
+      else if (actionKey in this.inventory) {
+        console.log('adjustValue', actionKey, amount, max, min);
+        const inventoryItem = this.inventory[actionKey as keyof GameState['inventory']];
+        this.inventory[actionKey as keyof GameState['inventory']] = Math.min(Math.max(inventoryItem + amount, min), max);
+      } else {
+        console.warn(`Invalid actionKey: ${actionKey}`);
+      }
     },
-
+  
     updateTime(deltaTime: number) {
        //1 day takes 15 mins
       const realWorldMillisecondsPerInGameMinute = 625;
@@ -60,15 +69,15 @@ export const useStore = defineStore('gameState', {
       }
     },    
 
-    scheduleAction(actionKey: keyof GameState['stats'], actionType: ActionType, amount: number, duration = 10000) {
+    scheduleAction(actionKey: ActionKey, amount: number, duration = 10000) {
       const startTime = Date.now();
-      const action = { actionKey, actionType, startTime, duration };
+      const action = { actionKey, amount, startTime, duration };
       this.pendingActions.push(action);
     },
 
     listenForEvents() {
-      emitter.on('actionStarted', ({ actionKey, actionType }) => {
-        this.scheduleAction(actionKey as keyof GameState['stats'], actionType, 1);
+      emitter.on('actionStarted', ({ actionKey, amount }) => {
+        this.scheduleAction(actionKey, amount);
       });
     },
 

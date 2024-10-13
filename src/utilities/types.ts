@@ -1,5 +1,4 @@
 export type ActionKey = 'hunger' | 'thirst' | 'boredom' | 'fatigue' | 'fear' | 'food' | 'water';
-export type ActionType = 'increase' | 'decrease';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 
 export interface Calendar {
@@ -49,6 +48,6 @@ export interface GameState {
     phantom: Ghost;
   };
   calendar: Calendar;
-  pendingActions: { actionKey: ActionKey; actionType: ActionType; startTime: number; duration: number }[];
+  pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
   log: LogEntry[];
 }
