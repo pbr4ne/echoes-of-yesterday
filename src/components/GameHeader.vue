@@ -40,9 +40,7 @@
 </script>
   
 <style scoped>
-  @import url('https://fonts.googleapis.com/css2?family=Fondamento:ital@0;1&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Zeyada&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Zeyada&display=swap"');
+
 
   .eoyHeader {
     font-family: 'Fondamento', sans-serif;

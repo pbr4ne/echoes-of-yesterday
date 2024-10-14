@@ -1,26 +1,51 @@
 <template>
-  <div>
-    <blocks-tree 
-      :data="treeData" 
-      :horizontal="false" 
-      :collapsable="true" 
-    >
-      <template #node="{data,context}">
-        <n-card 
-          size="small" 
-          :style="{width: '125px', height: '75px', backgroundColor: data.backgroundColor}"
-        >
-          <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-            {{ data.label }}
-          </div>
-        </n-card>
-      </template>
-    </blocks-tree>
-  </div>
+    <n-scrollbar x-scrollable x-placement="top">
+      <blocks-tree 
+        :data="treeData" 
+        :horizontal="false" 
+        :collapsable="true" 
+      >
+        <template #node="{data,context}">
+          <n-tooltip placement="bottom" trigger="hover" style="max-width: 100px;">
+            <template #trigger>
+              <n-card 
+                size="small" 
+                :style="{width: '125px', height: '75px', backgroundColor: data.backgroundColor}"
+              >
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                  <span>{{ data.label }}</span>
+                </div>
+              </n-card>
+            </template>
+            <span style="font-weight: bold;">Sustenance</span><br /><span>This book will increase your knowledge of how to feed yourself.</span>
+          </n-tooltip>
+        </template>
+      </blocks-tree>
+      <!-- <br /> -->
+      <!-- <blocks-tree 
+        :data="treeData" 
+        :horizontal="false" 
+        :collapsable="true" 
+      >
+        <template #node="{data,context}">
+          <n-tooltip placement="bottom" trigger="hover" style="max-width: 100px;">
+            <template #trigger>
+              <n-icon-wrapper :size="32" :border-radius="10" :color="data.backgroundColor">
+                <n-icon :size="18" class="tab-icon" color="#FFFFFFD1">
+                  <component :is="BookIcon" />
+                </n-icon>
+              </n-icon-wrapper>
+            </template>
+            <span style="font-weight: bold;">Sustenance</span><br /><span>This book will increase your knowledge of how to feed yourself.</span>
+          </n-tooltip>
+        </template>
+      </blocks-tree> -->
+    </n-scrollbar>
 </template>
 
 <script setup lang="ts">
-  import { reactive } from 'vue';
+import BookIcon from '@vicons/ionicons5/BookOutline';
+import { reactive } from 'vue';
 
   let treeData = reactive({
     label: 'Research',

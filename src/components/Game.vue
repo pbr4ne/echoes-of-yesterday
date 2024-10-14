@@ -32,7 +32,7 @@
           bordered
           show-trigger
           collapse-mode="width"
-          :collapsed-width="64"
+          :collapsed-width="15"
           :collapsed="rightCollapsed"
           :width="245"
           :native-scrollbar="false"

@@ -17,6 +17,7 @@ import {
   NGrid,
   NGridItem,
   NIcon,
+  NIconWrapper,
   NLayout,
   NLayoutContent,
   NLayoutHeader,
@@ -32,6 +33,7 @@ import {
   NTag,
   NTimeline,
   NTimelineItem,
+  NTooltip,
   NTree,
 } from 'naive-ui';
 
@@ -46,6 +48,7 @@ const naive = create({
     NGrid,
     NGridItem,
     NIcon,
+    NIconWrapper,
     NLayout,
     NLayoutContent,
     NLayoutHeader,
@@ -61,6 +64,7 @@ const naive = create({
     NTag,
     NTimeline,
     NTimelineItem,
+    NTooltip,
     NTree,
   ],
 });
