@@ -1,0 +1,1 @@
+import{_ as o,r as e,o as c,c as r,w as a,e as s}from"./index-uNHZP2aC.js";const _={};function l(f,p){const t=e("n-card"),n=e("n-flex");return c(),r(n,{size:[20,20]},{default:a(()=>[s(t,{style:{width:"200px",height:"200px"},title:"Cellar"})]),_:1})}const i=o(_,[["render",l]]);export{i as default};
