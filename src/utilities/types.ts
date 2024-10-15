@@ -28,6 +28,13 @@ export interface LogEntry {
   room: string;
 }
 
+export interface Research {
+  title: string;
+  key: string;
+  color: string;
+  children?: Research[];
+}
+
 export interface GameState {
   stats: {
     hunger: Stat;
