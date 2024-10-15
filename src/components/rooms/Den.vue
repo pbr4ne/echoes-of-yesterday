@@ -3,49 +3,48 @@
     <blocks-tree 
       :data="treeData" 
       :horizontal="false" 
-      :collapsable="true" 
+      :collapsable="true"
     >
       <template #node="{data,context}">
         <n-tooltip placement="bottom" trigger="hover" style="max-width: 100px;">
           <template #trigger>
             <n-card 
               size="small" 
-              :style="{width: '125px', height: '75px', backgroundColor: data.backgroundColor}"
+              :style="{
+                width: '125px', 
+                height: '75px', 
+                backgroundColor: data.complete ? data.color : '#101014', 
+                color: data.complete ? '#d5d5d6' : data.color
+              }"
             >
               <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                <span>{{ data.label }}</span>
+                <span :style="{ fontFamily: data.known ? 'inherit' : 'Redacted Script, cursive' }">
+                  {{ data.label }}
+                </span>
               </div>
             </n-card>
           </template>
-          <span style="font-weight: bold;">Sustenance</span><br /><span>This book will increase your knowledge of how to feed yourself.</span>
+          <span v-if="data.known">
+            <span style="font-weight: bold;">{{ data.label }}</span><br />
+            <span>This research will improve your skills in {{ data.label }}.</span>
+          </span>
+          <span v-else>
+            <span style="font-weight: bold;">Unknown Research</span><br />
+            <span>Explore the house to unlock this research</span>
+          </span>
+          
         </n-tooltip>
       </template>
     </blocks-tree>
-    <!-- <br /> -->
-    <!-- <blocks-tree 
-      :data="treeData" 
-      :horizontal="false" 
-      :collapsable="true" 
-    >
-      <template #node="{data,context}">
-        <n-tooltip placement="bottom" trigger="hover" style="max-width: 100px;">
-          <template #trigger>
-            <n-icon-wrapper :size="32" :border-radius="10" :color="data.backgroundColor">
-              <n-icon :size="18" class="tab-icon" color="#FFFFFFD1">
-                <component :is="BookIcon" />
-              </n-icon>
-            </n-icon-wrapper>
-          </template>
-          <span style="font-weight: bold;">Sustenance</span><br /><span>This book will increase your knowledge of how to feed yourself.</span>
-        </n-tooltip>
-      </template>
-    </blocks-tree> -->
   </n-scrollbar>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { Research } from '../types';
+import { reactive, computed } from 'vue';
+import { useStore } from '../../composables/useStore';
+import { Research } from '../../utilities/types';
+
+const store = useStore();
 
 const researchArray: Research[] = [
   {
@@ -99,22 +98,52 @@ const researchArray: Research[] = [
   }
 ];
 
+const enhanceResearchWithStoreData = (researchNodes: Research[]): Research[] => {
+  return researchNodes
+    .map(node => {
+      const research = store.research[node.key];
+
+      const enhancedNode: Research = {
+        ...node,
+        visible: research?.visible,
+        known: research?.known,
+        complete: research?.complete,
+        
+        children: node.children ? enhanceResearchWithStoreData(node.children) : []
+      };
+
+      console.log(node.key, research.visible);
+
+      return enhancedNode;
+    })
+    .filter(node => node.visible);
+};
+
+const enhancedResearchArray = computed(() => enhanceResearchWithStoreData(researchArray));
+
 const rootNode: Research = {
   title: 'Research',
   key: 'research',
   color: '#2b2f30',
-  children: researchArray
+  complete: true,
+  known: true,
+  visible: true,
+  children: enhancedResearchArray.value
 };
 
 const buildTree = (node: Research) => ({
   label: node.title,
   some_id: node.key,
-  backgroundColor: node.color,
+  color: node.color,
+  complete: node.complete,
+  known: node.known,
   expand: true,
   children: node.children ? node.children.map(buildTree) : []
 });
 
 let treeData = reactive(buildTree(rootNode));
+
+console.log(treeData);
 </script>
 
 <style>

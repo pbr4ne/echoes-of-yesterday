@@ -35,6 +35,12 @@ export interface Research {
   children?: Research[];
 }
 
+export interface ResearchState {
+  visible: boolean;
+  known: boolean;
+  complete: boolean;
+}
+
 export interface GameState {
   stats: {
     hunger: Stat;
@@ -57,4 +63,22 @@ export interface GameState {
   calendar: Calendar;
   pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
   log: LogEntry[];
+  research: {
+    hunger1: ResearchState;
+    hunger2: ResearchState;
+    fitness1: ResearchState;
+    fitness2: ResearchState;
+    boredom1: ResearchState;
+    boredom2: ResearchState;
+    fatigue1: ResearchState;
+    fatigue2: ResearchState;
+    ghost1: ResearchState;
+    ghost2: ResearchState;
+    ghost3: ResearchState;
+    ghost4: ResearchState;
+    ghost5: ResearchState;
+    ghost6: ResearchState;
+    ghost7: ResearchState;
+    ghost8: ResearchState;
+  };
 }

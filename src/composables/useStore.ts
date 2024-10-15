@@ -24,6 +24,24 @@ const initialState = (): GameState => ({
   pendingActions: [],
   log: [],
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
+  research: {
+    hunger1: { visible: true, known: true, complete: true, },
+    hunger2: { visible: false, known: false, complete: false },
+    fitness1: { visible: true, known: false, complete: false },
+    fitness2: { visible: true, known: false, complete: false },
+    boredom1: { visible: true, known: false, complete: false },
+    boredom2: { visible: true, known: false, complete: false },
+    fatigue1: { visible: true, known: false, complete: false },
+    fatigue2: { visible: true, known: false, complete: false },
+    ghost1: { visible: true, known: false, complete: false },
+    ghost2: { visible: true, known: false, complete: false },
+    ghost3: { visible: true, known: false, complete: false },
+    ghost4: { visible: true, known: false, complete: false },
+    ghost5: { visible: true, known: false, complete: false },
+    ghost6: { visible: true, known: false, complete: false },
+    ghost7: { visible: true, known: false, complete: false },
+    ghost8: { visible: true, known: false, complete: false },
+  },
 });
 
 export const useStore = defineStore('gameState', {
