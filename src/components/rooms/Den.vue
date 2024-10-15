@@ -18,8 +18,14 @@
               }"
             >
               <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                <span :style="{ fontFamily: data.known ? 'inherit' : 'Redacted Script, cursive' }">
+                <span v-if="data.known">
                   {{ data.label }}
+                </span>
+                <span v-else-if="data.label.length % 2" style="font-family: 'Redacted Script'; font-size: 26px;">
+                  bwa bw
+                </span>
+                <span v-else style="font-family: 'Redacted Script'; font-size: 26px;">
+                  bw bwa
                 </span>
               </div>
             </n-card>
@@ -112,7 +118,7 @@ const enhanceResearchWithStoreData = (researchNodes: Research[]): Research[] => 
         children: node.children ? enhanceResearchWithStoreData(node.children) : []
       };
 
-      console.log(node.key, research.visible);
+      console.log(node.key, research?.known);
 
       return enhancedNode;
     })

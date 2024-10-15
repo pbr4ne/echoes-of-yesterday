@@ -27,7 +27,7 @@ const initialState = (): GameState => ({
   research: {
     hunger1: { visible: true, known: true, complete: true, },
     hunger2: { visible: false, known: false, complete: false },
-    fitness1: { visible: true, known: false, complete: false },
+    fitness1: { visible: true, known: true, complete: false },
     fitness2: { visible: true, known: false, complete: false },
     boredom1: { visible: true, known: false, complete: false },
     boredom2: { visible: true, known: false, complete: false },
