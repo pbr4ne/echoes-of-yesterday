@@ -18,19 +18,10 @@ export function startGameLoop() {
 
       store.updateTime(delta);
 
-      const ghostKeys = Object.keys(store.ghosts) as Array<keyof typeof store.ghosts>;
-      const activeGhost = ghostKeys.find(key => store.ghosts[key].isActive === true);
+      const urlSearchParams = new URLSearchParams(window.location.search);
 
-      if (activeGhost) {
-        const ghost = store.ghosts[activeGhost];
-        if (ghost.activationStart && ghost.activeDuration && now - ghost.activationStart >= ghost.activeDuration) {
-          ghosts.deactivateGhost(activeGhost);
-        }
-      } else {
-        const randomGhostKey = ghostKeys[Math.floor(Math.random() * ghostKeys.length)];
-        const randomDuration = Math.random() * (15000 - 5000) + 5000;
-
-        ghosts.activateGhost(randomGhostKey, randomDuration);
+      if (urlSearchParams.get('DISABLE_GHOSTS') !== 'true') {
+        activateGhosts(now);
       }
 
       store.pendingActions = store.pendingActions.filter(action => {
@@ -57,6 +48,23 @@ export function startGameLoop() {
 
     store._gameLoopId = requestAnimationFrame(gameLoop);
   };
+
+  const activateGhosts = (now: number) => {
+    const ghostKeys = Object.keys(store.ghosts) as Array<keyof typeof store.ghosts>;
+      const activeGhost = ghostKeys.find(key => store.ghosts[key].isActive === true);
+
+      if (activeGhost) {
+        const ghost = store.ghosts[activeGhost];
+        if (ghost.activationStart && ghost.activeDuration && now - ghost.activationStart >= ghost.activeDuration) {
+          ghosts.deactivateGhost(activeGhost);
+        }
+      } else {
+        const randomGhostKey = ghostKeys[Math.floor(Math.random() * ghostKeys.length)];
+        const randomDuration = Math.random() * (15000 - 5000) + 5000;
+
+        ghosts.activateGhost(randomGhostKey, randomDuration);
+      }
+  }
 
   store._gameLoopId = requestAnimationFrame(gameLoop);
 }
