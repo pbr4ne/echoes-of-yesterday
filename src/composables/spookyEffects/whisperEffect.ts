@@ -34,17 +34,17 @@ export const applyWhisperEffect = (): Function => {
     ease: 'none',
     delay: 1.0,
     onComplete: () => {
-      if (wordElement && wordElement.parentNode) {
+      if (wordElement?.parentNode) {
         wordElement.parentNode.removeChild(wordElement);
       }
     }
   });
 
   return () => {
-    if (wordElement && wordElement.parentNode) {
+    if (wordElement?.parentNode) {
       wordElement.parentNode.removeChild(wordElement);
     }
-    if (style && style.parentNode) {
+    if (style?.parentNode) {
       style.parentNode.removeChild(style);
     }
   };

@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 
 export const applyFlickerEffect = (component: HTMLElement): Function => {
-  const tween = gsap.to(component, {
+  gsap.to(component, {
     opacity: 0.3,
     duration: 0.1,
     repeat: 5,

@@ -69,7 +69,7 @@ export const useStore = defineStore('gameState', {
       const realWorldMillisecondsPerInGameMinute = 625;
       let inGameMinutesPassed = deltaTime / realWorldMillisecondsPerInGameMinute;
     
-      this.calendar.accumulatedTime = (this.calendar.accumulatedTime || 0) + inGameMinutesPassed;
+      this.calendar.accumulatedTime = (this.calendar.accumulatedTime ?? 0) + inGameMinutesPassed;
     
       while (this.calendar.accumulatedTime >= 1) {
         this.calendar.minutes += 1;

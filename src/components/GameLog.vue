@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useStore } from '../composables/useStore';
+import { Calendar } from '../utilities/types';
 import TrashIcon from '@vicons/tabler/Trash';
 import LivingRoomIcon from '@vicons/tabler/Lamp';
 import KitchenIcon from '@vicons/material/KitchenOutlined';
@@ -55,12 +56,12 @@ const roomIcons: Record<string, any> = {
   Den: DenIcon,
   LivingRoom: LivingRoomIcon,
   Cellar: CrawlspaceIcon,
-  Bathroom: BedroomIcon
+  Bathroom: BathroomIcon
 };
 
 const store = useStore();
 
-function getRelativeTime(logTime, currentTime) {
+function getRelativeTime(logTime: Calendar, currentTime: Calendar) {
   const diffDays = currentTime.days - logTime.days;
   const diffHours = currentTime.hours - logTime.hours;
   const diffMinutes = currentTime.minutes - logTime.minutes;

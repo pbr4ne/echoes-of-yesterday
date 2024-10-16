@@ -29,13 +29,14 @@ export const useSpookyEffects = (toggleColdTrail: Function) => {
       if (!ghost.isActive) return;
 
       switch (ghostKey) {
-        case 'poltergeist':
+        case 'poltergeist': {
           const flickerableComponents = document.querySelectorAll('.flickerable');
           if (flickerableComponents.length > 0) {
             const randomComponent = flickerableComponents[Math.floor(Math.random() * flickerableComponents.length)];
             cleanupFlicker = applyFlickerEffect(randomComponent as HTMLElement);
           }
           break;
+        }
         case 'wraith':
           cleanupFlashlight = applyFlashlightEffect();
           break;
