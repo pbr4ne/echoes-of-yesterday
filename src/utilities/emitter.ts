@@ -1,5 +1,5 @@
 import mitt from 'mitt';
-import { ActionKey } from './types';
+import { ActionKey, View } from './types';
 
 type GameEvent = {
   //actions
@@ -7,6 +7,8 @@ type GameEvent = {
   actionStarted: { actionKey: ActionKey, amount: number };
   actionCancelled: { actionKey: ActionKey };
   actionProgressed: { actionKey: ActionKey; progress: number };
+
+  switchView: { view: View };
 
   autosaved: { timestamp: Date; storeId: string };
 };

@@ -25,7 +25,7 @@
 
       <n-layout has-sider sider-placement="right">
         <n-layout-content>
-          <game-tabs />
+          <component :is="currentView" />
         </n-layout-content>
 
         <n-layout-sider
@@ -51,16 +51,34 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watchEffect, onBeforeUnmount } from 'vue';
+  import { ref, watchEffect, onBeforeUnmount, onMounted, shallowRef } from 'vue';
+  import { emitter } from '../utilities/emitter';  
+  import { View } from '../utilities/types';
   import GameFooter from './GameFooter.vue';
   import GameHeader from './GameHeader.vue';
   import GameLog from './GameLog.vue';
   import GameSidebar from './GameSidebar.vue';
-  import GameTabs from './GameTabs.vue';
+  import Rooms from './areas/Rooms.vue';
+  import Research from './areas/Research.vue';
+  import Profile from './areas/Profile.vue';
 
   const leftCollapsed = ref(isSmallWindow());
   const rightCollapsed = ref(isSmallWindow());
   const isSmallScreen = ref(isSmallWindow());
+
+  const currentView = shallowRef(Rooms);
+
+  const switchView = (event: { view: View }) => {
+    if (event.view === 'Rooms') {
+      currentView.value = Rooms;
+    } else if (event.view === 'Research') {
+      currentView.value = Research;
+    } else if (event.view === 'Profile') {
+      currentView.value = Profile;
+    } else {
+      console.warn('Unknown view:', event.view);
+    }
+  };
 
   const handleExpand = (side: 'left' | 'right') => {
     if (side === 'left') {
@@ -96,8 +114,13 @@
 
   window.addEventListener('resize', updateScreenSize);
 
+  onMounted(() => {
+    emitter.on('switchView', switchView);
+  });
+
   onBeforeUnmount(() => {
     window.removeEventListener('resize', updateScreenSize);
+    emitter.off('switchView', switchView);
   });
 
   watchEffect(() => {

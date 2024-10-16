@@ -1,5 +1,6 @@
 export type ActionKey = 'hunger' | 'thirst' | 'boredom' | 'fatigue' | 'fear' | 'food' | 'water';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
+export type View = 'Rooms' | 'Research' | 'Profile';
 
 export interface Calendar {
   days: number;

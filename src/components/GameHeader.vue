@@ -4,17 +4,17 @@
       <span>Echoes of Yesterday</span>
     </n-space>
     <n-space style="padding-top: 10px; padding-bottom: 8px; padding-left: 10px;">
-      <n-button dashed circle size="large">
+      <n-button dashed circle size="large" @click="switchView('Rooms')">
         <template #icon>
           <component :is="renderIcon(RoomsIcon)" />
         </template>
       </n-button>
-      <n-button dashed circle size="large">
+      <n-button dashed circle size="large" @click="switchView('Profile')">
         <template #icon>
           <component :is="renderIcon(ProfileIcon)" />
         </template>
       </n-button>
-      <n-button dashed circle size="large">
+      <n-button dashed circle size="large" @click="switchView('Research')">
         <template #icon>
           <component :is="renderIcon(ResearchIcon)" />
         </template>
@@ -30,7 +30,9 @@
 
 <script setup lang="ts">
   import { ref, onMounted, onBeforeUnmount } from 'vue';
+  import { View } from '../utilities/types';
   import { useStore } from '../composables/useStore'
+  import { emitter } from '../utilities/emitter';
   import { Door as RoomsIcon } from '@vicons/tabler';
   import { UserSearch as ProfileIcon } from '@vicons/tabler';
   import { AccountTreeOutlined as ResearchIcon } from '@vicons/material';
@@ -39,6 +41,10 @@
 
   const showTitle = ref(window.innerWidth > 730);
   const store = useStore();
+
+  const switchView = (view: View) => {
+    emitter.emit('switchView', { view });
+  };
 
   const updateTitle = () => {
     showTitle.value = window.innerWidth > 730;

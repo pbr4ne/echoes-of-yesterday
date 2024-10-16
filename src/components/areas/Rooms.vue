@@ -27,16 +27,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, defineAsyncComponent, shallowRef } from 'vue';
-import { useStore } from '../composables/useStore';
+import { useStore } from '../../composables/useStore';
 import { NIcon } from 'naive-ui';
 
-const LivingRoom = defineAsyncComponent(() => import('./rooms/LivingRoom.vue'));
-const Kitchen = defineAsyncComponent(() => import('./rooms/Kitchen.vue'));
-const Bedroom = defineAsyncComponent(() => import('./rooms/Bedroom.vue'));
-const Sunroom = defineAsyncComponent(() => import('./rooms/Sunroom.vue'));
-const Bathroom = defineAsyncComponent(() => import('./rooms/Bathroom.vue'));
-const Den = defineAsyncComponent(() => import('./rooms/Den.vue'));
-const Cellar = defineAsyncComponent(() => import('./rooms/Cellar.vue'));
+const LivingRoom = defineAsyncComponent(() => import('../rooms/LivingRoom.vue'));
+const Kitchen = defineAsyncComponent(() => import('../rooms/Kitchen.vue'));
+const Bedroom = defineAsyncComponent(() => import('../rooms/Bedroom.vue'));
+const Sunroom = defineAsyncComponent(() => import('../rooms/Sunroom.vue'));
+const Bathroom = defineAsyncComponent(() => import('../rooms/Bathroom.vue'));
+const Den = defineAsyncComponent(() => import('../rooms/Den.vue'));
+const Cellar = defineAsyncComponent(() => import('../rooms/Cellar.vue'));
 
 import LivingRoomIcon from '@vicons/tabler/Lamp';
 import KitchenIcon from '@vicons/material/KitchenOutlined';
