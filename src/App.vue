@@ -32,6 +32,7 @@ useSpookyEffects(toggleColdTrail);
 @import url('https://fonts.googleapis.com/css2?family=Zeyada&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Zeyada&display=swap"');
 @import url('https://fonts.googleapis.com/css2?family=Redacted+Script:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
 
 #app {
   -webkit-font-smoothing: antialiased;
