@@ -8,10 +8,10 @@
       </span>
       <n-space style="margin-left:auto;"  v-if="!collapsed">
         <n-button circle size="small" class="research-level">
-          {{  r.progress }}
+          {{ r.progress }}
         </n-button>
-        <n-button circle size="small">
-
+        <n-button circle size="small" class="research-progress">
+          &nbsp;
         </n-button>
       </n-space>
     </div>
@@ -37,12 +37,26 @@ const { collapsed } = defineProps({
 
 const gameStore = useStore();
 
+const getHighestLevel = (prefix: string) => {
+  let highestLevel = 0;
+
+  for (let i = 1; i <= 10; i++) {
+    const key = `${prefix}${i}`;
+    const levelData = gameStore.research[key as keyof typeof gameStore.research];
+    if (levelData && levelData.complete) {
+      highestLevel = i;
+    }
+  }
+
+  return highestLevel;
+};
+
 const research = computed(() => [
-  { label: 'Sustenance', key: 'sustenance', icon: SustenanceIcon, progress: 1 },
-  { label: 'Fitness', key: 'fitness', icon: FitnessIcon, progress: 3 },
-  { label: 'Recreation', key: 'recreation', icon: EntertainmentIcon, progress: 8 },
-  { label: 'Rest', key: 'rest', icon: RestIcon, progress: 2 },
-  { label: 'Paranormal', key: 'paranormal', icon: ParanormalIcon, progress: 10 },
+  { label: 'Sustenance', key: 'sustenance', icon: SustenanceIcon, progress: getHighestLevel('sustenance') },
+  { label: 'Fitness', key: 'fitness', icon: FitnessIcon, progress: getHighestLevel('fitness') },
+  { label: 'Recreation', key: 'recreation', icon: EntertainmentIcon, progress: getHighestLevel('recreation') },
+  { label: 'Rest', key: 'rest', icon: RestIcon, progress: getHighestLevel('rest') },
+  { label: 'Paranormal', key: 'paranormal', icon: ParanormalIcon, progress: getHighestLevel('paranormal') },
 ]);
 </script>
 
@@ -62,5 +76,9 @@ const research = computed(() => [
   font-family: 'Marcellus', sans-serif;
   font-weight: 400;
   font-size: 16px;
+}
+
+.research-progress {
+  font-size: 12px;
 }
 </style>

@@ -25,9 +25,9 @@ const initialState = (): GameState => ({
   log: [],
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
   research: {
-    sustenance1: { visible: true, known: true, complete: true, },
-    sustenance2: { visible: false, known: false, complete: false },
-    fitness1: { visible: true, known: true, complete: false },
+    sustenance1: { visible: true, known: true, complete: true },
+    sustenance2: { visible: true, known: true, complete: true },
+    fitness1: { visible: true, known: true, complete: true },
     fitness2: { visible: true, known: false, complete: false },
     recreation1: { visible: true, known: false, complete: false },
     recreation2: { visible: true, known: false, complete: false },
