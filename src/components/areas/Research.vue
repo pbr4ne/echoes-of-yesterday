@@ -14,8 +14,10 @@
                 width: '125px', 
                 height: '75px', 
                 backgroundColor: data.complete ? data.color : '#101014', 
-                color: data.complete ? '#d5d5d6' : data.color
+                color: data.complete ? '#d5d5d6' : data.color,
+                cursor: 'pointer',
               }"
+              @click="startResearch(data.key)"
             >
               <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
                 <span v-if="data.known">
@@ -38,7 +40,6 @@
             <span style="font-weight: bold;">Unknown Research</span><br />
             <span>Explore the house to unlock this research</span>
           </span>
-          
         </n-tooltip>
       </template>
     </blocks-tree>
@@ -48,9 +49,14 @@
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
 import { useStore } from '../../composables/useStore';
+import { emitter } from '../../utilities/emitter';
 import { CombinedResearch, Research, ResearchState } from '../../utilities/types';
 
 const store = useStore();
+
+const startResearch = (researchKey: string) => {
+  emitter.emit('researchStarted', { researchKey });
+};
 
 const researchArray: Research[] = [
   {
@@ -137,7 +143,7 @@ const rootNode: CombinedResearch = {
 
 const buildTree = (node: CombinedResearch): any => ({
   label: node.title,
-  some_id: node.key,
+  key: node.key,
   color: node.color,
   complete: node.complete,
   known: node.known,

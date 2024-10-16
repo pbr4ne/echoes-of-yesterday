@@ -8,6 +8,8 @@ type GameEvent = {
   actionCancelled: { actionKey: ActionKey };
   actionProgressed: { actionKey: ActionKey; progress: number };
 
+  researchStarted: { researchKey: string };
+
   switchView: { view: View };
 
   autosaved: { timestamp: Date; storeId: string };

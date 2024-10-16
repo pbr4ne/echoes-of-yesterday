@@ -28,7 +28,7 @@ const initialState = (): GameState => ({
     sustenance1: { visible: true, known: true, complete: true },
     sustenance2: { visible: true, known: true, complete: true },
     fitness1: { visible: true, known: true, complete: true },
-    fitness2: { visible: true, known: false, complete: false },
+    fitness2: { visible: true, known: true, complete: false },
     recreation1: { visible: true, known: false, complete: false },
     recreation2: { visible: true, known: false, complete: false },
     rest1: { visible: true, known: false, complete: false },
