@@ -75,21 +75,21 @@ export interface GameState {
   pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
   log: LogEntry[];
   research: {
-    hunger1: ResearchState;
-    hunger2: ResearchState;
+    sustenance1: ResearchState;
+    sustenance2: ResearchState;
     fitness1: ResearchState;
     fitness2: ResearchState;
-    boredom1: ResearchState;
-    boredom2: ResearchState;
-    fatigue1: ResearchState;
-    fatigue2: ResearchState;
-    ghost1: ResearchState;
-    ghost2: ResearchState;
-    ghost3: ResearchState;
-    ghost4: ResearchState;
-    ghost5: ResearchState;
-    ghost6: ResearchState;
-    ghost7: ResearchState;
-    ghost8: ResearchState;
+    recreation1: ResearchState;
+    recreation2: ResearchState;
+    rest1: ResearchState;
+    rest2: ResearchState;
+    paranormal1: ResearchState;
+    paranormal2: ResearchState;
+    paranormal3: ResearchState;
+    paranormal4: ResearchState;
+    paranormal5: ResearchState;
+    paranormal6: ResearchState;
+    paranormal7: ResearchState;
+    paranormal8: ResearchState;
   };
 }
