@@ -3,9 +3,8 @@
     <n-icon size="24" class="sidebar-icon">
       <component :is="item.icon" />
     </n-icon>
-    <div class="progress-wrapper">
+    <div class="progress-wrapper" v-if="!collapsed">
       <n-progress
-        v-if="!collapsed"
         :percentage="item.percentage"
         type="line"
         :height="20"
