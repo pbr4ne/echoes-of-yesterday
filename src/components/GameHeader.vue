@@ -51,7 +51,7 @@
   import { View } from '../utilities/types';
   import { useStore } from '../composables/useStore'
   import { emitter } from '../utilities/emitter';
-  import { Door as RoomsIcon , UserSearch as ProfileIcon } from '@vicons/tabler';
+  import { Door as RoomsIcon, UserSearch as ProfileIcon } from '@vicons/tabler';
   import { AccountTreeOutlined as ResearchIcon } from '@vicons/material';
   import { SunnyOutline as SunIcon } from '@vicons/ionicons5';
   import { renderIcon } from '../composables/useIcon';
