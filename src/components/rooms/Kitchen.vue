@@ -24,13 +24,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useStore } from '../../composables/useStore';
 import { ActionKey } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
 
-const store = useStore();
-
-const actionGroups: { title: string, actions: { actionKey: ActionKey, label: string }[] }[] = [
+const actionGroups: { title: string, actions: { actionKey: ActionKey, amount: number, label: string }[] }[] = [
   {
     title: 'Fridge',
     actions: [
