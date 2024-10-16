@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
 import { CombinedResearch, Research, ResearchState } from '../../utilities/types';
@@ -152,6 +152,18 @@ const buildTree = (node: CombinedResearch): any => ({
 });
 
 let treeData = reactive(buildTree(rootNode));
+
+const handleResearchCompleted = (event: {researchKey: string} ) => {
+  //
+};
+
+onMounted(() => {
+  emitter.on('researchCompleted', handleResearchCompleted);
+});
+
+onBeforeUnmount(() => {
+  emitter.off('researchCompleted', handleResearchCompleted);
+});
 </script>
 
 <style>

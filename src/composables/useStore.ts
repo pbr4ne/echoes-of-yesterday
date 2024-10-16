@@ -22,6 +22,7 @@ const initialState = (): GameState => ({
     phantom: { state: 'Unknown', name: 'P', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
   },
   pendingActions: [],
+  pendingResearch: [],
   log: [],
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
   research: {
@@ -63,6 +64,14 @@ export const useStore = defineStore('gameState', {
         console.warn(`Invalid actionKey: ${actionKey}`);
       }
     },
+
+    completeResearch(researchKey: string) {
+      if (researchKey in this.research) {
+        this.research[researchKey as keyof GameState['research']].complete = true;
+      } else {
+        console.warn(`Invalid researchKey: ${researchKey}`);
+      }
+    },
   
     updateTime(deltaTime: number) {
        //1 day takes 15 mins
@@ -93,9 +102,19 @@ export const useStore = defineStore('gameState', {
       this.pendingActions.push(action);
     },
 
+    scheduleResearch(researchKey: string, duration = 10000) {
+      const startTime = Date.now();
+      const research = { researchKey, startTime, duration };
+      this.pendingResearch.push(research);
+    },
+
     listenForEvents() {
       emitter.on('actionStarted', ({ actionKey, amount }) => {
         this.scheduleAction(actionKey, amount);
+      });
+
+      emitter.on('researchStarted', ({ researchKey }) => {
+        this.scheduleResearch(researchKey);
       });
     },
 

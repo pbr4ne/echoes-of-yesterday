@@ -73,6 +73,7 @@ export interface GameState {
   };
   calendar: Calendar;
   pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
+  pendingResearch: { researchKey: string; startTime: number; duration: number }[];
   log: LogEntry[];
   research: {
     sustenance1: ResearchState;
