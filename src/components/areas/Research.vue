@@ -55,9 +55,9 @@ const store = useStore();
 const researchArray: Research[] = [
   {
     title: 'Sustenance',
-    key: 'hunger1',
+    key: 'sustenance1',
     color: '#382736',
-    children: [{ title: 'Cooking for one', key: 'hunger2', color: '#382736' }]
+    children: [{ title: 'Cooking for one', key: 'sustenance2', color: '#382736' }]
   },
   {
     title: 'Fitness',
@@ -66,38 +66,38 @@ const researchArray: Research[] = [
     children: [{ title: 'Tae-bo', key: 'fitness2', color: '#403530' }]
   },
   {
-    title: 'Entertainment',
-    key: 'boredom1',
+    title: 'Recreation',
+    key: 'recreation1',
     color: '#2a3529',
-    children: [{ title: '101 Jokes', key: 'boredom2', color: '#2a3529' }]
+    children: [{ title: '101 Jokes', key: 'recreation2', color: '#2a3529' }]
   },
   {
-    title: 'Sleep',
-    key: 'fatigue1',
+    title: 'Rest',
+    key: 'rest1',
     color: '#2b3044',
-    children: [{ title: 'Meditation', key: 'fatigue2', color: '#2b3044' }]
+    children: [{ title: 'Meditation', key: 'rest2', color: '#2b3044' }]
   },
   {
     title: 'Paranormal',
-    key: 'ghost1',
+    key: 'paranormal1',
     color: '#1c1b24',
     children: [
-      { title: 'Ghost hunting', key: 'ghost2', color: '#1c1b24' },
+      { title: 'Ghost hunting', key: 'paranormal2', color: '#1c1b24' },
       {
         title: 'Spiritualism',
-        key: 'ghost3',
+        key: 'paranormal3',
         color: '#1c1b24',
         children: [
           {
             title: 'EMF reading',
-            key: 'ghost4',
+            key: 'paranormal4',
             color: '#343237',
             children: [
-              { title: 'Orbs', key: 'ghost5', color: '#343237', children: [{ title: 'Test', key: 'ghost6', color: '#343237' }] },
-              { title: 'EVP', key: 'ghost7', color: '#343237' }
+              { title: 'Orbs', key: 'paranormal5', color: '#343237', children: [{ title: 'Test', key: 'paranormal6', color: '#343237' }] },
+              { title: 'EVP', key: 'paranormal7', color: '#343237' }
             ]
           },
-          { title: 'Rituals', key: 'ghost8', color: '#343237' }
+          { title: 'Rituals', key: 'paranormal8', color: '#343237' }
         ]
       }
     ]
