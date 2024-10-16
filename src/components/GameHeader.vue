@@ -4,17 +4,35 @@
       <span>Echoes of Yesterday</span>
     </n-space>
     <n-space style="padding-top: 10px; padding-bottom: 8px; padding-left: 10px;">
-      <n-button dashed circle size="large" @click="switchView('Rooms')">
+      <n-button
+        :class="{ 'active-button': currentView === 'Rooms' }"
+        dashed
+        circle
+        size="large"
+        @click="switchView('Rooms')"
+      >
         <template #icon>
           <component :is="renderIcon(RoomsIcon)" />
         </template>
       </n-button>
-      <n-button dashed circle size="large" @click="switchView('Profile')">
+      <n-button
+        :class="{ 'active-button': currentView === 'Profile' }"
+        dashed
+        circle
+        size="large"
+        @click="switchView('Profile')"
+      >
         <template #icon>
           <component :is="renderIcon(ProfileIcon)" />
         </template>
       </n-button>
-      <n-button dashed circle size="large" @click="switchView('Research')">
+      <n-button
+        :class="{ 'active-button': currentView === 'Research' }"
+        dashed
+        circle
+        size="large"
+        @click="switchView('Research')"
+      >
         <template #icon>
           <component :is="renderIcon(ResearchIcon)" />
         </template>
@@ -40,8 +58,10 @@
 
   const showTitle = ref(window.innerWidth > 730);
   const store = useStore();
+  const currentView = ref<View>('Rooms');
 
   const switchView = (view: View) => {
+    currentView.value = view;
     emitter.emit('switchView', { view });
   };
 
@@ -74,4 +94,12 @@
     position: relative;
     top: 3px;
   }
+
+  .active-button,
+  .active-button:hover,
+  .active-button:active,
+  .active-button:focus {
+    background-color: #f0f0f0;
+    color: #000000;
+}
 </style>

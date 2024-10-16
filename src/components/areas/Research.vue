@@ -118,8 +118,6 @@ const enhanceResearchWithStoreData = (researchNodes: Research[]): CombinedResear
         children: node.children ? enhanceResearchWithStoreData(node.children) : []
       };
 
-      console.log(node.key, researchState?.known);
-
       return enhancedNode;
     })
     .filter(node => node.visible);
@@ -148,8 +146,6 @@ const buildTree = (node: CombinedResearch): any => ({
 });
 
 let treeData = reactive(buildTree(rootNode));
-
-console.log(treeData);
 </script>
 
 <style>
