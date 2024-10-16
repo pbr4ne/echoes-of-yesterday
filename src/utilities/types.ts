@@ -42,6 +42,16 @@ export interface ResearchState {
   complete: boolean;
 }
 
+export interface CombinedResearch {
+  title: string;
+  key: string;
+  color: string;
+  children: CombinedResearch[];
+  visible: boolean;
+  known: boolean;
+  complete: boolean;
+}
+
 export interface GameState {
   stats: {
     hunger: Stat;

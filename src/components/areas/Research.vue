@@ -21,10 +21,10 @@
                 <span v-if="data.known">
                   {{ data.label }}
                 </span>
-                <span v-else-if="data.label.length % 2" style="font-family: 'Redacted Script'; font-size: 26px;">
+                <span v-else-if="data.label.length % 2" style="font-family: 'Redacted Script', cursive; font-size: 26px;">
                   bwa bw
                 </span>
-                <span v-else style="font-family: 'Redacted Script'; font-size: 26px;">
+                <span v-else style="font-family: 'Redacted Script', cursive; font-size: 26px;">
                   bw bwa
                 </span>
               </div>
@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { reactive, computed } from 'vue';
 import { useStore } from '../../composables/useStore';
-import { Research } from '../../utilities/types';
+import { CombinedResearch, Research, ResearchState } from '../../utilities/types';
 
 const store = useStore();
 
@@ -104,21 +104,21 @@ const researchArray: Research[] = [
   }
 ];
 
-const enhanceResearchWithStoreData = (researchNodes: Research[]): Research[] => {
+const enhanceResearchWithStoreData = (researchNodes: Research[]): CombinedResearch[] => {
   return researchNodes
     .map(node => {
-      const research = store.research[node.key];
-
-      const enhancedNode: Research = {
+      const researchState: ResearchState = store.research[node.key as keyof typeof store.research];
+      
+      const enhancedNode: CombinedResearch = {
         ...node,
-        visible: research?.visible,
-        known: research?.known,
-        complete: research?.complete,
+        visible: researchState?.visible,
+        known: researchState?.known,
+        complete: researchState?.complete,
         
         children: node.children ? enhanceResearchWithStoreData(node.children) : []
       };
 
-      console.log(node.key, research?.known);
+      console.log(node.key, researchState?.known);
 
       return enhancedNode;
     })
@@ -127,7 +127,7 @@ const enhanceResearchWithStoreData = (researchNodes: Research[]): Research[] => 
 
 const enhancedResearchArray = computed(() => enhanceResearchWithStoreData(researchArray));
 
-const rootNode: Research = {
+const rootNode: CombinedResearch = {
   title: 'Research',
   key: 'research',
   color: '#2b2f30',
@@ -137,7 +137,7 @@ const rootNode: Research = {
   children: enhancedResearchArray.value
 };
 
-const buildTree = (node: Research) => ({
+const buildTree = (node: CombinedResearch): any => ({
   label: node.title,
   some_id: node.key,
   color: node.color,
