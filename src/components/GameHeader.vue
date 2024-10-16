@@ -4,39 +4,45 @@
       <span>Echoes of Yesterday</span>
     </n-space>
     <n-space style="padding-top: 10px; padding-bottom: 8px; padding-left: 10px;">
-      <n-button
-        :class="{ 'active-button': currentView === 'Rooms' }"
-        dashed
-        circle
-        size="large"
-        @click="switchView('Rooms')"
-      >
-        <template #icon>
-          <component :is="renderIcon(RoomsIcon)" />
-        </template>
-      </n-button>
-      <n-button
-        :class="{ 'active-button': currentView === 'Profile' }"
-        dashed
-        circle
-        size="large"
-        @click="switchView('Profile')"
-      >
-        <template #icon>
-          <component :is="renderIcon(ProfileIcon)" />
-        </template>
-      </n-button>
-      <n-button
-        :class="{ 'active-button': currentView === 'Research' }"
-        dashed
-        circle
-        size="large"
-        @click="switchView('Research')"
-      >
-        <template #icon>
-          <component :is="renderIcon(ResearchIcon)" />
-        </template>
-      </n-button>
+      <n-badge dot processing :value="roomsBadge" :show="roomsBadge > 0" type="warning">
+        <n-button
+          :class="{ 'active-button': currentView === 'Rooms' }"
+          dashed
+          circle
+          size="large"
+          @click="switchView('Rooms')"
+        >
+          <template #icon>
+            <component :is="renderIcon(RoomsIcon)" />
+          </template>
+        </n-button>
+      </n-badge>
+      <n-badge dot processing :value="profileBadge" :show="profileBadge > 0" type="warning">
+        <n-button
+          :class="{ 'active-button': currentView === 'Profile' }"
+          dashed
+          circle
+          size="large"
+          @click="switchView('Profile')"
+        >
+          <template #icon>
+            <component :is="renderIcon(ProfileIcon)" />
+          </template>
+        </n-button>
+      </n-badge>
+      <n-badge dot processing :value="researchBadge" :show="researchBadge > 0" type="warning">
+        <n-button
+          :class="{ 'active-button': currentView === 'Research' }"
+          dashed
+          circle
+          size="large"
+          @click="switchView('Research')"
+        >
+          <template #icon>
+            <component :is="renderIcon(ResearchIcon)" />
+          </template>
+        </n-button>
+      </n-badge>
       <span class="timeHeader" v-if="showTitle">
         Day {{ store.calendar.days }} 
         {{ String(store.calendar.hours).padStart(2, '0') }}:{{ String(Math.floor(store.calendar.minutes / 10) * 10).padStart(2, '0') }}
@@ -68,6 +74,10 @@
   const updateTitle = () => {
     showTitle.value = window.innerWidth > 730;
   };
+
+  const roomsBadge = ref(0);
+  const profileBadge = ref(0);
+  const researchBadge = ref(1);
 
   onMounted(() => {
     window.addEventListener('resize', updateTitle);

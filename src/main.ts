@@ -9,6 +9,7 @@ import 'vue3-blocks-tree/dist/vue3-blocks-tree.css';
 
 import { 
   create,
+  NBadge,
   NButton, 
   NCard, 
   NConfigProvider,
@@ -40,6 +41,7 @@ import {
 
 const naive = create({
   components: [
+    NBadge,
     NButton, 
     NCard, 
     NConfigProvider,
