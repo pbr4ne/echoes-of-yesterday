@@ -22,27 +22,51 @@ const initialState = (): GameState => ({
     phantom: { state: 'Unknown', name: 'P', isActive: false, activeRoom: null, activeDuration: null, activationStart: null },
   },
   pendingActions: [],
-  pendingResearch: [],
   log: [],
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
-  research: {
-    sustenance1: { visible: true, known: true, complete: true },
-    sustenance2: { visible: true, known: true, complete: true },
-    fitness1: { visible: true, known: true, complete: true },
-    fitness2: { visible: true, known: true, complete: false },
-    recreation1: { visible: true, known: false, complete: false },
-    recreation2: { visible: true, known: false, complete: false },
-    rest1: { visible: true, known: false, complete: false },
-    rest2: { visible: true, known: false, complete: false },
-    paranormal1: { visible: true, known: false, complete: false },
-    paranormal2: { visible: true, known: false, complete: false },
-    paranormal3: { visible: true, known: false, complete: false },
-    paranormal4: { visible: true, known: false, complete: false },
-    paranormal5: { visible: true, known: false, complete: false },
-    paranormal6: { visible: true, known: false, complete: false },
-    paranormal7: { visible: true, known: false, complete: false },
-    paranormal8: { visible: true, known: false, complete: false },
-  },
+  research: [
+    {
+      key: 'sustenance',
+      researches: [
+        { title: 'sustenance1', visible: true, known: true, complete: true },
+        { title: 'sustenance2', visible: true, known: true, complete: true },
+      ],
+    },
+    {
+      key: 'fitness',
+      researches: [
+        { title: 'fitness1', visible: true, known: true, complete: true },
+        { title: 'fitness2', visible: true, known: true, complete: false },
+      ],
+    },
+    {
+      key: 'recreation',
+      researches: [
+        { title: 'recreation1', visible: true, known: true, complete: false },
+        { title: 'recreation2', visible: true, known: false, complete: false },
+      ],
+    },
+    {
+      key: 'rest',
+      researches: [
+        { title: 'rest1', visible: true, known: false, complete: false },
+        { title: 'rest2', visible: true, known: false, complete: false },
+      ],
+    },
+    {
+      key: 'paranormal',
+      researches: [
+        { title: 'paranormal1', visible: true, known: false, complete: false },
+        { title: 'paranormal2', visible: true, known: false, complete: false },
+        { title: 'paranormal3', visible: true, known: false, complete: false },
+        { title: 'paranormal4', visible: true, known: false, complete: false },
+        { title: 'paranormal5', visible: true, known: false, complete: false },
+        { title: 'paranormal6', visible: true, known: false, complete: false },
+        { title: 'paranormal7', visible: true, known: false, complete: false },
+        { title: 'paranormal8', visible: true, known: false, complete: false },
+      ],
+    },
+  ],
 });
 
 export const useStore = defineStore('gameState', {
@@ -62,14 +86,6 @@ export const useStore = defineStore('gameState', {
         this.inventory[actionKey as keyof GameState['inventory']] = Math.min(Math.max(inventoryItem + amount, min), max);
       } else {
         console.warn(`Invalid actionKey: ${actionKey}`);
-      }
-    },
-
-    completeResearch(researchKey: string) {
-      if (researchKey in this.research) {
-        this.research[researchKey as keyof GameState['research']].complete = true;
-      } else {
-        console.warn(`Invalid researchKey: ${researchKey}`);
       }
     },
   
@@ -104,8 +120,14 @@ export const useStore = defineStore('gameState', {
 
     scheduleResearch(researchKey: string, duration = 10000) {
       const startTime = Date.now();
-      const research = { researchKey, startTime, duration };
-      this.pendingResearch.push(research);
+      const researchGroup = this.research.find(group => group.key === researchKey);
+
+      if (researchGroup) {
+        researchGroup.startTime = startTime;
+        researchGroup.duration = duration;
+      } else {
+        console.warn(`Invalid researchKey: ${researchKey}`);
+      }
     },
 
     listenForEvents() {

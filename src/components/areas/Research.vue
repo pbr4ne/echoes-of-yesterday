@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, onMounted, onBeforeUnmount } from 'vue';
+import { reactive, computed } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
 import { CombinedResearch, Research, ResearchState } from '../../utilities/types';
@@ -55,37 +55,42 @@ import { CombinedResearch, Research, ResearchState } from '../../utilities/types
 const store = useStore();
 
 const startResearch = (researchKey: string) => {
-  emitter.emit('researchStarted', { researchKey });
+  emitter.emit('researchStarted', { researchKey: researchKey.slice(0, -1) });
 };
 
 const researchArray: Research[] = [
   {
     title: 'Sustenance',
     key: 'sustenance1',
+    parent: 'sustenance',
     color: '#382736',
     children: [{ title: 'Cooking for one', key: 'sustenance2', color: '#382736' }]
   },
   {
     title: 'Fitness',
     key: 'fitness1',
+    parent: 'fitness',
     color: '#403530',
     children: [{ title: 'Tae-bo', key: 'fitness2', color: '#403530' }]
   },
   {
     title: 'Recreation',
     key: 'recreation1',
+    parent: 'recreation',
     color: '#2a3529',
     children: [{ title: '101 Jokes', key: 'recreation2', color: '#2a3529' }]
   },
   {
     title: 'Rest',
     key: 'rest1',
+    parent: 'rest',
     color: '#2b3044',
     children: [{ title: 'Meditation', key: 'rest2', color: '#2b3044' }]
   },
   {
     title: 'Paranormal',
     key: 'paranormal1',
+    parent: 'paranormal',
     color: '#1c1b24',
     children: [
       { title: 'Ghost hunting', key: 'paranormal2', color: '#1c1b24' },
@@ -110,23 +115,23 @@ const researchArray: Research[] = [
   }
 ];
 
-const enhanceResearchWithStoreData = (researchNodes: Research[]): CombinedResearch[] => {
-  return researchNodes
-    .map(node => {
-      const researchState: ResearchState = store.research[node.key as keyof typeof store.research];
-      
-      const enhancedNode: CombinedResearch = {
-        ...node,
-        visible: researchState?.visible,
-        known: researchState?.known,
-        complete: researchState?.complete,
-        
-        children: node.children ? enhanceResearchWithStoreData(node.children) : []
-      };
+const enhanceResearchWithStoreData = (researchNodes: Research[], parentKey?: string): CombinedResearch[] => {
+  return researchNodes.map(node => {
+    const parent = parentKey || node.parent;
+    const researchGroup = store.research.find(group => group.key === parent);
 
-      return enhancedNode;
-    })
-    .filter(node => node.visible);
+    const researchState = researchGroup?.researches.find(research => research.title === node.key) as ResearchState;
+
+    const enhancedNode: CombinedResearch = {
+      ...node,
+      visible: researchState?.visible ?? false,
+      known: researchState?.known ?? false,
+      complete: researchState?.complete ?? false,
+      children: node.children ? enhanceResearchWithStoreData(node.children, parent) : []
+    };
+
+    return enhancedNode;
+  }).filter(node => node.visible);
 };
 
 const enhancedResearchArray = computed(() => enhanceResearchWithStoreData(researchArray));
@@ -153,17 +158,6 @@ const buildTree = (node: CombinedResearch): any => ({
 
 let treeData = reactive(buildTree(rootNode));
 
-const handleResearchCompleted = (event: {researchKey: string} ) => {
-  //
-};
-
-onMounted(() => {
-  emitter.on('researchCompleted', handleResearchCompleted);
-});
-
-onBeforeUnmount(() => {
-  emitter.off('researchCompleted', handleResearchCompleted);
-});
 </script>
 
 <style>

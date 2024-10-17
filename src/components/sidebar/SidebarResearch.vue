@@ -1,23 +1,22 @@
 <template>
   <div v-for="(r, index) in research" :key="r.key" class="sidebar-item">
-      <n-icon size="24" class="sidebar-icon">
-        <component :is="r.icon" />
-      </n-icon>
-      <span style="padding-left: 10px;" v-if="!collapsed">
-        {{ r.label }}
-      </span>
-      <n-space style="margin-left:auto;"  v-if="!collapsed">
-        <n-progress type="circle" style="width: 30px;" :percentage="r.progress">
-          <span class="research-level">{{ r.level +1 }}</span>
-        </n-progress>
-      </n-space>
-    </div>
+    <n-icon size="24" class="sidebar-icon">
+      <component :is="r.icon" />
+    </n-icon>
+    <span style="padding-left: 10px;" v-if="!collapsed">
+      {{ r.label }}
+    </span>
+    <n-space style="margin-left:auto;" v-if="!collapsed">
+      <n-progress type="circle" style="width: 30px;" :percentage="r.progress">
+        <span class="research-level">{{ r.level }}</span>
+      </n-progress>
+    </n-space>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { computed } from 'vue';
 import { useStore } from '../../composables/useStore';
-import { emitter } from '../../utilities/emitter';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
@@ -35,63 +34,68 @@ const { collapsed } = defineProps({
 
 const gameStore = useStore();
 
-const getHighestLevel = (prefix: string) => {
-  let highestLevel = 0;
+const countCompletedResearches = (type: string): number => {
+  const researchGroup = gameStore.research.find(group => group.key === type);
 
-  for (let i = 1; i <= 10; i++) {
-    const key = `${prefix}${i}`;
-    const levelData = gameStore.research[key as keyof typeof gameStore.research];
-    if (levelData && levelData.complete) {
-      highestLevel = i;
-    }
+  if (researchGroup) {
+    return researchGroup.researches.filter(research => research.complete).length;
+  } else {
+    console.warn(`Research group with type ${type} not found.`);
+    return 0;
   }
-
-  return highestLevel;
 };
+const calculateResearchProgress = (key: string): number => {
+  const researchGroup = gameStore.research.find(group => group.key === key);
 
-const progressAmounts = ref<{ [researchKey: string]: number }>({});
+  if (researchGroup && researchGroup.startTime && researchGroup.duration) {
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - researchGroup.startTime;
+    const progress = (elapsedTime / researchGroup.duration) * 100;
 
-const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
-  const key = event.researchKey.slice(0, -1);
-  setTimeout(() => {
-    progressAmounts.value[key] = event.progress;
-  }, 5000);
-};
-
-const handleResearchCompleted = (event: {researchKey: string} ) => {
-  const key = event.researchKey.slice(0, -1);
-  setTimeout(() => {
-    progressAmounts.value[key] = 0;
-  }, 5000);
+    return Math.min(progress, 100);
+  } else {
+    console.warn(`No valid startTime or duration found for research group: ${key}`);
+    return 0;
+  }
 };
 
 const research = computed(() => [
-  { key: 'sustenance',  label: 'Sustenance',  icon: SustenanceIcon,     level: getHighestLevel('sustenance'), 
-    progress: progressAmounts.value['sustenance'] || 0,
+  {
+    key: 'sustenance',
+    label: 'Sustenance',
+    icon: SustenanceIcon,
+    level: countCompletedResearches('sustenance'),
+    progress: calculateResearchProgress('sustenance'),
   },
-  { key: 'fitness',     label: 'Fitness',     icon: FitnessIcon,        level: getHighestLevel('fitness'), 
-    progress: progressAmounts.value['fitness'] || 0,
+  {
+    key: 'fitness',
+    label: 'Fitness',
+    icon: FitnessIcon,
+    level: countCompletedResearches('fitness'),
+    progress: calculateResearchProgress('fitness'),
   },
-  { key: 'recreation',  label: 'Recreation',  icon: EntertainmentIcon,  level: getHighestLevel('recreation'),
-    progress: progressAmounts.value['recreation'] || 0,
-   },
-  { key: 'rest',        label: 'Rest',        icon: RestIcon,           level: getHighestLevel('rest'),
-    progress: progressAmounts.value['rest'] || 0,
-   },
-  { key: 'paranormal',  label: 'Paranormal',  icon: ParanormalIcon,     level: getHighestLevel('paranormal'),
-    progress: progressAmounts.value['paranormal'] || 0,
-   },
+  {
+    key: 'recreation',
+    label: 'Recreation',
+    icon: EntertainmentIcon,
+    level: countCompletedResearches('recreation'),
+    progress: calculateResearchProgress('recreation'),
+  },
+  {
+    key: 'rest',
+    label: 'Rest',
+    icon: RestIcon,
+    level: countCompletedResearches('rest'),
+    progress: calculateResearchProgress('rest'),
+  },
+  {
+    key: 'paranormal',
+    label: 'Paranormal',
+    icon: ParanormalIcon,
+    level: countCompletedResearches('paranormal'),
+    progress: calculateResearchProgress('paranormal'),
+  },
 ]);
-
-onMounted(() => {
-  emitter.on('researchProgressed', handleResearchProgressed);
-  emitter.on('researchCompleted', handleResearchCompleted);
-});
-
-onBeforeUnmount(() => {
-  emitter.off('researchProgressed', handleResearchProgressed);
-  emitter.off('researchCompleted', handleResearchCompleted);
-});
 </script>
 
 <style scoped>

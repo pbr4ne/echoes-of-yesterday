@@ -32,14 +32,9 @@ export interface LogEntry {
 export interface Research {
   title: string;
   key: string;
+  parent?: string;
   color: string;
   children?: Research[];
-}
-
-export interface ResearchState {
-  visible: boolean;
-  known: boolean;
-  complete: boolean;
 }
 
 export interface CombinedResearch {
@@ -50,6 +45,20 @@ export interface CombinedResearch {
   visible: boolean;
   known: boolean;
   complete: boolean;
+}
+
+export interface ResearchState {
+  title: string;
+  visible: boolean;
+  known: boolean;
+  complete: boolean;
+}
+
+export interface ResearchGroup {
+  key: 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
+  researches: ResearchState[];
+  startTime?: number;
+  duration?: number;
 }
 
 export interface GameState {
@@ -73,24 +82,6 @@ export interface GameState {
   };
   calendar: Calendar;
   pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
-  pendingResearch: { researchKey: string; startTime: number; duration: number }[];
   log: LogEntry[];
-  research: {
-    sustenance1: ResearchState;
-    sustenance2: ResearchState;
-    fitness1: ResearchState;
-    fitness2: ResearchState;
-    recreation1: ResearchState;
-    recreation2: ResearchState;
-    rest1: ResearchState;
-    rest2: ResearchState;
-    paranormal1: ResearchState;
-    paranormal2: ResearchState;
-    paranormal3: ResearchState;
-    paranormal4: ResearchState;
-    paranormal5: ResearchState;
-    paranormal6: ResearchState;
-    paranormal7: ResearchState;
-    paranormal8: ResearchState;
-  };
+  research: ResearchGroup[];
 }

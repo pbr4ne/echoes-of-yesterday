@@ -38,19 +38,6 @@ export function startGameLoop() {
         return true;
       });
 
-      store.pendingResearch = store.pendingResearch.filter(research => {
-        const elapsed = now - research.startTime;
-        const progress = Math.min((elapsed / research.duration) * 100, 100);
-        emitter.emit('researchProgressed', { researchKey: research.researchKey, progress });
-
-        if (progress >= 100) {
-          store.completeResearch(research.researchKey);
-          emitter.emit('researchCompleted', { researchKey: research.researchKey });
-          return false;
-        }
-        return true;
-      });
-
       Object.keys(store.stats).forEach(statKey => {
         const key = statKey as keyof typeof store.stats;
         const stat = store.stats[key];
