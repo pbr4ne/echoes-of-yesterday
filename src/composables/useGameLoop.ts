@@ -43,7 +43,6 @@ export function startGameLoop() {
         const progress = Math.min((elapsed / research.duration) * 100, 100);
         emitter.emit('researchProgressed', { researchKey: research.researchKey, progress });
 
-        console.log(progress);
         if (progress >= 100) {
           store.completeResearch(research.researchKey);
           emitter.emit('researchCompleted', { researchKey: research.researchKey });

@@ -7,25 +7,23 @@
         {{ r.label }}
       </span>
       <n-space style="margin-left:auto;"  v-if="!collapsed">
-        <n-button circle size="small" class="research-level">
-          {{ r.progress }}
-        </n-button>
-        <n-button circle size="small" class="research-progress">
-          &nbsp;
-        </n-button>
+        <n-progress type="circle" style="width: 30px;" :percentage="r.progress">
+          <span class="research-level">{{ r.level +1 }}</span>
+        </n-progress>
       </n-space>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
+import { emitter } from '../../utilities/emitter';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
-  BookLetter24Regular as EntertainmentIcon,
-  BookStar24Regular as RestIcon,
-  BookQuestionMarkRtl24Regular as ParanormalIcon,
+  BookStar24Regular as EntertainmentIcon,
+  BookClock24Regular as RestIcon,
+  BookCompass24Regular as ParanormalIcon,
 } from '@vicons/fluent';
 
 const { collapsed } = defineProps({
@@ -51,13 +49,49 @@ const getHighestLevel = (prefix: string) => {
   return highestLevel;
 };
 
+const progressAmounts = ref<{ [researchKey: string]: number }>({});
+
+const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
+  const key = event.researchKey.slice(0, -1);
+  setTimeout(() => {
+    progressAmounts.value[key] = event.progress;
+  }, 5000);
+};
+
+const handleResearchCompleted = (event: {researchKey: string} ) => {
+  const key = event.researchKey.slice(0, -1);
+  setTimeout(() => {
+    progressAmounts.value[key] = 0;
+  }, 5000);
+};
+
 const research = computed(() => [
-  { label: 'Sustenance', key: 'sustenance', icon: SustenanceIcon, progress: getHighestLevel('sustenance') },
-  { label: 'Fitness', key: 'fitness', icon: FitnessIcon, progress: getHighestLevel('fitness') },
-  { label: 'Recreation', key: 'recreation', icon: EntertainmentIcon, progress: getHighestLevel('recreation') },
-  { label: 'Rest', key: 'rest', icon: RestIcon, progress: getHighestLevel('rest') },
-  { label: 'Paranormal', key: 'paranormal', icon: ParanormalIcon, progress: getHighestLevel('paranormal') },
+  { key: 'sustenance',  label: 'Sustenance',  icon: SustenanceIcon,     level: getHighestLevel('sustenance'), 
+    progress: progressAmounts.value['sustenance'] || 0,
+  },
+  { key: 'fitness',     label: 'Fitness',     icon: FitnessIcon,        level: getHighestLevel('fitness'), 
+    progress: progressAmounts.value['fitness'] || 0,
+  },
+  { key: 'recreation',  label: 'Recreation',  icon: EntertainmentIcon,  level: getHighestLevel('recreation'),
+    progress: progressAmounts.value['recreation'] || 0,
+   },
+  { key: 'rest',        label: 'Rest',        icon: RestIcon,           level: getHighestLevel('rest'),
+    progress: progressAmounts.value['rest'] || 0,
+   },
+  { key: 'paranormal',  label: 'Paranormal',  icon: ParanormalIcon,     level: getHighestLevel('paranormal'),
+    progress: progressAmounts.value['paranormal'] || 0,
+   },
 ]);
+
+onMounted(() => {
+  emitter.on('researchProgressed', handleResearchProgressed);
+  emitter.on('researchCompleted', handleResearchCompleted);
+});
+
+onBeforeUnmount(() => {
+  emitter.off('researchProgressed', handleResearchProgressed);
+  emitter.off('researchCompleted', handleResearchCompleted);
+});
 </script>
 
 <style scoped>
@@ -76,9 +110,5 @@ const research = computed(() => [
   font-family: 'Marcellus', sans-serif;
   font-weight: 400;
   font-size: 16px;
-}
-
-.research-progress {
-  font-size: 12px;
 }
 </style>
