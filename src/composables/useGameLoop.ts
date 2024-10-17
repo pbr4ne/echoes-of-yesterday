@@ -38,6 +38,21 @@ export function startGameLoop() {
         return true;
       });
 
+      store.research.forEach(researchGroup => {
+        researchGroup.researches.forEach(research => {
+            if (research.startTime && research.duration) {
+              const elapsed = now - research.startTime;
+              const progress = Math.min((elapsed / research.duration) * 100, 100);
+              emitter.emit('researchProgressed', { researchKey: research.key, progress });
+
+              if (progress >= 100) {
+                store.completeResearch(research.key);
+                emitter.emit('researchCompleted', { researchKey: research.key });
+              }
+            }
+        });
+      });
+
       Object.keys(store.stats).forEach(statKey => {
         const key = statKey as keyof typeof store.stats;
         const stat = store.stats[key];

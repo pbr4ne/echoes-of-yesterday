@@ -29,17 +29,17 @@ export interface LogEntry {
   room: string;
 }
 
-export interface Research {
-  title: string;
+export interface StaticResearch {
   key: string;
+  title: string;
   parent?: string;
   color: string;
-  children?: Research[];
+  children?: StaticResearch[];
 }
 
 export interface CombinedResearch {
-  title: string;
   key: string;
+  title: string;
   color: string;
   children: CombinedResearch[];
   visible: boolean;
@@ -48,17 +48,17 @@ export interface CombinedResearch {
 }
 
 export interface ResearchState {
-  title: string;
+  key: string;
   visible: boolean;
   known: boolean;
   complete: boolean;
+  startTime?: number;
+  duration?: number;
 }
 
 export interface ResearchGroup {
   key: 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
   researches: ResearchState[];
-  startTime?: number;
-  duration?: number;
 }
 
 export interface GameState {

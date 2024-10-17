@@ -5,18 +5,13 @@
       :horizontal="false" 
       :collapsable="true"
     >
-      <template #node="{data,context}">
+      <template #node="{data, context}">
         <n-tooltip placement="bottom" trigger="hover" style="max-width: 100px;">
           <template #trigger>
-            <n-card 
+            <n-button 
               size="small" 
-              :style="{
-                width: '125px', 
-                height: '75px', 
-                backgroundColor: data.complete ? data.color : '#101014', 
-                color: data.complete ? '#d5d5d6' : data.color,
-                cursor: 'pointer',
-              }"
+              round
+              :style="getButtonStyle(data)"
               @click="startResearch(data.key)"
             >
               <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
@@ -30,7 +25,7 @@
                   bw bwa
                 </span>
               </div>
-            </n-card>
+            </n-button>
           </template>
           <span v-if="data.known">
             <span style="font-weight: bold;">{{ data.label }}</span><br />
@@ -47,80 +42,21 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
-import { CombinedResearch, Research, ResearchState } from '../../utilities/types';
+import { researchArray } from '../../utilities/staticData';
+import { CombinedResearch, StaticResearch, ResearchState } from '../../utilities/types';
 
 const store = useStore();
+const progressStyles = ref<{ [researchKey: string]: string }>({});
 
-const startResearch = (researchKey: string) => {
-  emitter.emit('researchStarted', { researchKey: researchKey.slice(0, -1) });
-};
-
-const researchArray: Research[] = [
-  {
-    title: 'Sustenance',
-    key: 'sustenance1',
-    parent: 'sustenance',
-    color: '#382736',
-    children: [{ title: 'Cooking for one', key: 'sustenance2', color: '#382736' }]
-  },
-  {
-    title: 'Fitness',
-    key: 'fitness1',
-    parent: 'fitness',
-    color: '#403530',
-    children: [{ title: 'Tae-bo', key: 'fitness2', color: '#403530' }]
-  },
-  {
-    title: 'Recreation',
-    key: 'recreation1',
-    parent: 'recreation',
-    color: '#2a3529',
-    children: [{ title: '101 Jokes', key: 'recreation2', color: '#2a3529' }]
-  },
-  {
-    title: 'Rest',
-    key: 'rest1',
-    parent: 'rest',
-    color: '#2b3044',
-    children: [{ title: 'Meditation', key: 'rest2', color: '#2b3044' }]
-  },
-  {
-    title: 'Paranormal',
-    key: 'paranormal1',
-    parent: 'paranormal',
-    color: '#1c1b24',
-    children: [
-      { title: 'Ghost hunting', key: 'paranormal2', color: '#1c1b24' },
-      {
-        title: 'Spiritualism',
-        key: 'paranormal3',
-        color: '#1c1b24',
-        children: [
-          {
-            title: 'EMF reading',
-            key: 'paranormal4',
-            color: '#343237',
-            children: [
-              { title: 'Orbs', key: 'paranormal5', color: '#343237', children: [{ title: 'Test', key: 'paranormal6', color: '#343237' }] },
-              { title: 'EVP', key: 'paranormal7', color: '#343237' }
-            ]
-          },
-          { title: 'Rituals', key: 'paranormal8', color: '#343237' }
-        ]
-      }
-    ]
-  }
-];
-
-const enhanceResearchWithStoreData = (researchNodes: Research[], parentKey?: string): CombinedResearch[] => {
+const enhanceResearchWithStoreData = (researchNodes: StaticResearch[], parentKey?: string): CombinedResearch[] => {
   return researchNodes.map(node => {
     const parent = parentKey || node.parent;
     const researchGroup = store.research.find(group => group.key === parent);
 
-    const researchState = researchGroup?.researches.find(research => research.title === node.key) as ResearchState;
+    const researchState = researchGroup?.researches.find(research => research.key === node.key) as ResearchState;
 
     const enhancedNode: CombinedResearch = {
       ...node,
@@ -158,6 +94,42 @@ const buildTree = (node: CombinedResearch): any => ({
 
 let treeData = reactive(buildTree(rootNode));
 
+const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
+  console.log(event);
+  progressStyles.value[event.researchKey] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
+};
+
+const handleResearchCompleted = (event: {researchKey: string} ) => {
+  progressStyles.value[event.researchKey] = '';
+  
+
+};
+
+const startResearch = (researchKey: string) => {
+  emitter.emit('researchStarted', { researchKey });
+};
+
+onMounted(() => {
+  emitter.on('researchProgressed', handleResearchProgressed);
+  emitter.on('researchCompleted', handleResearchCompleted);
+});
+
+onBeforeUnmount(() => {
+  emitter.off('researchProgressed', handleResearchProgressed);
+  emitter.off('researchCompleted', handleResearchCompleted);
+});
+
+const getButtonStyle = (data: any) => {
+  return {
+    width: '125px', 
+    height: '75px', 
+    backgroundColor: data.complete ? data.color : '#101014', 
+    color: data.complete ? '#d5d5d6' : data.color,
+    cursor: 'pointer',
+    backgroundImage: progressStyles.value[data.key],
+    transition: 'background 0.3s',
+  };
+};
 </script>
 
 <style>

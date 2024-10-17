@@ -28,42 +28,42 @@ const initialState = (): GameState => ({
     {
       key: 'sustenance',
       researches: [
-        { title: 'sustenance1', visible: true, known: true, complete: true },
-        { title: 'sustenance2', visible: true, known: true, complete: true },
+        { key: 'sustenance1', visible: true, known: true, complete: true },
+        { key: 'sustenance2', visible: true, known: true, complete: true },
       ],
     },
     {
       key: 'fitness',
       researches: [
-        { title: 'fitness1', visible: true, known: true, complete: true },
-        { title: 'fitness2', visible: true, known: true, complete: false },
+        { key: 'fitness1', visible: true, known: true, complete: true },
+        { key: 'fitness2', visible: true, known: true, complete: false },
       ],
     },
     {
       key: 'recreation',
       researches: [
-        { title: 'recreation1', visible: true, known: true, complete: false },
-        { title: 'recreation2', visible: true, known: false, complete: false },
+        { key: 'recreation1', visible: true, known: true, complete: false },
+        { key: 'recreation2', visible: true, known: false, complete: false },
       ],
     },
     {
       key: 'rest',
       researches: [
-        { title: 'rest1', visible: true, known: false, complete: false },
-        { title: 'rest2', visible: true, known: false, complete: false },
+        { key: 'rest1', visible: true, known: false, complete: false },
+        { key: 'rest2', visible: true, known: false, complete: false },
       ],
     },
     {
       key: 'paranormal',
       researches: [
-        { title: 'paranormal1', visible: true, known: false, complete: false },
-        { title: 'paranormal2', visible: true, known: false, complete: false },
-        { title: 'paranormal3', visible: true, known: false, complete: false },
-        { title: 'paranormal4', visible: true, known: false, complete: false },
-        { title: 'paranormal5', visible: true, known: false, complete: false },
-        { title: 'paranormal6', visible: true, known: false, complete: false },
-        { title: 'paranormal7', visible: true, known: false, complete: false },
-        { title: 'paranormal8', visible: true, known: false, complete: false },
+        { key: 'paranormal1', visible: true, known: false, complete: false },
+        { key: 'paranormal2', visible: true, known: false, complete: false },
+        { key: 'paranormal3', visible: true, known: false, complete: false },
+        { key: 'paranormal4', visible: true, known: false, complete: false },
+        { key: 'paranormal5', visible: true, known: false, complete: false },
+        { key: 'paranormal6', visible: true, known: false, complete: false },
+        { key: 'paranormal7', visible: true, known: false, complete: false },
+        { key: 'paranormal8', visible: true, known: false, complete: false },
       ],
     },
   ],
@@ -120,14 +120,24 @@ export const useStore = defineStore('gameState', {
 
     scheduleResearch(researchKey: string, duration = 10000) {
       const startTime = Date.now();
-      const researchGroup = this.research.find(group => group.key === researchKey);
+      this.research.forEach(researchGroup => {
+        const research = researchGroup.researches.find(r => r.key === researchKey);
+        if (research) {
+          research.startTime = startTime;
+          research.duration = duration;
+        }
+      });
+    },
 
-      if (researchGroup) {
-        researchGroup.startTime = startTime;
-        researchGroup.duration = duration;
-      } else {
-        console.warn(`Invalid researchKey: ${researchKey}`);
-      }
+    completeResearch(researchKey: string) {
+       this.research.forEach(researchGroup => {
+        const research = researchGroup.researches.find(r => r.key === researchKey);
+        if (research) {
+          research.complete = true;
+          research.startTime = undefined;
+          research.duration = undefined;
+        }
+      });
     },
 
     listenForEvents() {
