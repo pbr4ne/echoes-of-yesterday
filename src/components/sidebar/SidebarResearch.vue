@@ -54,7 +54,6 @@ const calculateResearchProgress = (key: string): number => {
 
     return Math.min(progress, 100);
   } else {
-    console.warn(`No valid startTime or duration found for research group: ${key}`);
     return 0;
   }
 };
