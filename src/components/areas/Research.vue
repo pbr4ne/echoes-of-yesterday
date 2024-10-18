@@ -95,9 +95,28 @@ const buildTree = (node: CombinedResearch): any => ({
 let treeData = reactive(buildTree(rootNode));
 
 const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
-  console.log(event);
-  progressStyles.value[event.researchKey] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
+  const researchNode = findResearchNode(treeData, event.researchKey);
+  
+  if (researchNode) {
+    progressStyles.value[event.researchKey] = `linear-gradient(90deg, ${researchNode.color} ${event.progress}%, transparent 0%)`;
+  }
 };
+
+const findResearchNode = (node: any, researchKey: string): any | null => {
+  if (node.key === researchKey) {
+    return node;
+  }
+
+  if (node.children) {
+    for (const child of node.children) {
+      const found = findResearchNode(child, researchKey);
+      if (found) return found;
+    }
+  }
+
+  return null;
+};
+
 
 const handleResearchCompleted = (event: {researchKey: string} ) => {
   updateTreeData(event.researchKey);
