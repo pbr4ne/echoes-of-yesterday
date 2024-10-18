@@ -15,8 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
+import { emitter } from '../../utilities/emitter';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
@@ -24,6 +25,14 @@ import {
   BookClock24Regular as RestIcon,
   BookCompass24Regular as ParanormalIcon,
 } from '@vicons/fluent';
+
+interface ResearchItem {
+  key: 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
+  label: string;
+  icon: any;
+  level: number;
+  progress: number;
+}
 
 const { collapsed } = defineProps({
   collapsed: {
@@ -34,67 +43,58 @@ const { collapsed } = defineProps({
 
 const gameStore = useStore();
 
-const countCompletedResearches = (type: string): number => {
-  const researchGroup = gameStore.research.find(group => group.key === type);
+const research = ref<ResearchItem[]>([]);
 
-  if (researchGroup) {
-    return researchGroup.researches.filter(research => research.complete).length;
-  } else {
-    console.warn(`Research group with type ${type} not found.`);
-    return 0;
+const updateResearchProgress = () => {
+  research.value = gameStore.research.map(group => {
+    const activeResearch = group.researches.find(research => research.startTime && research.duration);
+  
+    let progress = 0;
+    if (activeResearch && activeResearch.startTime && activeResearch.duration) {
+      const currentTime = Date.now();
+      const elapsedTime = currentTime - activeResearch.startTime;
+      progress = (elapsedTime / activeResearch.duration) * 100;
+    }
+
+    return {
+      key: group.key,
+      label: group.key.charAt(0).toUpperCase() + group.key.slice(1),
+      icon: getIconByGroup(group.key),
+      level: group.researches.filter(research => research.complete).length,
+      progress: Math.min(progress, 100),
+    };
+  });
+};
+
+const getIconByGroup = (key: string) => {
+  switch (key) {
+    case 'sustenance': return SustenanceIcon;
+    case 'fitness': return FitnessIcon;
+    case 'recreation': return EntertainmentIcon;
+    case 'rest': return RestIcon;
+    case 'paranormal': return ParanormalIcon;
+    default: return null;
   }
 };
-const calculateResearchProgress = (key: string): number => {
-  const researchGroup = gameStore.research.find(group => group.key === key);
 
-  if (researchGroup && researchGroup.startTime && researchGroup.duration) {
-    const currentTime = Date.now();
-    const elapsedTime = currentTime - researchGroup.startTime;
-    const progress = (elapsedTime / researchGroup.duration) * 100;
-
-    return Math.min(progress, 100);
-  } else {
-    return 0;
-  }
+const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
+  updateResearchProgress();
 };
 
-const research = computed(() => [
-  {
-    key: 'sustenance',
-    label: 'Sustenance',
-    icon: SustenanceIcon,
-    level: countCompletedResearches('sustenance'),
-    progress: calculateResearchProgress('sustenance'),
-  },
-  {
-    key: 'fitness',
-    label: 'Fitness',
-    icon: FitnessIcon,
-    level: countCompletedResearches('fitness'),
-    progress: calculateResearchProgress('fitness'),
-  },
-  {
-    key: 'recreation',
-    label: 'Recreation',
-    icon: EntertainmentIcon,
-    level: countCompletedResearches('recreation'),
-    progress: calculateResearchProgress('recreation'),
-  },
-  {
-    key: 'rest',
-    label: 'Rest',
-    icon: RestIcon,
-    level: countCompletedResearches('rest'),
-    progress: calculateResearchProgress('rest'),
-  },
-  {
-    key: 'paranormal',
-    label: 'Paranormal',
-    icon: ParanormalIcon,
-    level: countCompletedResearches('paranormal'),
-    progress: calculateResearchProgress('paranormal'),
-  },
-]);
+const handleResearchCompleted = (event: { researchKey: string }) => {
+  updateResearchProgress();
+};
+
+onMounted(() => {
+  emitter.on('researchProgressed', handleResearchProgressed);
+  emitter.on('researchCompleted', handleResearchCompleted);
+  updateResearchProgress();
+});
+
+onBeforeUnmount(() => {
+  emitter.off('researchProgressed', handleResearchProgressed);
+  emitter.off('researchCompleted', handleResearchCompleted);
+});
 </script>
 
 <style scoped>
