@@ -7,7 +7,12 @@
       {{ r.label }}
     </span>
     <n-space style="margin-left:auto;" v-if="!collapsed">
-      <n-progress type="circle" style="width: 30px;" :percentage="r.progress">
+      <n-progress 
+        type="circle" 
+        style="width: 30px;" 
+        :percentage="r.progress" 
+        :color="r.color"
+      >
         <span class="research-level">{{ r.level }}</span>
       </n-progress>
     </n-space>
@@ -18,6 +23,7 @@
 import { markRaw, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
+import { researchArray } from '../../utilities/staticData';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
@@ -32,6 +38,7 @@ interface ResearchItem {
   icon: any;
   level: number;
   progress: number;
+  color: string; 
 }
 
 const { collapsed } = defineProps({
@@ -48,7 +55,7 @@ const research = ref<ResearchItem[]>([]);
 const updateResearchProgress = () => {
   research.value = gameStore.research.map(group => {
     const activeResearch = group.researches.find(research => research.startTime && research.duration);
-  
+
     let progress = 0;
     if (activeResearch && activeResearch.startTime && activeResearch.duration) {
       const currentTime = Date.now();
@@ -56,12 +63,16 @@ const updateResearchProgress = () => {
       progress = (elapsedTime / activeResearch.duration) * 100;
     }
 
+    const researchData = researchArray.find(item => item.parent === group.key);
+    const color = researchData?.colorLight ?? '#fff';
+
     return {
       key: group.key,
       label: group.key.charAt(0).toUpperCase() + group.key.slice(1),
       icon: getIconByGroup(group.key),
       level: group.researches.filter(research => research.complete).length,
       progress: Math.min(progress, 100),
+      color,
     };
   });
 };

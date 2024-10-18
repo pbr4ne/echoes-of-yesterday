@@ -33,14 +33,16 @@ export interface StaticResearch {
   key: string;
   title: string;
   parent?: string;
-  color: string;
+  colorDark: string;
+  colorLight?: string;
   children?: StaticResearch[];
 }
 
 export interface CombinedResearch {
   key: string;
   title: string;
-  color: string;
+  colorDark: string;
+  colorLight?: string;
   children: CombinedResearch[];
   visible: boolean;
   known: boolean;

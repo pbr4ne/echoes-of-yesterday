@@ -78,7 +78,7 @@ const enhancedResearchArray = computed(() => enhanceResearchWithStoreData(resear
 const rootNode: CombinedResearch = {
   title: 'Research',
   key: 'research',
-  color: '#2b2f30',
+  colorDark: '#2b2f30',
   complete: true,
   known: true,
   visible: true,
@@ -88,7 +88,7 @@ const rootNode: CombinedResearch = {
 const buildTree = (node: CombinedResearch): any => ({
   label: node.title,
   key: node.key,
-  color: node.color,
+  color: node.colorDark,
   complete: node.complete,
   known: node.known,
   expand: true,
