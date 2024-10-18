@@ -5,23 +5,24 @@
       :horizontal="false" 
       :collapsable="true"
     >
-      <template #node="{data, context}">
+      <template #node="{ data }">
         <n-tooltip placement="bottom" trigger="hover" style="max-width: 100px;">
           <template #trigger>
             <n-button 
               size="small" 
               round
-              color="#d5d5d6"
+              ghost
+              color="#d5d5d69D"
               :dashed="!data.known"
               :style="getButtonStyle(data)"
               @click="startResearch(data)"
             >
-              <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+              <div class="button-content">
                 <span v-if="data.known">
                   {{ data.label }}
                 </span>
-                <span v-else style="font-family: 'Redacted Script', cursive; font-weight: 100; font-size: 26px;">
-                  {{ data.label.length > 8 ? data.label.slice(0, 8) : data.label }}
+                <span v-else class="redacted-label">
+                  {{ truncatedLabel(data.label) }}
                 </span>
               </div>
             </n-button>
@@ -53,22 +54,23 @@ const progressStyles = ref<{ [researchKey: string]: string }>({});
 const { hexToRgba } = useColorUtils();
 
 const enhanceResearchWithStoreData = (researchNodes: StaticResearch[], parentKey?: string): CombinedResearch[] => {
-  return researchNodes.map(node => {
-    const parent = parentKey || node.parent;
-    const researchGroup = store.research.find(group => group.key === parent);
+  return researchNodes
+    .map(node => {
+      const parent = parentKey || node.parent;
+      const researchGroup = store.research.find(group => group.key === parent);
+      const researchState = researchGroup?.researches.find(research => research.key === node.key) as ResearchState;
 
-    const researchState = researchGroup?.researches.find(research => research.key === node.key) as ResearchState;
+      const enhancedNode: CombinedResearch = {
+        ...node,
+        visible: researchState?.visible ?? false,
+        known: researchState?.known ?? false,
+        complete: researchState?.complete ?? false,
+        children: node.children ? enhanceResearchWithStoreData(node.children, parent) : []
+      };
 
-    const enhancedNode: CombinedResearch = {
-      ...node,
-      visible: researchState?.visible ?? false,
-      known: researchState?.known ?? false,
-      complete: researchState?.complete ?? false,
-      children: node.children ? enhanceResearchWithStoreData(node.children, parent) : []
-    };
-
-    return enhancedNode;
-  }).filter(node => node.visible);
+      return enhancedNode;
+    })
+    .filter(node => node.visible);
 };
 
 const enhancedResearchArray = computed(() => enhanceResearchWithStoreData(researchArray));
@@ -95,6 +97,10 @@ const buildTree = (node: CombinedResearch): any => ({
 
 let treeData = reactive(buildTree(rootNode));
 
+const truncatedLabel = (label: string) => {
+  return label.length > 8 ? label.slice(0, 8) : label;
+};
+
 const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
   const researchNode = findResearchNode(treeData, event.researchKey);
   
@@ -107,14 +113,10 @@ const findResearchNode = (node: any, researchKey: string): any | null => {
   if (node.key === researchKey) {
     return node;
   }
-
-  if (node.children) {
-    for (const child of node.children) {
-      const found = findResearchNode(child, researchKey);
-      if (found) return found;
-    }
+  for (const child of node.children ?? []) {
+    const found = findResearchNode(child, researchKey);
+    if (found) return found;
   }
-
   return null;
 };
 
@@ -128,11 +130,8 @@ const updateTreeData = (researchKey: string) => {
     if (node.key === researchKey) {
       node.complete = true;
     }
-    if (node.children) {
-      node.children.forEach(updateNode);
-    }
+    node.children?.forEach(updateNode);
   };
-
   updateNode(treeData);
 };
 
@@ -164,7 +163,6 @@ const getButtonStyle = (data: any) => {
     transition: 'background 0.3s',
   };
 };
-
 </script>
 
 <style>
@@ -176,5 +174,17 @@ const getButtonStyle = (data: any) => {
   }
   .org-tree-node-btn {
     background-color: rgb(16, 16, 20) !important;
+  }
+  .button-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .redacted-label {
+    font-family: 'Redacted Script', cursive;
+    font-weight: 100;
+    font-size: 26px;
   }
 </style>
