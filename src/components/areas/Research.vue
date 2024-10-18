@@ -11,6 +11,8 @@
             <n-button 
               size="small" 
               round
+              color="#d5d5d6"
+              :dashed="!data.known"
               :style="getButtonStyle(data)"
               @click="startResearch(data)"
             >
