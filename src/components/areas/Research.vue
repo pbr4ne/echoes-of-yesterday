@@ -100,9 +100,21 @@ const handleResearchProgressed = (event: { researchKey: string; progress: number
 };
 
 const handleResearchCompleted = (event: {researchKey: string} ) => {
+  updateTreeData(event.researchKey);
   progressStyles.value[event.researchKey] = '';
-  
+};
 
+const updateTreeData = (researchKey: string) => {
+  const updateNode = (node: any) => {
+    if (node.key === researchKey) {
+      node.complete = true;
+    }
+    if (node.children) {
+      node.children.forEach(updateNode);
+    }
+  };
+
+  updateNode(treeData);
 };
 
 const startResearch = (researchKey: string) => {
