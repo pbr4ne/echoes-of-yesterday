@@ -12,17 +12,14 @@
               size="small" 
               round
               :style="getButtonStyle(data)"
-              @click="startResearch(data.key)"
+              @click="startResearch(data)"
             >
               <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
                 <span v-if="data.known">
                   {{ data.label }}
                 </span>
-                <span v-else-if="data.label.length % 2" style="font-family: 'Redacted Script', cursive; font-size: 26px;">
-                  bwa bw
-                </span>
-                <span v-else style="font-family: 'Redacted Script', cursive; font-size: 26px;">
-                  bw bwa
+                <span v-else style="font-family: 'Redacted Script', cursive; font-weight: 100; font-size: 26px;">
+                  {{ data.label.length > 8 ? data.label.slice(0, 8) : data.label }}
                 </span>
               </div>
             </n-button>
@@ -43,6 +40,7 @@
 
 <script setup lang="ts">
 import { reactive, computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { useColorUtils } from '../../composables/useColorUtils';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
 import { researchArray } from '../../utilities/staticData';
@@ -50,6 +48,7 @@ import { CombinedResearch, StaticResearch, ResearchState } from '../../utilities
 
 const store = useStore();
 const progressStyles = ref<{ [researchKey: string]: string }>({});
+const { hexToRgba } = useColorUtils();
 
 const enhanceResearchWithStoreData = (researchNodes: StaticResearch[], parentKey?: string): CombinedResearch[] => {
   return researchNodes.map(node => {
@@ -98,7 +97,7 @@ const handleResearchProgressed = (event: { researchKey: string; progress: number
   const researchNode = findResearchNode(treeData, event.researchKey);
   
   if (researchNode) {
-    progressStyles.value[event.researchKey] = `linear-gradient(90deg, ${researchNode.color} ${event.progress}%, transparent 0%)`;
+    progressStyles.value[event.researchKey] = `linear-gradient(45deg, ${researchNode.color} ${event.progress}%, transparent 0%)`;
   }
 };
 
@@ -116,7 +115,6 @@ const findResearchNode = (node: any, researchKey: string): any | null => {
 
   return null;
 };
-
 
 const handleResearchCompleted = (event: {researchKey: string} ) => {
   updateTreeData(event.researchKey);
@@ -136,8 +134,10 @@ const updateTreeData = (researchKey: string) => {
   updateNode(treeData);
 };
 
-const startResearch = (researchKey: string) => {
-  emitter.emit('researchStarted', { researchKey });
+const startResearch = (data: CombinedResearch) => {
+  if (!data.complete && data.known) {
+    emitter.emit('researchStarted', { researchKey: data.key });
+  }
 };
 
 onMounted(() => {
@@ -151,16 +151,18 @@ onBeforeUnmount(() => {
 });
 
 const getButtonStyle = (data: any) => {
+  const transparentColor = hexToRgba(data.color, 0.2);
   return {
     width: '125px', 
     height: '75px', 
-    backgroundColor: data.complete ? data.color : '#101014', 
-    color: data.complete ? '#d5d5d6' : data.color,
+    backgroundColor: data.complete ? data.color : transparentColor, 
+    color: '#d5d5d6',
     cursor: 'pointer',
     backgroundImage: progressStyles.value[data.key],
     transition: 'background 0.3s',
   };
 };
+
 </script>
 
 <style>
