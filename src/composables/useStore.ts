@@ -152,6 +152,7 @@ export const useStore = defineStore('gameState', {
 
     reset() {
       Object.assign(this.$state, initialState());
+      localStorage.removeItem(this.$id);
     },
 
     clearLog() {

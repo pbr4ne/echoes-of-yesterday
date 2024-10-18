@@ -15,4 +15,8 @@ export const piniaPlugin = (context: PiniaPluginContext) => {
     console.log('saved to localStorage');
     emitter.emit('autosaved', { timestamp: new Date(), storeId: store.$id });
   }, saveInterval);
+
+  store.clearLocalStorage = () => {
+    localStorage.removeItem(store.$id);
+  };
 };

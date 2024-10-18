@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { markRaw, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
 import { 
@@ -68,11 +68,11 @@ const updateResearchProgress = () => {
 
 const getIconByGroup = (key: string) => {
   switch (key) {
-    case 'sustenance': return SustenanceIcon;
-    case 'fitness': return FitnessIcon;
-    case 'recreation': return EntertainmentIcon;
-    case 'rest': return RestIcon;
-    case 'paranormal': return ParanormalIcon;
+    case 'sustenance': return markRaw(SustenanceIcon);
+    case 'fitness': return markRaw(FitnessIcon);
+    case 'recreation': return markRaw(EntertainmentIcon);
+    case 'rest': return markRaw(RestIcon);
+    case 'paranormal': return markRaw(ParanormalIcon);
     default: return null;
   }
 };
