@@ -53,9 +53,9 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, onBeforeUnmount } from 'vue';
+  import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
   import { View } from '../utilities/types';
-  import { useStore } from '../composables/useStore'
+  import { useStore } from '../composables/useStore';
   import { emitter } from '../utilities/emitter';
   import { Door as RoomsIcon, UserSearch as ProfileIcon } from '@vicons/tabler';
   import { AccountTreeOutlined as ResearchIcon } from '@vicons/material';
@@ -64,7 +64,7 @@
 
   const showTitle = ref(window.innerWidth > 730);
   const store = useStore();
-  const currentView = ref<View>('Rooms');
+  const currentView = ref<View>('Research');
 
   const switchView = (view: View) => {
     currentView.value = view;
@@ -77,7 +77,20 @@
 
   const roomsBadge = ref(0);
   const profileBadge = ref(0);
-  const researchBadge = ref(1);
+
+  const hasPendingResearches = computed(() => {
+    return store.research.some(group =>
+      group.researches.some(
+        research =>
+          !research.complete &&
+          research.startTime === undefined &&
+          research.visible &&
+          research.known
+      )
+    );
+  });
+
+  const researchBadge = computed(() => (hasPendingResearches.value ? 1 : 0));
 
   onMounted(() => {
     window.addEventListener('resize', updateTitle);
