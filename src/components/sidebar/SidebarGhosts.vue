@@ -15,9 +15,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from '../../composables/useStore';
-import { ChartBubble as OrbIcon, Atom2 as SpiritIcon } from '@vicons/tabler';
-import { WindySnow as WraithIcon, Calibrate as PoltergeistIcon } from '@vicons/carbon';
-import { AutoAwesomeOutlined as ApparitionIcon } from '@vicons/material';
+import PoltergeistIcon from '@vicons/tabler/Tornado';
+import OrbIcon from '@vicons/tabler/ChartBubble';
+import WraithIcon from '@vicons/carbon/WindySnow';
+import SpiritIcon from '@vicons/tabler/Atom2';
+
+import ApparitionIcon from '@vicons/material/AutoAwesomeOutlined';
 
 const { collapsed } = defineProps({
   collapsed: {

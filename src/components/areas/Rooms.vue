@@ -42,7 +42,7 @@ import LivingRoomIcon from '@vicons/tabler/Lamp';
 import KitchenIcon from '@vicons/material/KitchenOutlined';
 import BedroomIcon from '@vicons/ionicons5/BedOutline';
 import SunroomIcon from '@vicons/tabler/Plant';
-import BathroomIcon from '@vicons/material/ShowerOutlined';
+import BathroomIcon from '@vicons/tabler/Bath';
 import DenIcon from '@vicons/ionicons5/BookOutline';
 import CrawlspaceIcon from '@vicons/fluent/ConferenceRoom24Regular';
 

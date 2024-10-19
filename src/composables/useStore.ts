@@ -5,7 +5,7 @@ import { ActionKey, GameState } from '../utilities/types';
 const initialState = (): GameState => ({
   stats: {
     hunger: { percentage: 99, decayRate: 0.5 },
-    thirst: { percentage: 74, decayRate: 0.3 },
+    frailty: { percentage: 74, decayRate: 0.3 },
     boredom: { percentage: 49, decayRate: 0.2 },
     fatigue: { percentage: 24, decayRate: 0.1 },
     fear: { percentage: 15, decayRate: -0.1 },

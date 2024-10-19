@@ -38,7 +38,7 @@ const actionGroups: { title: string, actions: { actionKey: ActionKey, amount: nu
     title: 'Stove',
     actions: [
       { actionKey: 'hunger', amount: -5, label: 'Cook food' },
-      { actionKey: 'thirst', amount: -5, label: 'Boil Tea' },
+      { actionKey: 'frailty', amount: -5, label: 'Boil Tea' },
     ]
   },
 ];

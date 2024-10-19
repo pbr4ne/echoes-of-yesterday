@@ -1,4 +1,4 @@
-export type ActionKey = 'hunger' | 'thirst' | 'boredom' | 'fatigue' | 'fear' | 'food' | 'water';
+export type ActionKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear' | 'food' | 'water';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 export type View = 'Rooms' | 'Research' | 'Profile';
 
@@ -66,7 +66,7 @@ export interface ResearchGroup {
 export interface GameState {
   stats: {
     hunger: Stat;
-    thirst: Stat;
+    frailty: Stat;
     boredom: Stat;
     fatigue: Stat;
     fear: Stat;

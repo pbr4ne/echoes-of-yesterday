@@ -21,9 +21,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from '../../composables/useStore';
-import { FoodToast24Regular as HungerIcon, Sleep24Regular as FatigueIcon } from '@vicons/fluent';
-import { Coffee as ThirstIcon, DeviceTv as BoredomIcon } from '@vicons/tabler';
-import { ExclamationCircleOutlined as FearIcon } from '@vicons/antd';
+import HungerIcon from '@vicons/tabler/Cheese';
+import FrailtyIcon from '@vicons/tabler/Barbell';
+import BoredomIcon from '@vicons/tabler/DeviceTv';
+import FatigueIcon from '@vicons/fluent/Sleep24Regular';
+import FearIcon from '@vicons/antd/ExclamationCircleOutlined';
 
 const { collapsed } = defineProps({
   collapsed: {
@@ -36,7 +38,7 @@ const gameStore = useStore();
 
 const sidebar = computed(() => [
   { label: 'Hunger', key: 'hunger', icon: HungerIcon, percentage: gameStore.stats.hunger.percentage },
-  { label: 'Thirst', key: 'thirst', icon: ThirstIcon, percentage: gameStore.stats.thirst.percentage },
+  { label: 'Frailty', key: 'frailty', icon: FrailtyIcon, percentage: gameStore.stats.frailty.percentage },
   { label: 'Boredom', key: 'boredom', icon: BoredomIcon, percentage: gameStore.stats.boredom.percentage },
   { label: 'Fatigue', key: 'fatigue', icon: FatigueIcon, percentage: gameStore.stats.fatigue.percentage },
   { label: 'Fear', key: 'fear', icon: FearIcon, percentage: gameStore.stats.fear.percentage }
