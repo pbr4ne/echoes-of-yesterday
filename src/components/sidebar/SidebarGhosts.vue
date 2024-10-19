@@ -17,10 +17,9 @@ import { computed } from 'vue';
 import { useStore } from '../../composables/useStore';
 import PoltergeistIcon from '@vicons/tabler/Tornado';
 import OrbIcon from '@vicons/tabler/ChartBubble';
-import WraithIcon from '@vicons/carbon/WindySnow';
-import SpiritIcon from '@vicons/tabler/Atom2';
-
-import ApparitionIcon from '@vicons/material/AutoAwesomeOutlined';
+import WraithIcon from '@vicons/tabler/Atom2';
+import SpiritIcon from '@vicons/material/AutoAwesomeOutlined';
+import PhantomIcon from '@vicons/carbon/WindySnow';
 
 const { collapsed } = defineProps({
   collapsed: {
@@ -34,7 +33,7 @@ const ghostIcons = {
   orb: OrbIcon,
   wraith: WraithIcon,
   spirit: SpiritIcon,
-  phantom: ApparitionIcon,
+  phantom: PhantomIcon,
 };
 
 const gameStore = useStore();
