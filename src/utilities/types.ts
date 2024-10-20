@@ -15,7 +15,6 @@ export interface Stat {
 }
 
 export interface Ghost {
-  name: string;
   state: GhostState;
   isActive: boolean;
   activeRoom: string | null;

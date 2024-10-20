@@ -1,25 +1,19 @@
 <template>
   <div v-for="(ghost, key) in ghosts" :key="key" class="sidebar-item">
-    <n-icon size="24" class="sidebar-icon" :class="{ pulsate: ghost.isActive }">
+    <n-icon size="24" class="sidebar-icon" :class="{ pulsate: ghost.active.isActive }">
       <component :is="ghost.icon" />
     </n-icon>
-    <span class="ghost-label" style="padding-left: 10px;" :class="{ pulsate: ghost.isActive }" v-if="!collapsed">
-      {{ ghost.label }}
+    <span class="ghost-label" style="padding-left: 10px;" :class="{ pulsate: ghost.active.isActive }" v-if="!collapsed">
+      {{ getLabel(ghost) }}
     </span>
-    <n-tag :color="ghost.tagColor" size="small" round :class="{ pulsate: ghost.isActive }" v-if="!collapsed">
-      {{ ghost.status }}
+    <n-tag :color="getTagColor(ghost.state)" size="small" round :class="{ pulsate: ghost.active.isActive }" v-if="!collapsed">
+      {{ ghost.state }}
     </n-tag>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useStore } from '../../composables/useStore';
-import PoltergeistIcon from '@vicons/tabler/Tornado';
-import OrbIcon from '@vicons/tabler/ChartBubble';
-import WraithIcon from '@vicons/tabler/Atom2';
-import SpiritIcon from '@vicons/material/AutoAwesomeOutlined';
-import PhantomIcon from '@vicons/carbon/WindySnow';
+import { useGhostsDisplay } from '../../composables/useGhostsDisplay';
 
 const { collapsed } = defineProps({
   collapsed: {
@@ -28,15 +22,7 @@ const { collapsed } = defineProps({
   },
 });
 
-const ghostIcons = {
-  poltergeist: PoltergeistIcon,
-  orb: OrbIcon,
-  wraith: WraithIcon,
-  spirit: SpiritIcon,
-  phantom: PhantomIcon,
-};
-
-const gameStore = useStore();
+const { ghosts } = useGhostsDisplay();
 
 const getTagColor = (state: string) => {
   switch (state) {
@@ -57,32 +43,17 @@ const getTagColor = (state: string) => {
   }
 };
 
-const ghosts = computed(() => {
-  return Object.entries(gameStore.ghosts)
-    .filter(([_, ghost]) => ghost.state !== 'Unknown')
-    .map(([key, ghost]) => {
-      let label;
-
-      if (ghost.state === 'Encountered') {
-        label = '???';
-      } 
-      else if (ghost.state === 'Befriended' || ghost.state === 'Banished') {
-        label = ghost.name;
-      } 
-      else {
-        label = key.charAt(0).toUpperCase() + key.slice(1);
-      }
-
-      return {
-        label,
-        key,
-        icon: ghostIcons[key as keyof typeof ghostIcons],
-        status: ghost.state,
-        isActive: ghost.isActive,
-        tagColor: getTagColor(ghost.state),
-      };
-    });
-});
+const getLabel = (ghost: any) => {
+  if (ghost.state === 'Encountered') {
+    return '???';
+  } 
+  else if (ghost.state === 'Befriended' || ghost.state === 'Banished') {
+    return ghost.name;
+  } 
+  else {
+    return ghost.key.charAt(0).toUpperCase() + ghost.key.slice(1);
+  }
+};
 </script>
 
 <style scoped>
