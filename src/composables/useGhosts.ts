@@ -1,7 +1,122 @@
+import { computed } from 'vue';
 import { useStore } from './useStore';
+import PoltergeistIcon from '@vicons/tabler/Tornado';
+import OrbIcon from '@vicons/tabler/ChartBubble';
+import WraithIcon from '@vicons/tabler/Atom2';
+import SpiritIcon from '@vicons/material/AutoAwesomeOutlined';
+import PhantomIcon from '@vicons/carbon/WindySnow';
 
 export const useGhosts = () => {
   const store = useStore();
+
+  const ghosts = computed(() => [
+    { 
+      key: 'poltergeist', 
+      type: 'Poltergeist', 
+      name: 'Poltergeist Name',
+      icon: PoltergeistIcon, 
+      favouredRoom: 'Kitchen',
+      favouredItem: 'idk',
+      active: {
+        isActive: store.ghosts.poltergeist.isActive,
+        activeRoom: store.ghosts.poltergeist.activeRoom,
+        activeDuration: store.ghosts.poltergeist.activeDuration,
+        activationStart: store.ghosts.poltergeist.activationStart
+      },
+      state: store.ghosts.poltergeist.state,
+    },
+    { 
+      key: 'orb', 
+      type: 'Orb', 
+      name: 'Orb Name',
+      icon: OrbIcon, 
+      favouredRoom: 'Kitchen',
+      favouredItem: 'idk',
+      active: {
+        isActive: store.ghosts.orb.isActive,
+        activeRoom: store.ghosts.orb.activeRoom,
+        activeDuration: store.ghosts.orb.activeDuration,
+        activationStart: store.ghosts.orb.activationStart
+      },
+      state: store.ghosts.orb.state,
+    },
+    { 
+      key: 'wraith', 
+      type: 'Wraith', 
+      name: 'Wraith Name',
+      icon: WraithIcon, 
+      favouredRoom: 'Kitchen',
+      favouredItem: 'idk',
+      active: {
+        isActive: store.ghosts.wraith.isActive,
+        activeRoom: store.ghosts.wraith.activeRoom,
+        activeDuration: store.ghosts.wraith.activeDuration,
+        activationStart: store.ghosts.wraith.activationStart
+      },
+      state: store.ghosts.wraith.state,
+    },
+    { 
+      key: 'spirit', 
+      type: 'Spirit', 
+      name: 'Spirit Name',
+      icon: SpiritIcon, 
+      favouredRoom: 'Kitchen',
+      favouredItem: 'idk',
+      active: {
+        isActive: store.ghosts.spirit.isActive,
+        activeRoom: store.ghosts.spirit.activeRoom,
+        activeDuration: store.ghosts.spirit.activeDuration,
+        activationStart: store.ghosts.spirit.activationStart
+      },
+      state: store.ghosts.spirit.state,
+    },
+    { 
+      key: 'phantom', 
+      type: 'Phantom', 
+      name: 'Phantom Name',
+      icon: PhantomIcon, 
+      favouredRoom: 'Kitchen',
+      favouredItem: 'idk',
+      active: {
+        isActive: store.ghosts.phantom.isActive,
+        activeRoom: store.ghosts.phantom.activeRoom,
+        activeDuration: store.ghosts.phantom.activeDuration,
+        activationStart: store.ghosts.phantom.activationStart
+      },
+      state: store.ghosts.phantom.state,
+    }
+  ]);
+
+  const getTagColor = (state: string) => {
+    switch (state) {
+      case 'Unknown':
+        return { borderColor: '#8b8763', textColor: '#8b8763' };
+      case 'Encountered':
+        return { borderColor: '#8b8763', textColor: '#8b8763' };
+      case 'Identified':
+        return { borderColor: '#8a9574', textColor: '#8a9574' };
+      case 'Communicated':
+        return { borderColor: '#99b182', textColor: '#99b182' };
+      case 'Befriended':
+        return { borderColor: '#d7dd99', textColor: '#b7bd83' };
+      case 'Banished':
+        return { borderColor: '#d7dd99', textColor: '#d7dd99' };
+      default:
+        return { borderColor: '#8b8763', textColor: '#8b8763' };
+    }
+  };
+  
+  const getLabel = (ghost: any) => {
+    if (ghost.state === 'Encountered') {
+      return '???';
+    } 
+    else if (ghost.state === 'Befriended' || ghost.state === 'Banished') {
+      return ghost.name;
+    } 
+    else {
+      return ghost.key.charAt(0).toUpperCase() + ghost.key.slice(1);
+    }
+  };
 
   const activateGhost = (ghostKey: keyof typeof store.ghosts, duration: number) => {
     console.log(`Activating ${ghostKey} for ${duration}ms`);
@@ -43,5 +158,5 @@ export const useGhosts = () => {
     store.ghosts[ghostKey].activationStart = null;
   };
 
-  return { activateGhost, deactivateGhost };
+  return { activateGhost, deactivateGhost, ghosts, getTagColor, getLabel };
 };

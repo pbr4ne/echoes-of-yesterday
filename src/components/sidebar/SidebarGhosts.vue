@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { useGhostsDisplay } from '../../composables/useGhostsDisplay';
+import { useGhosts } from '../../composables/useGhosts';
 
 const { collapsed } = defineProps({
   collapsed: {
@@ -22,38 +22,7 @@ const { collapsed } = defineProps({
   },
 });
 
-const { ghosts } = useGhostsDisplay();
-
-const getTagColor = (state: string) => {
-  switch (state) {
-    case 'Unknown':
-      return { borderColor: '#8b8763', textColor: '#8b8763' };
-    case 'Encountered':
-      return { borderColor: '#8b8763', textColor: '#8b8763' };
-    case 'Identified':
-      return { borderColor: '#8a9574', textColor: '#8a9574' };
-    case 'Communicated':
-      return { borderColor: '#99b182', textColor: '#99b182' };
-    case 'Befriended':
-      return { borderColor: '#d7dd99', textColor: '#b7bd83' };
-    case 'Banished':
-      return { borderColor: '#d7dd99', textColor: '#d7dd99' };
-    default:
-      return { borderColor: '#8b8763', textColor: '#8b8763' };
-  }
-};
-
-const getLabel = (ghost: any) => {
-  if (ghost.state === 'Encountered') {
-    return '???';
-  } 
-  else if (ghost.state === 'Befriended' || ghost.state === 'Banished') {
-    return ghost.name;
-  } 
-  else {
-    return ghost.key.charAt(0).toUpperCase() + ghost.key.slice(1);
-  }
-};
+const { ghosts, getLabel, getTagColor } = useGhosts();
 </script>
 
 <style scoped>
