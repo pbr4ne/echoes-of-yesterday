@@ -19,9 +19,9 @@
 </template>
 
 <script setup lang="ts">
-import { useStatsDisplay } from '../../composables/useStatsDisplay';
+import { useStats } from '../../composables/useStats';
 
-const { stats, getProgressColor, getTextColor } = useStatsDisplay();
+const { stats, getProgressColor, getTextColor } = useStats();
 
 const { collapsed } = defineProps({
   collapsed: {

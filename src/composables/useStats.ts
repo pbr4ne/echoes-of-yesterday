@@ -6,7 +6,7 @@ import BoredomIcon from '@vicons/tabler/DeviceTv';
 import FatigueIcon from '@vicons/fluent/Sleep24Regular';
 import FearIcon from '@vicons/antd/ExclamationCircleOutlined';
 
-export const useStatsDisplay = () => {
+export const useStats = () => {
   const gameStore = useStore();
 
   const stats = computed(() => [
