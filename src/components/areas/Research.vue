@@ -45,10 +45,8 @@
 import { reactive, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useColorUtils } from '../../composables/useColorUtils';
 import { useResearch } from '../../composables/useResearch';
-import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
 
-const store = useStore();
 const { research } = useResearch();
 const progressStyles = ref<{ [researchKey: string]: string }>({});
 const { hexToRgba } = useColorUtils();
@@ -102,7 +100,6 @@ const findResearchNode = (node: any, researchKey: string): any | null => {
 
   return null;
 };
-
 
 const handleResearchCompleted = (event: {researchKey: string} ) => {
   updateTreeData(event.researchKey);

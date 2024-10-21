@@ -31,7 +31,7 @@ import {
   BookCompass24Regular as ParanormalIcon,
 } from '@vicons/fluent';
 
-interface Research {
+interface ResearchItem {
   visible: boolean;
   known: boolean;
   complete: boolean;
@@ -40,10 +40,10 @@ interface Research {
 }
 
 interface ResearchGroup {
-  [key: string]: Research;
+  [key: string]: ResearchItem;
 }
 
-interface Research2 {
+interface Research {
   sustenance: ResearchGroup;
   fitness: ResearchGroup;
   recreation: ResearchGroup;
@@ -51,8 +51,8 @@ interface Research2 {
   paranormal: ResearchGroup;
 }
 
-interface ResearchItem {
-  key: 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
+interface ResearchDisplayItem {
+  key: keyof Research;
   label: string;
   icon: any;
   level: number;
@@ -67,23 +67,23 @@ const { collapsed } = defineProps({
   },
 });
 
-const gameStore = useStore() as { research2: Research2 };
+const gameStore = useStore() as { research: Research };
 
-const research = ref<ResearchItem[]>([]);
+const research = ref<ResearchDisplayItem[]>([]);
 
 const updateResearchProgress = () => {
-  const researchGroups = gameStore.research2;
+  const researchGroups = gameStore.research;
   
   research.value = Object.keys(researchGroups).map(groupKey => {
-    const group = researchGroups[groupKey as keyof typeof researchGroups];
+    const group = researchGroups[groupKey as keyof Research];
 
     const activeResearchKey = Object.keys(group).find(
-      key => group[key as keyof typeof group]?.startTime && group[key as keyof typeof group]?.duration
+      key => group[key]?.startTime && group[key]?.duration
     );
 
     let progress = 0;
     if (activeResearchKey) {
-      const activeResearch = group[activeResearchKey as keyof typeof group] as Research;
+      const activeResearch = group[activeResearchKey];
       const currentTime = Date.now();
       const elapsedTime = currentTime - activeResearch.startTime!;
       progress = (elapsedTime / activeResearch.duration!) * 100;
@@ -92,7 +92,7 @@ const updateResearchProgress = () => {
     const color = getColorByGroup(groupKey);
 
     return {
-      key: groupKey as 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal',
+      key: groupKey as keyof Research,
       label: groupKey.charAt(0).toUpperCase() + groupKey.slice(1),
       icon: getIconByGroup(groupKey),
       level: Object.values(group).filter(research => research.complete).length,

@@ -59,8 +59,8 @@ export function startGameLoop() {
         });
       };
 
-      Object.keys(store.research2).forEach(researchGroupKey => {
-        const researchGroup = store.research2[researchGroupKey as ResearchKeys];
+      Object.keys(store.research).forEach(researchGroupKey => {
+        const researchGroup = store.research[researchGroupKey as ResearchKeys];
         processResearchProgress(researchGroup);
       });
 

@@ -79,7 +79,7 @@
   const profileBadge = ref(0);
 
   const hasPendingResearches = computed(() => {
-    return Object.values(store.research2).some(group =>
+    return Object.values(store.research).some(group =>
       Object.values(group).some(
         research =>
           !research.complete &&

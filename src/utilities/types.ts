@@ -85,7 +85,7 @@ export interface GameState {
   calendar: Calendar;
   pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
   log: LogEntry[];
-  research2: {
+  research: {
     sustenance: { 
       sustenance1: ResearchState;
       sustenance2: ResearchState;

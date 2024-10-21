@@ -24,7 +24,7 @@ const initialState = (): GameState => ({
   pendingActions: [],
   log: [],
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
-  research2: {
+  research: {
     sustenance: {
       sustenance1: { visible: true, known: true, complete: true },
       sustenance2: { visible: true, known: true, complete: true },
@@ -120,7 +120,7 @@ export const useStore = defineStore('gameState', {
         return false;
       };
     
-      Object.values(this.research2).forEach(group => {
+      Object.values(this.research).forEach(group => {
         scheduleRecursive(group);
       });
     },
@@ -140,7 +140,7 @@ export const useStore = defineStore('gameState', {
         return false;
       };
     
-      Object.values(this.research2).forEach(group => {
+      Object.values(this.research).forEach(group => {
         completeRecursive(group);
       });
     },
