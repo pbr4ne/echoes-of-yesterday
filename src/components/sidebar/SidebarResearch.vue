@@ -23,7 +23,7 @@
 import { markRaw, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
-import { Research, ResearchDisplayItem } from '../../utilities/types';
+import { Research, ResearchDisplay, ResearchItemKeys, ResearchKeys } from '../../utilities/types';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
@@ -41,32 +41,36 @@ const { collapsed } = defineProps({
 
 const gameStore = useStore() as { research: Research };
 
-const research = ref<ResearchDisplayItem[]>([]);
+const research = ref<ResearchDisplay[]>([]);
 
 const updateResearchProgress = () => {
   const researchGroups = gameStore.research;
-  
+
   research.value = Object.keys(researchGroups).map(groupKey => {
-    const group = researchGroups[groupKey as keyof Research];
+    const typedGroupKey = groupKey as ResearchKeys;
+    const group = researchGroups[typedGroupKey];
 
     const activeResearchKey = Object.keys(group).find(
-      key => group[key]?.startTime && group[key]?.duration
+      key => {
+        const typedKey = key as ResearchItemKeys;
+        return group[typedKey]?.startTime && group[typedKey]?.duration;
+      }
     );
 
     let progress = 0;
     if (activeResearchKey) {
-      const activeResearch = group[activeResearchKey];
+      const activeResearch = group[activeResearchKey as ResearchItemKeys];
       const currentTime = Date.now();
       const elapsedTime = currentTime - activeResearch.startTime!;
       progress = (elapsedTime / activeResearch.duration!) * 100;
     }
 
-    const color = getColorByGroup(groupKey);
+    const color = getColorByGroup(typedGroupKey);
 
     return {
-      key: groupKey as keyof Research,
-      label: groupKey.charAt(0).toUpperCase() + groupKey.slice(1),
-      icon: getIconByGroup(groupKey),
+      key: typedGroupKey,
+      label: typedGroupKey.charAt(0).toUpperCase() + typedGroupKey.slice(1),
+      icon: getIconByGroup(typedGroupKey),
       level: Object.values(group).filter(research => research.complete).length,
       progress: Math.min(progress, 100),
       color,
@@ -74,7 +78,7 @@ const updateResearchProgress = () => {
   });
 };
 
-const getIconByGroup = (key: string) => {
+const getIconByGroup = (key: ResearchKeys) => {
   switch (key) {
     case 'sustenance': return markRaw(SustenanceIcon);
     case 'fitness': return markRaw(FitnessIcon);
@@ -85,7 +89,7 @@ const getIconByGroup = (key: string) => {
   }
 };
 
-const getColorByGroup = (key: string) => {
+const getColorByGroup = (key: ResearchKeys) => {
   switch (key) {
     case 'sustenance': return '#805e7c';
     case 'fitness': return '#826c62';
@@ -115,6 +119,7 @@ onBeforeUnmount(() => {
   emitter.off('researchCompleted', handleResearchCompleted);
 });
 </script>
+
 
 <style scoped>
 .sidebar-item {
