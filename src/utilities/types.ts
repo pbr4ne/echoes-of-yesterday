@@ -29,26 +29,6 @@ export interface LogEntry {
   room: string;
 }
 
-export interface StaticResearch {
-  key: string;
-  title: string;
-  parent?: string;
-  colorDark: string;
-  colorLight?: string;
-  children?: StaticResearch[];
-}
-
-export interface CombinedResearch {
-  key: string;
-  title: string;
-  colorDark: string;
-  colorLight?: string;
-  children: CombinedResearch[];
-  visible: boolean;
-  known: boolean;
-  complete: boolean;
-}
-
 export interface ResearchState {
   key?: string;
   visible: boolean;
@@ -58,9 +38,33 @@ export interface ResearchState {
   duration?: number;
 }
 
+export interface ResearchItem {
+  visible: boolean;
+  known: boolean;
+  complete: boolean;
+  startTime?: number;
+  duration?: number;
+}
+
 export interface ResearchGroup {
-  key: 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
-  researches: ResearchState[];
+  [key: string]: ResearchItem;
+}
+
+export interface Research {
+  sustenance: ResearchGroup;
+  fitness: ResearchGroup;
+  recreation: ResearchGroup;
+  rest: ResearchGroup;
+  paranormal: ResearchGroup;
+}
+
+export interface ResearchDisplayItem {
+  key: keyof Research;
+  label: string;
+  icon: any;
+  level: number;
+  progress: number;
+  color: string; 
 }
 
 export interface GameState {

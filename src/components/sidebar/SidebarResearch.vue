@@ -23,6 +23,7 @@
 import { markRaw, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
+import { Research, ResearchDisplayItem } from '../../utilities/types';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
@@ -30,35 +31,6 @@ import {
   BookClock24Regular as RestIcon,
   BookCompass24Regular as ParanormalIcon,
 } from '@vicons/fluent';
-
-interface ResearchItem {
-  visible: boolean;
-  known: boolean;
-  complete: boolean;
-  startTime?: number;
-  duration?: number;
-}
-
-interface ResearchGroup {
-  [key: string]: ResearchItem;
-}
-
-interface Research {
-  sustenance: ResearchGroup;
-  fitness: ResearchGroup;
-  recreation: ResearchGroup;
-  rest: ResearchGroup;
-  paranormal: ResearchGroup;
-}
-
-interface ResearchDisplayItem {
-  key: keyof Research;
-  label: string;
-  icon: any;
-  level: number;
-  progress: number;
-  color: string; 
-}
 
 const { collapsed } = defineProps({
   collapsed: {
