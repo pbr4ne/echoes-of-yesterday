@@ -1,6 +1,7 @@
 import { useStore } from './useStore';
 import { useGhosts } from './useGhosts';
 import { emitter } from '../utilities/emitter';
+import { ResearchKeys } from '../utilities/types';
 
 export function startGameLoop() {
   const store = useStore();
@@ -38,19 +39,29 @@ export function startGameLoop() {
         return true;
       });
 
-      store.research.forEach(researchGroup => {
-        researchGroup.researches.forEach(research => {
-            if (research.startTime && research.duration) {
-              const elapsed = now - research.startTime;
-              const progress = Math.min((elapsed / research.duration) * 100, 100);
-              emitter.emit('researchProgressed', { researchKey: research.key, progress });
+      const processResearchProgress = (researchGroup: any) => {
+        Object.keys(researchGroup).forEach(key => {
+          const research = researchGroup[key];
+          if (research.startTime && research.duration) {
+            const elapsed = now - research.startTime;
+            const progress = Math.min((elapsed / research.duration) * 100, 100);
+            emitter.emit('researchProgressed', { researchKey: key, progress });
 
-              if (progress >= 100) {
-                store.completeResearch(research.key);
-                emitter.emit('researchCompleted', { researchKey: research.key });
-              }
+            if (progress >= 100) {
+              store.completeResearch(key);
+              emitter.emit('researchCompleted', { researchKey: key });
             }
+          }
+
+          if (research.children) {
+            processResearchProgress(research.children);
+          }
         });
+      };
+
+      Object.keys(store.research2).forEach(researchGroupKey => {
+        const researchGroup = store.research2[researchGroupKey as ResearchKeys];
+        processResearchProgress(researchGroup);
       });
 
       Object.keys(store.stats).forEach(statKey => {
@@ -66,20 +77,20 @@ export function startGameLoop() {
 
   const activateGhosts = (now: number) => {
     const ghostKeys = Object.keys(store.ghosts) as Array<keyof typeof store.ghosts>;
-      const activeGhost = ghostKeys.find(key => store.ghosts[key].isActive === true);
+    const activeGhost = ghostKeys.find(key => store.ghosts[key].isActive === true);
 
-      if (activeGhost) {
-        const ghost = store.ghosts[activeGhost];
-        if (ghost.activationStart && ghost.activeDuration && now - ghost.activationStart >= ghost.activeDuration) {
-          ghosts.deactivateGhost(activeGhost);
-        }
-      } else {
-        const randomGhostKey = ghostKeys[Math.floor(Math.random() * ghostKeys.length)];
-        const randomDuration = Math.random() * (15000 - 5000) + 5000;
-
-        ghosts.activateGhost(randomGhostKey, randomDuration);
+    if (activeGhost) {
+      const ghost = store.ghosts[activeGhost];
+      if (ghost.activationStart && ghost.activeDuration && now - ghost.activationStart >= ghost.activeDuration) {
+        ghosts.deactivateGhost(activeGhost);
       }
-  }
+    } else {
+      const randomGhostKey = ghostKeys[Math.floor(Math.random() * ghostKeys.length)];
+      const randomDuration = Math.random() * (15000 - 5000) + 5000;
+
+      ghosts.activateGhost(randomGhostKey, randomDuration);
+    }
+  };
 
   store._gameLoopId = requestAnimationFrame(gameLoop);
 }

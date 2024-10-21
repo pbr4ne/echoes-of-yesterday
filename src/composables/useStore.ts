@@ -24,6 +24,34 @@ const initialState = (): GameState => ({
   pendingActions: [],
   log: [],
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
+  research2: {
+    sustenance: {
+      sustenance1: { visible: true, known: true, complete: true },
+      sustenance2: { visible: true, known: true, complete: true },
+    },
+    fitness: {
+      fitness1: { visible: true, known: true, complete: true },
+      fitness2: { visible: true, known: true, complete: false },
+    },
+    recreation: {
+      recreation1: { visible: true, known: true, complete: false },
+      recreation2: { visible: true, known: false, complete: false },
+    },
+    rest: {
+      rest1: { visible: true, known: false, complete: false },
+      rest2: { visible: true, known: false, complete: false },
+    },
+    paranormal: {
+      paranormal1: { visible: true, known: false, complete: false },
+      paranormal2: { visible: true, known: false, complete: false },
+      paranormal3: { visible: true, known: false, complete: false },
+      paranormal4: { visible: true, known: false, complete: false },
+      paranormal5: { visible: true, known: false, complete: false },
+      paranormal6: { visible: true, known: false, complete: false },
+      paranormal7: { visible: true, known: false, complete: false },
+      paranormal8: { visible: true, known: false, complete: false },
+    },
+  },
   research: [
     {
       key: 'sustenance',
@@ -120,25 +148,46 @@ export const useStore = defineStore('gameState', {
 
     scheduleResearch(researchKey: string, duration = 10000) {
       const startTime = Date.now();
-      this.research.forEach(researchGroup => {
-        const research = researchGroup.researches.find(r => r.key === researchKey);
-        if (research) {
-          research.startTime = startTime;
-          research.duration = duration;
+      console.log('scheduling research', researchKey);
+      
+      const scheduleRecursive = (node: any): boolean => {
+        if (node[researchKey]) {
+          console.log('scheduling research', researchKey, startTime, duration);
+          node[researchKey].startTime = startTime;
+          node[researchKey].duration = duration;
+          return true;
         }
+        if (node.children) {
+          return Object.values(node.children).some(child => scheduleRecursive(child));
+        }
+        return false;
+      };
+    
+      Object.values(this.research2).forEach(group => {
+        scheduleRecursive(group);
       });
     },
+    
 
     completeResearch(researchKey: string) {
-       this.research.forEach(researchGroup => {
-        const research = researchGroup.researches.find(r => r.key === researchKey);
-        if (research) {
-          research.complete = true;
-          research.startTime = undefined;
-          research.duration = undefined;
+      const completeRecursive = (node: any): boolean => {
+        if (node[researchKey]) {
+          node[researchKey].complete = true;
+          node[researchKey].startTime = undefined;
+          node[researchKey].duration = undefined;
+          return true;
         }
+        if (node.children) {
+          return Object.values(node.children).some(child => completeRecursive(child));
+        }
+        return false;
+      };
+    
+      Object.values(this.research2).forEach(group => {
+        completeRecursive(group);
       });
     },
+    
 
     listenForEvents() {
       emitter.on('actionStarted', ({ actionKey, amount }) => {

@@ -42,58 +42,35 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { reactive, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useColorUtils } from '../../composables/useColorUtils';
 import { useResearch } from '../../composables/useResearch';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
-import { CombinedResearch, StaticResearch, ResearchState } from '../../utilities/types';
 
 const store = useStore();
-const { researchArray } = useResearch();
+const { research } = useResearch();
 const progressStyles = ref<{ [researchKey: string]: string }>({});
 const { hexToRgba } = useColorUtils();
 
-const enhanceResearchWithStoreData = (researchNodes: StaticResearch[], parentKey?: string): CombinedResearch[] => {
-  return researchNodes
-    .map(node => {
-      const parent = parentKey || node.parent;
-      const researchGroup = store.research.find(group => group.key === parent);
-      const researchState = researchGroup?.researches.find(research => research.key === node.key) as ResearchState;
-
-      const enhancedNode: CombinedResearch = {
-        ...node,
-        visible: researchState?.visible ?? false,
-        known: researchState?.known ?? false,
-        complete: researchState?.complete ?? false,
-        children: node.children ? enhanceResearchWithStoreData(node.children, parent) : []
-      };
-
-      return enhancedNode;
-    })
-    .filter(node => node.visible);
-};
-
-const enhancedResearchArray = computed(() => enhanceResearchWithStoreData(researchArray.value));
-
-const rootNode: CombinedResearch = {
+const rootNode = {
   title: 'Research',
   key: 'research',
   colorDark: '#2b2f30',
   complete: true,
   known: true,
   visible: true,
-  children: enhancedResearchArray.value
+  children: research.value
 };
 
-const buildTree = (node: CombinedResearch): any => ({
-  label: node.title,
+const buildTree = (node: any, parentColorDark?: string): any => ({
   key: node.key,
-  color: node.colorDark,
-  complete: node.complete,
-  known: node.known,
+  label: node.title,
+  colorDark: node.colorDark || parentColorDark,
+  complete: node.complete == undefined ? true : node.complete,
+  known: node.known == undefined ? true : node.known,
   expand: true,
-  children: node.children ? node.children.map(buildTree) : []
+  children: node.children ? Object.values(node.children).map(child => buildTree(child, node.colorDark || parentColorDark)) : []
 });
 
 let treeData = reactive(buildTree(rootNode));
@@ -103,10 +80,11 @@ const truncatedLabel = (label: string) => {
 };
 
 const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
+  console.log('Progressing research:', event.researchKey, event.progress);
   const researchNode = findResearchNode(treeData, event.researchKey);
   
   if (researchNode) {
-    progressStyles.value[event.researchKey] = `linear-gradient(45deg, ${researchNode.color} ${event.progress}%, transparent 0%)`;
+    progressStyles.value[event.researchKey] = `linear-gradient(45deg, ${researchNode.colorDark} ${event.progress}%, transparent 0%)`;
   }
 };
 
@@ -114,12 +92,17 @@ const findResearchNode = (node: any, researchKey: string): any | null => {
   if (node.key === researchKey) {
     return node;
   }
-  for (const child of node.children ?? []) {
-    const found = findResearchNode(child, researchKey);
-    if (found) return found;
+  
+  if (node.children) {
+    for (const child of Object.values(node.children)) {
+      const found = findResearchNode(child, researchKey);
+      if (found) return found;
+    }
   }
+
   return null;
 };
+
 
 const handleResearchCompleted = (event: {researchKey: string} ) => {
   updateTreeData(event.researchKey);
@@ -136,7 +119,8 @@ const updateTreeData = (researchKey: string) => {
   updateNode(treeData);
 };
 
-const startResearch = (data: CombinedResearch) => {
+const startResearch = (data: any) => {
+  console.log(data);
   if (!data.complete && data.known) {
     emitter.emit('researchStarted', { researchKey: data.key });
   }
@@ -153,11 +137,11 @@ onBeforeUnmount(() => {
 });
 
 const getButtonStyle = (data: any) => {
-  const transparentColor = hexToRgba(data.color, 0.2);
+  const transparentColor = hexToRgba(data.colorDark, 0.2);
   return {
     width: '125px', 
     height: '75px', 
-    backgroundColor: data.complete ? data.color : transparentColor, 
+    backgroundColor: data.complete ? data.colorDark : transparentColor, 
     color: '#d5d5d6',
     cursor: 'pointer',
     backgroundImage: progressStyles.value[data.key],

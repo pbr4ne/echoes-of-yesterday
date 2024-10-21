@@ -23,7 +23,6 @@
 import { markRaw, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
-import { useResearch } from '../../composables/useResearch';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
@@ -31,6 +30,26 @@ import {
   BookClock24Regular as RestIcon,
   BookCompass24Regular as ParanormalIcon,
 } from '@vicons/fluent';
+
+interface Research {
+  visible: boolean;
+  known: boolean;
+  complete: boolean;
+  startTime?: number;
+  duration?: number;
+}
+
+interface ResearchGroup {
+  [key: string]: Research;
+}
+
+interface Research2 {
+  sustenance: ResearchGroup;
+  fitness: ResearchGroup;
+  recreation: ResearchGroup;
+  rest: ResearchGroup;
+  paranormal: ResearchGroup;
+}
 
 interface ResearchItem {
   key: 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
@@ -48,30 +67,35 @@ const { collapsed } = defineProps({
   },
 });
 
-const gameStore = useStore();
-const { researchArray } = useResearch();
+const gameStore = useStore() as { research2: Research2 };
 
 const research = ref<ResearchItem[]>([]);
 
 const updateResearchProgress = () => {
-  research.value = gameStore.research.map(group => {
-    const activeResearch = group.researches.find(research => research.startTime && research.duration);
+  const researchGroups = gameStore.research2;
+  
+  research.value = Object.keys(researchGroups).map(groupKey => {
+    const group = researchGroups[groupKey as keyof typeof researchGroups];
+
+    const activeResearchKey = Object.keys(group).find(
+      key => group[key as keyof typeof group]?.startTime && group[key as keyof typeof group]?.duration
+    );
 
     let progress = 0;
-    if (activeResearch && activeResearch.startTime && activeResearch.duration) {
+    if (activeResearchKey) {
+      const activeResearch = group[activeResearchKey as keyof typeof group] as Research;
       const currentTime = Date.now();
-      const elapsedTime = currentTime - activeResearch.startTime;
-      progress = (elapsedTime / activeResearch.duration) * 100;
+      const elapsedTime = currentTime - activeResearch.startTime!;
+      progress = (elapsedTime / activeResearch.duration!) * 100;
     }
 
-    const researchData = researchArray.value.find(item => item.parent === group.key);
-    const color = researchData?.colorLight ?? '#fff';
+    const color = getColorByGroup(groupKey);
 
     return {
-      key: group.key,
-      label: group.key.charAt(0).toUpperCase() + group.key.slice(1),
-      icon: getIconByGroup(group.key),
-      level: group.researches.filter(research => research.complete).length,
+      key: groupKey as 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal',
+      label: groupKey.charAt(0).toUpperCase() + groupKey.slice(1),
+      icon: getIconByGroup(groupKey),
+      level: Object.values(group).filter(research => research.complete).length,
       progress: Math.min(progress, 100),
       color,
     };
@@ -86,6 +110,17 @@ const getIconByGroup = (key: string) => {
     case 'rest': return markRaw(RestIcon);
     case 'paranormal': return markRaw(ParanormalIcon);
     default: return null;
+  }
+};
+
+const getColorByGroup = (key: string) => {
+  switch (key) {
+    case 'sustenance': return '#805e7c';
+    case 'fitness': return '#826c62';
+    case 'recreation': return '#678264';
+    case 'rest': return '#5a648c';
+    case 'paranormal': return '#625e80';
+    default: return '#fff';
   }
 };
 

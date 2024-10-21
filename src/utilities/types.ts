@@ -1,6 +1,7 @@
 export type ActionKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear' | 'food' | 'water';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 export type View = 'Rooms' | 'Research' | 'Profile';
+export type ResearchKeys = 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
 
 export interface Calendar {
   days: number;
@@ -49,7 +50,7 @@ export interface CombinedResearch {
 }
 
 export interface ResearchState {
-  key: string;
+  key?: string;
   visible: boolean;
   known: boolean;
   complete: boolean;
@@ -84,5 +85,33 @@ export interface GameState {
   calendar: Calendar;
   pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
   log: LogEntry[];
+  research2: {
+    sustenance: { 
+      sustenance1: ResearchState;
+      sustenance2: ResearchState;
+     };
+    fitness: { 
+      fitness1: ResearchState;
+      fitness2: ResearchState;
+     };
+    recreation: { 
+      recreation1: ResearchState;
+      recreation2: ResearchState;
+     };
+    rest: { 
+      rest1: ResearchState;
+      rest2: ResearchState;
+     };
+    paranormal: { 
+      paranormal1: ResearchState;
+      paranormal2: ResearchState;
+      paranormal3: ResearchState;
+      paranormal4: ResearchState;
+      paranormal5: ResearchState;
+      paranormal6: ResearchState;
+      paranormal7: ResearchState;
+      paranormal8: ResearchState;
+     };
+  };
   research: ResearchGroup[];
 }
