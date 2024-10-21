@@ -23,7 +23,7 @@
 import { markRaw, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
-import { researchArray } from '../../utilities/staticData';
+import { useResearch } from '../../composables/useResearch';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
@@ -49,6 +49,7 @@ const { collapsed } = defineProps({
 });
 
 const gameStore = useStore();
+const { researchArray } = useResearch();
 
 const research = ref<ResearchItem[]>([]);
 
@@ -63,7 +64,7 @@ const updateResearchProgress = () => {
       progress = (elapsedTime / activeResearch.duration) * 100;
     }
 
-    const researchData = researchArray.find(item => item.parent === group.key);
+    const researchData = researchArray.value.find(item => item.parent === group.key);
     const color = researchData?.colorLight ?? '#fff';
 
     return {

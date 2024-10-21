@@ -44,12 +44,13 @@
 <script setup lang="ts">
 import { reactive, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useColorUtils } from '../../composables/useColorUtils';
+import { useResearch } from '../../composables/useResearch';
 import { useStore } from '../../composables/useStore';
 import { emitter } from '../../utilities/emitter';
-import { researchArray } from '../../utilities/staticData';
 import { CombinedResearch, StaticResearch, ResearchState } from '../../utilities/types';
 
 const store = useStore();
+const { researchArray } = useResearch();
 const progressStyles = ref<{ [researchKey: string]: string }>({});
 const { hexToRgba } = useColorUtils();
 
@@ -73,7 +74,7 @@ const enhanceResearchWithStoreData = (researchNodes: StaticResearch[], parentKey
     .filter(node => node.visible);
 };
 
-const enhancedResearchArray = computed(() => enhanceResearchWithStoreData(researchArray));
+const enhancedResearchArray = computed(() => enhanceResearchWithStoreData(researchArray.value));
 
 const rootNode: CombinedResearch = {
   title: 'Research',
