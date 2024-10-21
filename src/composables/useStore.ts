@@ -52,49 +52,6 @@ const initialState = (): GameState => ({
       paranormal8: { visible: true, known: false, complete: false },
     },
   },
-  research: [
-    {
-      key: 'sustenance',
-      researches: [
-        { key: 'sustenance1', visible: true, known: true, complete: true },
-        { key: 'sustenance2', visible: true, known: true, complete: true },
-      ],
-    },
-    {
-      key: 'fitness',
-      researches: [
-        { key: 'fitness1', visible: true, known: true, complete: true },
-        { key: 'fitness2', visible: true, known: true, complete: false },
-      ],
-    },
-    {
-      key: 'recreation',
-      researches: [
-        { key: 'recreation1', visible: true, known: true, complete: false },
-        { key: 'recreation2', visible: true, known: false, complete: false },
-      ],
-    },
-    {
-      key: 'rest',
-      researches: [
-        { key: 'rest1', visible: true, known: false, complete: false },
-        { key: 'rest2', visible: true, known: false, complete: false },
-      ],
-    },
-    {
-      key: 'paranormal',
-      researches: [
-        { key: 'paranormal1', visible: true, known: false, complete: false },
-        { key: 'paranormal2', visible: true, known: false, complete: false },
-        { key: 'paranormal3', visible: true, known: false, complete: false },
-        { key: 'paranormal4', visible: true, known: false, complete: false },
-        { key: 'paranormal5', visible: true, known: false, complete: false },
-        { key: 'paranormal6', visible: true, known: false, complete: false },
-        { key: 'paranormal7', visible: true, known: false, complete: false },
-        { key: 'paranormal8', visible: true, known: false, complete: false },
-      ],
-    },
-  ],
 });
 
 export const useStore = defineStore('gameState', {

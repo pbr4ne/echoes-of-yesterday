@@ -113,5 +113,4 @@ export interface GameState {
       paranormal8: ResearchState;
      };
   };
-  research: ResearchGroup[];
 }
