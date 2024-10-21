@@ -62,7 +62,7 @@ export const useStore = defineStore('gameState', {
 
     adjustValue(actionKey: ActionKey, amount: number, max = 100, min = 0) {
       if (actionKey in this.stats) {
-        const stat = this.stats[actionKey as keyof GameState['stats']];
+        const stat = this.stats[actionKey];
         stat.percentage = Math.min(Math.max(stat.percentage + amount, min), max);
       } 
       else if (actionKey in this.inventory) {

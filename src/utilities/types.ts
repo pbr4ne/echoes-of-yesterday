@@ -1,4 +1,5 @@
-export type ActionKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear' | 'food' | 'water';
+export type ActionKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear';
+export type InventoryKey = 'food' | 'water';
 export type GhostType = 'poltergeist' | 'orb' | 'wraith' | 'spirit' | 'phantom';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 export type View = 'Rooms' | 'Research' | 'Profile';
@@ -6,9 +7,9 @@ export type ResearchKeys = 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'p
 export type ResearchItemKeys = 'sustenance1' | 'sustenance2' | 'fitness1' | 'fitness2' | 'recreation1' | 'recreation2' | 'rest1' | 'rest2' | 'paranormal1' | 'paranormal2' | 'paranormal3' | 'paranormal4' | 'paranormal5' | 'paranormal6' | 'paranormal7' | 'paranormal8';
 
 export type Stats = Record<ActionKey, Stat>;
-export type Inventory = Record<'food' | 'water', number>;
+export type Inventory = Record<InventoryKey, number>;
 export type Ghosts = Record<GhostType, Ghost>;
-export type ResearchGroup = Record<ResearchItemKeys, ResearchState>;
+export type ResearchGroup =  { [key: string]: ResearchState; };
 export type Research = Record<ResearchKeys, ResearchGroup>;
 
 export interface Calendar {
@@ -61,5 +62,11 @@ export interface GameState {
   calendar: Calendar;
   pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
   log: LogEntry[];
-  research: Research;
+  research: {
+    sustenance: ResearchGroup;
+    fitness: ResearchGroup;
+    recreation: ResearchGroup;
+    rest: ResearchGroup;
+    paranormal: ResearchGroup;
+  };
 }
