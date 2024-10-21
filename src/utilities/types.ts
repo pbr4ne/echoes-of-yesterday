@@ -30,15 +30,6 @@ export interface LogEntry {
 }
 
 export interface ResearchState {
-  key?: string;
-  visible: boolean;
-  known: boolean;
-  complete: boolean;
-  startTime?: number;
-  duration?: number;
-}
-
-export interface ResearchItem {
   visible: boolean;
   known: boolean;
   complete: boolean;
@@ -47,7 +38,7 @@ export interface ResearchItem {
 }
 
 export interface ResearchGroup {
-  [key: string]: ResearchItem;
+  [key: string]: ResearchState;
 }
 
 export interface Research {
@@ -64,57 +55,15 @@ export interface ResearchDisplayItem {
   icon: any;
   level: number;
   progress: number;
-  color: string; 
+  color: string;
 }
 
 export interface GameState {
-  stats: {
-    hunger: Stat;
-    frailty: Stat;
-    boredom: Stat;
-    fatigue: Stat;
-    fear: Stat;
-  };
-  inventory: {
-    food: number;
-    water: number;
-  };
-  ghosts: {
-    poltergeist: Ghost;
-    orb: Ghost;
-    wraith: Ghost;
-    spirit: Ghost;
-    phantom: Ghost;
-  };
+  stats: Record<ActionKey, Stat>;
+  inventory: Record<'food' | 'water', number>;
+  ghosts: Record<'poltergeist' | 'orb' | 'wraith' | 'spirit' | 'phantom', Ghost>;
   calendar: Calendar;
   pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
   log: LogEntry[];
-  research: {
-    sustenance: { 
-      sustenance1: ResearchState;
-      sustenance2: ResearchState;
-     };
-    fitness: { 
-      fitness1: ResearchState;
-      fitness2: ResearchState;
-     };
-    recreation: { 
-      recreation1: ResearchState;
-      recreation2: ResearchState;
-     };
-    rest: { 
-      rest1: ResearchState;
-      rest2: ResearchState;
-     };
-    paranormal: { 
-      paranormal1: ResearchState;
-      paranormal2: ResearchState;
-      paranormal3: ResearchState;
-      paranormal4: ResearchState;
-      paranormal5: ResearchState;
-      paranormal6: ResearchState;
-      paranormal7: ResearchState;
-      paranormal8: ResearchState;
-     };
-  };
+  research: Research;
 }
