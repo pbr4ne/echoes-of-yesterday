@@ -1,5 +1,13 @@
-import { computed } from 'vue';
+import { computed, markRaw } from 'vue';
 import { useStore } from './useStore';
+import { ResearchKeys } from '../utilities/types';
+import { 
+  BookTheta24Regular as SustenanceIcon,
+  BookPulse24Regular as FitnessIcon,
+  BookStar24Regular as EntertainmentIcon,
+  BookClock24Regular as RestIcon,
+  BookCompass24Regular as ParanormalIcon,
+} from '@vicons/fluent';
 
 export const useResearch = () => {
   const store = useStore();
@@ -10,6 +18,7 @@ export const useResearch = () => {
       title: 'Sustenance',
       colorDark: '#382736',
       colorLight: '#805e7c',
+      icon: markRaw(SustenanceIcon),
       children: { 
         sustenance1: {
           key: 'sustenance1',
@@ -34,6 +43,7 @@ export const useResearch = () => {
       title: 'Fitness',
       colorDark: '#403530',
       colorLight: '#826c62',
+      icon: markRaw(FitnessIcon),
       children: {
         fitness1: {
           key: 'fitness1',
@@ -58,6 +68,7 @@ export const useResearch = () => {
       title: 'Recreation',
       colorDark: '#2a3529',
       colorLight: '#678264',
+      icon: markRaw(EntertainmentIcon),
       children: {
         recreation1: {
           key: 'recreation1',
@@ -82,6 +93,7 @@ export const useResearch = () => {
       title: 'Rest',
       colorDark: '#2b3044',
       colorLight: '#5a648c',
+      icon: markRaw(RestIcon),
       children: {
         rest1: {
           key: 'rest1',
@@ -106,6 +118,7 @@ export const useResearch = () => {
       title: 'Paranormal',
       colorDark: '#1c1b24',
       colorLight: '#625e80',
+      icon: markRaw(ParanormalIcon),
       children: {
         paranormal1: {
           key: 'paranormal1',
@@ -175,5 +188,31 @@ export const useResearch = () => {
     },
   }));
 
-  return { research };
+  const findTopLevelResearchNode = (childKey: string): any | null => {
+    for (const researchKey in research.value) {
+      const topLevelResearch = research.value[researchKey as ResearchKeys];
+      
+      if (containsChildKey(topLevelResearch, childKey)) {
+        return topLevelResearch;
+      }
+    }  
+    return null;
+  };
+  
+  const containsChildKey = (researchNode: any, childKey: string): boolean => {
+    if (researchNode.key === childKey) {
+      return true;
+    }
+  
+    if (researchNode.children) {
+      for (const child in researchNode.children) {
+        if (containsChildKey(researchNode.children[child], childKey)) {
+          return true;
+        }
+      }
+    }  
+    return false;
+  };
+
+  return { findTopLevelResearchNode, research };
 };

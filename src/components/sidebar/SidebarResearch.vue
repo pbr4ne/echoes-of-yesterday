@@ -4,33 +4,29 @@
       <component :is="r.icon" />
     </n-icon>
     <span style="padding-left: 10px;" v-if="!collapsed">
-      {{ r.label }}
+      {{ r.title }}
     </span>
     <n-space style="margin-left:auto;" v-if="!collapsed">
       <n-progress 
         type="circle" 
         style="width: 30px;" 
-        :percentage="r.progress" 
-        :color="r.color"
+        :percentage="researchProgresses[r.key]" 
+        :color="r.colorLight"
+        :offset-degree="180"
       >
-        <span class="research-level">{{ r.level }}</span>
+        <span class="research-level">{{ countCompletedResearches(r) }}</span>
       </n-progress>
     </n-space>
   </div>
 </template>
 
 <script setup lang="ts">
-import { markRaw, ref, onMounted, onBeforeUnmount } from 'vue';
-import { useStore } from '../../composables/useStore';
+import { onMounted, onBeforeUnmount, ref } from 'vue';
 import { emitter } from '../../utilities/emitter';
-import { Research, ResearchDisplay, ResearchItemKeys, ResearchKeys } from '../../utilities/types';
-import { 
-  BookTheta24Regular as SustenanceIcon,
-  BookPulse24Regular as FitnessIcon,
-  BookStar24Regular as EntertainmentIcon,
-  BookClock24Regular as RestIcon,
-  BookCompass24Regular as ParanormalIcon,
-} from '@vicons/fluent';
+import { useResearch } from '../../composables/useResearch';
+
+const { research, findTopLevelResearchNode } = useResearch();
+const researchProgresses = ref<{ [researchKey: string]: number }>({});
 
 const { collapsed } = defineProps({
   collapsed: {
@@ -39,87 +35,35 @@ const { collapsed } = defineProps({
   },
 });
 
-const gameStore = useStore() as { research: Research };
+const countCompletedResearches = (researchNode: any): number => {
+  let count = researchNode.complete ? 1 : 0;
 
-const research = ref<ResearchDisplay[]>([]);
-
-const updateResearchProgress = () => {
-  const researchGroups = gameStore.research;
-
-  research.value = Object.keys(researchGroups).map(groupKey => {
-    const typedGroupKey = groupKey as ResearchKeys;
-    const group = researchGroups[typedGroupKey];
-
-    const activeResearchKey = Object.keys(group).find(
-      key => {
-        const typedKey = key as ResearchItemKeys;
-        return group[typedKey]?.startTime && group[typedKey]?.duration;
-      }
-    );
-
-    let progress = 0;
-    if (activeResearchKey) {
-      const activeResearch = group[activeResearchKey as ResearchItemKeys];
-      const currentTime = Date.now();
-      const elapsedTime = currentTime - activeResearch.startTime!;
-      progress = (elapsedTime / activeResearch.duration!) * 100;
+  if (researchNode.children) {
+    for (const childKey in researchNode.children) {
+      count += countCompletedResearches(researchNode.children[childKey]);
     }
-
-    const color = getColorByGroup(typedGroupKey);
-
-    return {
-      key: typedGroupKey,
-      label: typedGroupKey.charAt(0).toUpperCase() + typedGroupKey.slice(1),
-      icon: getIconByGroup(typedGroupKey),
-      level: Object.values(group).filter(research => research.complete).length,
-      progress: Math.min(progress, 100),
-      color,
-    };
-  });
-};
-
-const getIconByGroup = (key: ResearchKeys) => {
-  switch (key) {
-    case 'sustenance': return markRaw(SustenanceIcon);
-    case 'fitness': return markRaw(FitnessIcon);
-    case 'recreation': return markRaw(EntertainmentIcon);
-    case 'rest': return markRaw(RestIcon);
-    case 'paranormal': return markRaw(ParanormalIcon);
-    default: return null;
   }
+
+  return count;
 };
 
-const getColorByGroup = (key: ResearchKeys) => {
-  switch (key) {
-    case 'sustenance': return '#805e7c';
-    case 'fitness': return '#826c62';
-    case 'recreation': return '#678264';
-    case 'rest': return '#5a648c';
-    case 'paranormal': return '#625e80';
-    default: return '#fff';
+const handleResearchProgressed = (event: { researchKey: string; progress?: number }) => {
+  const topLevelResearch = findTopLevelResearchNode(event.researchKey);
+  if (topLevelResearch) {
+    researchProgresses.value[topLevelResearch.key] = event.progress ? event.progress : 0;
   }
-};
-
-const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
-  updateResearchProgress();
-};
-
-const handleResearchCompleted = (event: { researchKey: string }) => {
-  updateResearchProgress();
 };
 
 onMounted(() => {
   emitter.on('researchProgressed', handleResearchProgressed);
-  emitter.on('researchCompleted', handleResearchCompleted);
-  updateResearchProgress();
+  emitter.on('researchCompleted', handleResearchProgressed);
 });
 
 onBeforeUnmount(() => {
   emitter.off('researchProgressed', handleResearchProgressed);
-  emitter.off('researchCompleted', handleResearchCompleted);
+  emitter.off('researchCompleted', handleResearchProgressed);
 });
 </script>
-
 
 <style scoped>
 .sidebar-item {
