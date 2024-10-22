@@ -78,7 +78,6 @@ const truncatedLabel = (label: string) => {
 };
 
 const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
-  console.log('Progressing research:', event.researchKey, event.progress);
   const researchNode = findResearchNode(treeData, event.researchKey);
   
   if (researchNode) {

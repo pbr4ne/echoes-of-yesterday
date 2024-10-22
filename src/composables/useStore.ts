@@ -105,7 +105,6 @@ export const useStore = defineStore('gameState', {
 
     scheduleResearch(researchKey: string, duration = 10000) {
       const startTime = Date.now();
-      console.log('scheduling research', researchKey);
       
       const scheduleRecursive = (node: any): boolean => {
         if (node[researchKey]) {
