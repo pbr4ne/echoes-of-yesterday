@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useStore } from '../composables/useStore';
+import { useStore } from '../../composables/useStore';
 import { QuestionOutlined as AboutIcon, PauseOutlined as PauseIcon } from '@vicons/antd';
 import { IosGitBranch as VersionIcon } from '@vicons/ionicons4';
 import {
@@ -89,7 +89,7 @@ import {
   SaveOutlined as ExportIcon
 } from '@vicons/material';
 import { NButton, NIcon, NSpace, NTooltip } from 'naive-ui';
-import useTheme from '../composables/useTheme';
+import useTheme from '../../composables/useTheme';
 
 const { lightMode, switchTheme } = useTheme();
 

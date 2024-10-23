@@ -10,9 +10,9 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
-import SidebarStats from './sidebar/SidebarStats.vue';
-import SidebarGhosts from './sidebar/SidebarGhosts.vue';
-import SidebarResearch from './sidebar/SidebarResearch.vue';
+import SidebarStats from '../sidebar/SidebarStats.vue';
+import SidebarGhosts from '../sidebar/SidebarGhosts.vue';
+import SidebarResearch from '../sidebar/SidebarResearch.vue';
 
 const { collapsed } = defineProps({
   collapsed: {

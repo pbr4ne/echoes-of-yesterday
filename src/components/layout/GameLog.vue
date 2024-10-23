@@ -29,8 +29,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useStore } from '../composables/useStore';
-import { Calendar } from '../utilities/types';
+import { useStore } from '../../composables/useStore';
+import { Calendar } from '../../utilities/types';
 import TrashIcon from '@vicons/tabler/Trash';
 import LivingRoomIcon from '@vicons/tabler/Lamp';
 import KitchenIcon from '@vicons/material/KitchenOutlined';

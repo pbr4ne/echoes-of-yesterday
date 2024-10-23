@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import Game from './components/Game.vue';
+import Game from './components/layout/Game.vue';
 import ColdTrail from './components/spooky/ColdTrail.vue';
 import useTheme from './composables/useTheme';
 import { useSpookyEffects } from './composables/useSpookyEffects';

@@ -52,15 +52,15 @@
 
 <script setup lang="ts">
   import { ref, watchEffect, onBeforeUnmount, onMounted, shallowRef } from 'vue';
-  import { emitter } from '../utilities/emitter';  
-  import { View } from '../utilities/types';
+  import { emitter } from '../../utilities/emitter';  
+  import { View } from '../../utilities/types';
   import GameFooter from './GameFooter.vue';
   import GameHeader from './GameHeader.vue';
   import GameLog from './GameLog.vue';
   import GameSidebar from './GameSidebar.vue';
-  import Rooms from './areas/Rooms.vue';
-  import Research from './areas/Research.vue';
-  import Profile from './areas/Profile.vue';
+  import Rooms from '../areas/Rooms.vue';
+  import Research from '../areas/Research.vue';
+  import Profile from '../areas/Profile.vue';
 
   const leftCollapsed = ref(isSmallWindow());
   const rightCollapsed = ref(isSmallWindow());
