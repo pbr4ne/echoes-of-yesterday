@@ -1,13 +1,12 @@
 <template>
-  <n-layout has-sider>
-    <n-layout-sider>
-      <n-card title="You">
-        <template #cover>
-          <img :src="profileSvg" alt="Profile">
-        </template>
-      </n-card>
-    </n-layout-sider>
-    <n-layout-content>
+  <n-flex :size="[20, 20]">
+    <n-card style="padding: 20px;">
+      <template #cover>
+        <img :src="profileSvg" alt="Profile">
+      </template>
+    </n-card>
+
+    <div style="min-width: 200px; max-width: 600px; flex: 1 1 0; margin-top: 20px; margin-right: 40px;">
       <div v-for="(item, index) in stats" :key="item.key" class="stats-item">
         <n-icon size="24" class="stats-icon">
           <component :is="item.icon" />
@@ -25,8 +24,8 @@
           </div>
         </div>
       </div>
-    </n-layout-content>
-  </n-layout> 
+    </div>
+  </n-flex>
 </template>
 
 <script setup lang="ts">
