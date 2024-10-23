@@ -66,7 +66,7 @@
   const rightCollapsed = ref(isSmallWindow());
   const isSmallScreen = ref(isSmallWindow());
 
-  const currentView = shallowRef(Research);
+  const currentView = shallowRef(Profile);
 
   const switchView = (event: { view: View }) => {
     if (event.view === 'Rooms') {

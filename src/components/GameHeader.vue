@@ -64,7 +64,7 @@
 
   const showTitle = ref(window.innerWidth > 730);
   const store = useStore();
-  const currentView = ref<View>('Research');
+  const currentView = ref<View>('Profile');
 
   const switchView = (view: View) => {
     currentView.value = view;

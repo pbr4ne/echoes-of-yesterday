@@ -151,7 +151,7 @@ const getButtonStyle = (data: any) => {
     background-color: rgb(16, 16, 20) !important;
   }
   .org-tree-node-label-inner {
-    padding: 0px !important;
+  padding: 0px !important;
   }
   .org-tree-node-btn {
     background-color: rgb(16, 16, 20) !important;
