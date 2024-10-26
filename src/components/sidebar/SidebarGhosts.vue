@@ -44,24 +44,4 @@ const { ghosts, getLabel, getTagColor } = useGhosts();
 .n-tag {
   margin-left: auto;
 }
-
-.pulsate {
-  animation: pulsate 1.5s infinite;
-}
-
-@keyframes pulsate {
-  0% {
-    filter: brightness(1);
-    opacity: 1;
-  }
-  50% {
-    filter: brightness(1.5);
-    opacity: 0.2;
-  }
-  100% {
-    filter: brightness(1);
-    opacity: 1;
-  }
-}
-
 </style>

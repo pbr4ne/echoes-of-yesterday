@@ -7,6 +7,7 @@ import { useStore } from './composables/useStore';
 import { startGameLoop } from './composables/useGameLoop'; 
 import VueBlocksTree from 'vue3-blocks-tree';
 import 'vue3-blocks-tree/dist/vue3-blocks-tree.css';
+import './styles/animations.css';
 
 let defaultoptions = {nodeName: 'default-node', treeName: 'blocks-tree'}
 
