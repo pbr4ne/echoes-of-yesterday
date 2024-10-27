@@ -28,7 +28,7 @@ export const useGhosts = () => {
     { 
       key: 'orb', 
       type: 'Orb', 
-      name: 'Orb Name',
+      name: 'Orb',
       icon: OrbIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',
@@ -43,7 +43,7 @@ export const useGhosts = () => {
     { 
       key: 'wraith', 
       type: 'Wraith', 
-      name: 'Wraith Name',
+      name: 'Wraith',
       icon: WraithIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',
@@ -58,7 +58,7 @@ export const useGhosts = () => {
     { 
       key: 'spirit', 
       type: 'Spirit', 
-      name: 'Spirit Name',
+      name: 'Spirit',
       icon: SpiritIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',
@@ -73,7 +73,7 @@ export const useGhosts = () => {
     { 
       key: 'phantom', 
       type: 'Phantom', 
-      name: 'Phantom Name',
+      name: 'Phantom',
       icon: PhantomIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',

@@ -12,7 +12,7 @@
         </n-icon>
         <span v-if="showText" class="tab-text">You</span>
       </template>
-      <component :is="You" />
+      <you />
     </n-tab-pane>
 
     <n-tab-pane
@@ -27,20 +27,19 @@
         </n-icon>
         <span v-if="showText" :class="{ 'pulsate': ghost.active.isActive }" class="tab-text">{{ ghost.type }}</span>
       </template>
-      <component :is="Ghost" />
+      <ghost :ghost="ghost" />
     </n-tab-pane>
   </n-tabs>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, defineAsyncComponent } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useGhosts } from '../../composables/useGhosts';
 import ProfileIcon from '@vicons/fluent/PersonCircle24Regular';
+import ghost from '../profiles/Ghost.vue';
+import you from '../profiles/You.vue';
 
-const You = defineAsyncComponent(() => import('../profiles/You.vue'));
-const Ghost = defineAsyncComponent(() => import('../profiles/Ghost.vue'));
-
-const name = ref('You');
+const name = ref('poltergeist');
 const showText = ref(window.innerWidth > 650);
 
 const updateShowText = () => {
