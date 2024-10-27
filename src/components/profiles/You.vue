@@ -15,26 +15,6 @@
       <span></span>
     </n-thing>
 
-    <!-- <div style="min-width: 200px; max-width: 600px; flex: 1 1 0; margin-top: 20px; margin-right: 40px;">
-      <div v-for="(item, index) in stats" :key="item.key" class="stats-item">
-        <n-icon size="24" class="stats-icon">
-          <component :is="item.icon" />
-        </n-icon>
-        <div class="progress-wrapper">
-          <n-progress
-            :percentage="item.percentage"
-            type="line"
-            :height="20"
-            :color="getProgressColor(item.percentage)"
-            :show-indicator="false"
-          />
-          <div class="progress-label">
-            <span class="progress-text" :style="{ color: getTextColor() }">{{ item.label }}</span>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
     <n-collapse>
       <n-collapse-item
         v-for="(item, index) in stats"
@@ -60,35 +40,21 @@
 
         <n-card>
           <n-thing>
-            <template #avatar>
-              <n-icon size="36">
-                <component :is="item.icon" />
-              </n-icon>
-            </template>
-            <template #header>
-              {{ item.label }}
-            </template>
-            <template #header-extra>
-              <n-icon size="24" :color="getProgressColor(item.percentage)">
-                <HappyIcon />
-              </n-icon>
-            </template>
             <template #description>
-              description
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </template>
             <template #footer>
-              <div class="progress-wrapper">
-                <n-progress
-                  :percentage="item.percentage"
-                  type="line"
-                  :height="20"
-                  :color="getProgressColor(item.percentage)"
-                  :show-indicator="false"
-                />
-                <div class="progress-label">
-                  <span class="progress-text" :style="{ color: getTextColor() }">{{ item.percentage }}/100</span>
-                </div>
-              </div>
+              <n-statistic>
+                <span :style="{ color: getProgressColor(item.percentage) }">{{ Math.round(item.percentage) }}</span>
+                <template #prefix>
+                  <n-icon>
+                    <component :is="item.icon" />
+                  </n-icon>
+                </template>
+                <template #suffix>
+                  / 100
+                </template>
+              </n-statistic>
             </template>
             <template #action>
               <div style="display: flex; align-items: center; gap: 16px;">
@@ -109,14 +75,13 @@
                     </n-tooltip>
                   </template>
                 </n-avatar-group>
-                <n-statistic label="net" value="+1/s" />
+                <n-statistic value="+1/s" />
               </div>
             </template>
           </n-thing>
         </n-card>
       </n-collapse-item>
     </n-collapse>
-
 
     <n-list bordered hoverable>
       <template #header>
@@ -132,9 +97,6 @@
         </n-thing>
       </template>
       <n-list-item v-for="(value, key) in inventory" :key="key">
-        <!-- <template #prefix>
-          <component :is="renderIcon(SunIcon)" />
-        </template> -->
         {{ key }}
         <template #suffix>
           {{ value }}
@@ -218,15 +180,13 @@ const options = [
   width: 100%;
 }
 
-.n-card {
-  min-width: 200px;
-  max-width: 400px;
-  margin-top: 20px;
+.n-collapse {
+  width: 90%;
 }
 
-.n-collapse {
-  min-width: 200px;
-  max-width: 400px;
+.n-collapse-item {
+  --n-divider-color: transparent;
+  margin: 0px;
 }
 
 .n-list {
