@@ -64,12 +64,14 @@ export function startGameLoop() {
         processResearchProgress(researchGroup);
       });
 
-      Object.keys(store.stats).forEach(statKey => {
-        const key = statKey as keyof typeof store.stats;
-        const stat = store.stats[key];
-        const decayAmount = stat.decayRate * (delta / 1000);
-        store.adjustValue(key, decayAmount);
-      });
+      if (urlSearchParams.get('DISABLE_DECAY') !== 'true') {
+        Object.keys(store.stats).forEach(statKey => {
+          const key = statKey as keyof typeof store.stats;
+          const stat = store.stats[key];
+          const decayAmount = stat.decayRate * (delta / 1000);
+          store.adjustValue(key, decayAmount);
+        });
+      }
     }
 
     store._gameLoopId = requestAnimationFrame(gameLoop);
