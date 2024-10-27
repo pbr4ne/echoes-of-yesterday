@@ -36,56 +36,60 @@
     </div> -->
 
     <n-collapse>
-      <n-collapse-item>
+      <n-collapse-item
+        v-for="(item, index) in stats"
+        :key="item.key"
+      >
         <template #header>
           <n-icon size="24" class="stats-icon">
-            <component :is="stats[0].icon" />
+            <component :is="item.icon" />
           </n-icon>
           <div class="progress-wrapper">
             <n-progress
-              :percentage="99"
+              :percentage="item.percentage"
               type="line"
               :height="20"
-              :color="getProgressColor(99)"
+              :color="getProgressColor(item.percentage)"
               :show-indicator="false"
             />
             <div class="progress-label">
-              <span class="progress-text" :style="{ color: getTextColor() }">Hunger</span>
+              <span class="progress-text" :style="{ color: getTextColor() }">{{ item.label }}</span>
             </div>
           </div>
         </template>
+
         <n-card>
           <n-thing>
             <template #avatar>
               <n-icon size="36">
-                <component :is="stats[0].icon" />
+                <component :is="item.icon" />
               </n-icon>
             </template>
             <template #header>
-              Hunger
+              {{ item.label }}
             </template>
             <template #header-extra>
-              <n-icon size="24" :color="getProgressColor(99)">
+              <n-icon size="24" :color="getProgressColor(item.percentage)">
                 <HappyIcon />
               </n-icon>
             </template>
             <template #description>
-              You need to eat multiple times a day to stay healthy. Eating a balanced diet is important for your health and wellbeing.
+              description
             </template>
             <template #footer>
               <div class="progress-wrapper">
                 <n-progress
-                  :percentage="99"
+                  :percentage="item.percentage"
                   type="line"
                   :height="20"
-                  :color="getProgressColor(99)"
+                  :color="getProgressColor(item.percentage)"
                   :show-indicator="false"
                 />
                 <div class="progress-label">
-                  <span class="progress-text" :style="{ color: getTextColor() }">99/100</span>
+                  <span class="progress-text" :style="{ color: getTextColor() }">{{ item.percentage }}/100</span>
                 </div>
               </div>
-            </template> 
+            </template>
             <template #action>
               <div style="display: flex; align-items: center; gap: 16px;">
                 <n-avatar-group :options="options" :size="40">
@@ -105,13 +109,14 @@
                     </n-tooltip>
                   </template>
                 </n-avatar-group>
-                <n-statistic value="+1/s" />
+                <n-statistic label="net" value="+1/s" />
               </div>
             </template>
           </n-thing>
         </n-card>
       </n-collapse-item>
-    </n-collapse>    
+    </n-collapse>
+
 
     <n-list bordered hoverable>
       <template #header>
@@ -217,6 +222,11 @@ const options = [
   min-width: 200px;
   max-width: 400px;
   margin-top: 20px;
+}
+
+.n-collapse {
+  min-width: 200px;
+  max-width: 400px;
 }
 
 .n-list {
