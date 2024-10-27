@@ -13,7 +13,7 @@ export const useGhosts = () => {
     { 
       key: 'poltergeist', 
       type: 'Poltergeist', 
-      name: 'Poltergeist Name',
+      name: 'Poltergeist',
       icon: PoltergeistIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',

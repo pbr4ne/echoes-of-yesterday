@@ -19,19 +19,19 @@ export const useStats = () => {
 
   const getProgressColor = (percentage: number) => {
     if (percentage <= 14) {
-      return '#577590';
+      return '#384c5e';
     } else if (percentage <= 28) {
-      return '#43aa8b';
+      return '#327d66';
     } else if (percentage <= 42) {
-      return '#90be6d';
+      return '#688a4e';
     } else if (percentage <= 57) {
-      return '#f9c74f';
+      return '#a68432';
     } else if (percentage <= 71) {
-      return '#f8961e';
+      return '#b37529';
     } else if (percentage <= 85) {
-      return '#f3722c';
+      return '#a15025';
     } else {
-      return '#f94144';
+      return '#9c2c2d';
     }
   };
 
