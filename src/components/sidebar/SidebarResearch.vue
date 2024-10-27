@@ -14,7 +14,7 @@
         :color="r.colorLight"
         :offset-degree="180"
       >
-        <span class="research-level">{{ countCompletedResearches(r) }}</span>
+        <span class="research-level">{{ countCompletedResearches(r) + 1 }}</span>
       </n-progress>
     </n-space>
   </div>
