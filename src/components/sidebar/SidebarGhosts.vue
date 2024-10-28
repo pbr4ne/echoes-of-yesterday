@@ -1,6 +1,11 @@
 <template>
   <div v-for="(ghost, key) in knownGhosts" :key="key" class="sidebar-item">
-    <n-icon size="24" class="sidebar-icon" :class="{ pulsate: ghost.active.isActive }">
+    <n-icon 
+      size="24" 
+      class="sidebar-icon" 
+      :class="{ pulsate: ghost.active.isActive }"
+      :color="collapsed ? getTagColor(ghost.state).textColor : undefined"
+    >
       <component :is="ghost.icon" />
     </n-icon>
     <span class="ghost-label" style="padding-left: 10px;" :class="{ pulsate: ghost.active.isActive }" v-if="!collapsed">

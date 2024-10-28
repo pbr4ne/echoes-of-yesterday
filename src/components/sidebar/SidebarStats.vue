@@ -1,6 +1,10 @@
 <template>
   <div v-for="(item, index) in stats" :key="item.key" class="sidebar-item">
-    <n-icon size="24" class="sidebar-icon">
+    <n-icon 
+      size="24" 
+      class="sidebar-icon" 
+      :color="collapsed ? getProgressColor(item.percentage) : undefined"
+    >
       <component :is="item.icon" />
     </n-icon>
     <div class="progress-wrapper" v-if="!collapsed">
