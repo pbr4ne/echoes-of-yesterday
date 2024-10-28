@@ -7,15 +7,15 @@
   >
     <n-tab-pane
       v-for="(room, index) in rooms"
-      :key="room.name"
-      :name="room.name"
+      :key="room.key"
+      :name="room.label"
       style="padding: 20px;"
     >
       <template #tab>
-        <n-icon :class="{ 'pulsate': isRoomActive(room.name) }" class="tab-icon">
+        <n-icon :class="{ 'pulsate': isRoomActive(room.key) }" class="tab-icon">
           <component :is="room.icon" />
         </n-icon>
-        <span v-if="showText" :class="{ 'pulsate': isRoomActive(room.name) }" class="tab-text">
+        <span v-if="showText" :class="{ 'pulsate': isRoomActive(room.key) }" class="tab-text">
           {{ room.label }}
         </span>
       </template>
@@ -52,7 +52,7 @@ onBeforeUnmount(() => {
 const gameStore = useStore();
 
 const isRoomActive = (roomName: string) => {
-  return Object.values(gameStore.ghosts).some(ghost => ghost.activeRoom === roomName && ghost.isActive);
+  return Object.values(gameStore.ghosts).some(ghost => ghost.active.activeRoom === roomName && ghost.active.isActive);
 };
 </script>
 

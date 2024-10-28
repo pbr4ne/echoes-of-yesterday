@@ -26,7 +26,7 @@ export const useSpookyEffects = (toggleColdTrail: Function) => {
     Object.keys(ghosts).forEach((ghostKey) => {
       const ghost = ghosts[ghostKey as keyof typeof ghosts];
 
-      if (!ghost.isActive) return;
+      if (!ghost.active.isActive) return;
 
       switch (ghostKey) {
         case 'poltergeist': {

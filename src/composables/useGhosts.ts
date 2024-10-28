@@ -1,5 +1,7 @@
-import { computed } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import { useStore } from './useStore';
+import { useRooms } from './useRooms';
+import { GhostDisplay, GhostKey } from '../utilities/types';
 import PoltergeistIcon from '@vicons/tabler/Tornado';
 import OrbIcon from '@vicons/tabler/ChartBubble';
 import WraithIcon from '@vicons/tabler/Atom2';
@@ -8,20 +10,21 @@ import PhantomIcon from '@vicons/carbon/WindySnow';
 
 export const useGhosts = () => {
   const store = useStore();
+  const { rooms } = useRooms();
 
-  const ghosts = computed(() => [
+  const ghosts = ref<GhostDisplay[]>([
     { 
       key: 'poltergeist', 
       type: 'Poltergeist', 
       name: 'Poltergeist-',
-      icon: PoltergeistIcon, 
-      favouredRoom: 'Kitchen',
+      icon: shallowRef(PoltergeistIcon), 
+      favouredRoom: 'bathroom',
       favouredItem: 'idk',
       active: {
-        isActive: store.ghosts.poltergeist.isActive,
-        activeRoom: store.ghosts.poltergeist.activeRoom,
-        activeDuration: store.ghosts.poltergeist.activeDuration,
-        activationStart: store.ghosts.poltergeist.activationStart
+        isActive: store.ghosts.poltergeist.active.isActive,
+        activeRoom: store.ghosts.poltergeist.active.activeRoom,
+        activeDuration: store.ghosts.poltergeist.active.activeDuration,
+        activationStart: store.ghosts.poltergeist.active.activationStart
       },
       state: store.ghosts.poltergeist.state,
       description: [
@@ -35,14 +38,14 @@ export const useGhosts = () => {
       key: 'orb', 
       type: 'Orb', 
       name: 'Orb-',
-      icon: OrbIcon, 
-      favouredRoom: 'Kitchen',
+      icon: shallowRef(OrbIcon), 
+      favouredRoom: 'bedroom',
       favouredItem: 'idk',
       active: {
-        isActive: store.ghosts.orb.isActive,
-        activeRoom: store.ghosts.orb.activeRoom,
-        activeDuration: store.ghosts.orb.activeDuration,
-        activationStart: store.ghosts.orb.activationStart
+        isActive: store.ghosts.orb.active.isActive,
+        activeRoom: store.ghosts.orb.active.activeRoom,
+        activeDuration: store.ghosts.orb.active.activeDuration,
+        activationStart: store.ghosts.orb.active.activationStart
       },
       state: store.ghosts.orb.state,
       description: [
@@ -56,14 +59,14 @@ export const useGhosts = () => {
       key: 'wraith', 
       type: 'Wraith', 
       name: 'Wraith-',
-      icon: WraithIcon, 
-      favouredRoom: 'Kitchen',
+      icon: shallowRef(WraithIcon), 
+      favouredRoom: 'den',
       favouredItem: 'idk',
       active: {
-        isActive: store.ghosts.wraith.isActive,
-        activeRoom: store.ghosts.wraith.activeRoom,
-        activeDuration: store.ghosts.wraith.activeDuration,
-        activationStart: store.ghosts.wraith.activationStart
+        isActive: store.ghosts.wraith.active.isActive,
+        activeRoom: store.ghosts.wraith.active.activeRoom,
+        activeDuration: store.ghosts.wraith.active.activeDuration,
+        activationStart: store.ghosts.wraith.active.activationStart
       },
       state: store.ghosts.wraith.state,
       description: [
@@ -77,14 +80,14 @@ export const useGhosts = () => {
       key: 'spirit', 
       type: 'Spirit', 
       name: 'Spirit-',
-      icon: SpiritIcon, 
-      favouredRoom: 'Kitchen',
+      icon: shallowRef(SpiritIcon), 
+      favouredRoom: 'kitchen',
       favouredItem: 'idk',
       active: {
-        isActive: store.ghosts.spirit.isActive,
-        activeRoom: store.ghosts.spirit.activeRoom,
-        activeDuration: store.ghosts.spirit.activeDuration,
-        activationStart: store.ghosts.spirit.activationStart
+        isActive: store.ghosts.spirit.active.isActive,
+        activeRoom: store.ghosts.spirit.active.activeRoom,
+        activeDuration: store.ghosts.spirit.active.activeDuration,
+        activationStart: store.ghosts.spirit.active.activationStart
       },
       state: store.ghosts.spirit.state,
       description: [
@@ -98,14 +101,14 @@ export const useGhosts = () => {
       key: 'phantom', 
       type: 'Phantom', 
       name: 'Phantom-',
-      icon: PhantomIcon, 
-      favouredRoom: 'Kitchen',
+      icon: shallowRef(PhantomIcon), 
+      favouredRoom: 'living',
       favouredItem: 'idk',
       active: {
-        isActive: store.ghosts.phantom.isActive,
-        activeRoom: store.ghosts.phantom.activeRoom,
-        activeDuration: store.ghosts.phantom.activeDuration,
-        activationStart: store.ghosts.phantom.activationStart
+        isActive: store.ghosts.phantom.active.isActive,
+        activeRoom: store.ghosts.phantom.active.activeRoom,
+        activeDuration: store.ghosts.phantom.active.activeDuration,
+        activationStart: store.ghosts.phantom.active.activationStart
       },
       state: store.ghosts.phantom.state,
       description: [
@@ -150,15 +153,14 @@ export const useGhosts = () => {
     }
   };
 
-  const activateGhost = (ghostKey: keyof typeof store.ghosts, duration: number) => {
+  const activateGhost = (ghostKey: GhostKey, duration: number) => {
     console.log(`Activating ${ghostKey} for ${duration}ms`);
-    const rooms = ['Bathroom', 'Bedroom', 'Cellar', 'Den', 'Kitchen', 'LivingRoom', 'Sunroom'];
-    const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
+    const randomRoom = rooms.value[Math.floor(Math.random() * rooms.value.length)];
 
-    store.ghosts[ghostKey].isActive = true;
-    store.ghosts[ghostKey].activeRoom = randomRoom;
-    store.ghosts[ghostKey].activeDuration = duration;
-    store.ghosts[ghostKey].activationStart = Date.now();
+    store.ghosts[ghostKey].active.isActive = true;
+    store.ghosts[ghostKey].active.activeRoom = randomRoom.key;
+    store.ghosts[ghostKey].active.activeDuration = duration;
+    store.ghosts[ghostKey].active.activationStart = Date.now();
 
     const ghostDescriptions: Record<keyof typeof store.ghosts, string> = {
       poltergeist: 'Strange noise',
@@ -179,15 +181,15 @@ export const useGhosts = () => {
     store.log.push({
       description,
       time: logTime,
-      room: randomRoom
+      room: randomRoom.key
     });
   };
 
   const deactivateGhost = (ghostKey: keyof typeof store.ghosts) => {
-    store.ghosts[ghostKey].isActive = false;
-    store.ghosts[ghostKey].activeRoom = null;
-    store.ghosts[ghostKey].activeDuration = null;
-    store.ghosts[ghostKey].activationStart = null;
+    store.ghosts[ghostKey].active.isActive = false;
+    store.ghosts[ghostKey].active.activeRoom = null;
+    store.ghosts[ghostKey].active.activeDuration = null;
+    store.ghosts[ghostKey].active.activationStart = null;
   };
 
   return { activateGhost, deactivateGhost, knownGhosts, getTagColor, getLabel };

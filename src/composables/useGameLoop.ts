@@ -79,11 +79,11 @@ export function startGameLoop() {
 
   const activateGhosts = (now: number) => {
     const ghostKeys = Object.keys(store.ghosts) as Array<keyof typeof store.ghosts>;
-    const activeGhost = ghostKeys.find(key => store.ghosts[key].isActive === true);
+    const activeGhost = ghostKeys.find(key => store.ghosts[key].active.isActive === true);
 
     if (activeGhost) {
       const ghost = store.ghosts[activeGhost];
-      if (ghost.activationStart && ghost.activeDuration && now - ghost.activationStart >= ghost.activeDuration) {
+      if (ghost.active.activationStart && ghost.active.activeDuration && now - ghost.active.activationStart >= ghost.active.activeDuration) {
         ghosts.deactivateGhost(activeGhost);
       }
     } else {
