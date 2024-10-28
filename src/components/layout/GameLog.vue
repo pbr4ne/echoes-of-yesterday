@@ -30,15 +30,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useStore } from '../../composables/useStore';
+import { useRooms } from '../../composables/useRooms';
 import { Calendar } from '../../utilities/types';
 import TrashIcon from '@vicons/tabler/Trash';
-import LivingRoomIcon from '@vicons/tabler/Lamp';
-import KitchenIcon from '@vicons/material/KitchenOutlined';
-import BedroomIcon from '@vicons/ionicons5/BedOutline';
-import SunroomIcon from '@vicons/tabler/Plant';
-import BathroomIcon from '@vicons/material/ShowerOutlined';
-import DenIcon from '@vicons/ionicons5/BookOutline';
-import CrawlspaceIcon from '@vicons/fluent/ConferenceRoom24Regular';
 
 const { collapsed } = defineProps({
   collapsed: {
@@ -49,17 +43,8 @@ const { collapsed } = defineProps({
 
 const showTrash = ref(false);
 
-const roomIcons: Record<string, any> = {
-  Kitchen: KitchenIcon,
-  Bedroom: BedroomIcon,
-  Sunroom: SunroomIcon,
-  Den: DenIcon,
-  LivingRoom: LivingRoomIcon,
-  Cellar: CrawlspaceIcon,
-  Bathroom: BathroomIcon
-};
-
 const store = useStore();
+const { rooms } = useRooms();
 
 function getRelativeTime(logTime: Calendar, currentTime: Calendar) {
   const diffDays = currentTime.days - logTime.days;
@@ -94,7 +79,7 @@ const timelineItems = computed(() => {
     return {
       content: entry.description,
       time: relativeTime,
-      icon: roomIcons[entry.room],
+      icon:  rooms.value.find(room => room.key === entry.room)?.icon,
     };
   });
 });

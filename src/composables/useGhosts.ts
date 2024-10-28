@@ -154,8 +154,8 @@ export const useGhosts = () => {
   };
 
   const activateGhost = (ghostKey: GhostKey, duration: number) => {
-    console.log(`Activating ${ghostKey} for ${duration}ms`);
     const randomRoom = rooms.value[Math.floor(Math.random() * rooms.value.length)];
+    console.log(`Activating ${ghostKey} in ${randomRoom.key} for ${duration}ms`);
 
     store.ghosts[ghostKey].active.isActive = true;
     store.ghosts[ghostKey].active.activeRoom = randomRoom.key;
