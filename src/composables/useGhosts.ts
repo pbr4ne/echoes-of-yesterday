@@ -13,7 +13,7 @@ export const useGhosts = () => {
     { 
       key: 'poltergeist', 
       type: 'Poltergeist', 
-      name: 'Poltergeist',
+      name: 'Poltergeist-',
       icon: PoltergeistIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',
@@ -24,11 +24,17 @@ export const useGhosts = () => {
         activationStart: store.ghosts.poltergeist.activationStart
       },
       state: store.ghosts.poltergeist.state,
+      description: [
+        'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        'Description when communicated. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+        'Description when befriended or banished. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      ]
     },
     { 
       key: 'orb', 
       type: 'Orb', 
-      name: 'Orb',
+      name: 'Orb-',
       icon: OrbIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',
@@ -39,11 +45,17 @@ export const useGhosts = () => {
         activationStart: store.ghosts.orb.activationStart
       },
       state: store.ghosts.orb.state,
+      description: [
+        'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        'Description when communicated. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+        'Description when befriended or banished. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      ]
     },
     { 
       key: 'wraith', 
       type: 'Wraith', 
-      name: 'Wraith',
+      name: 'Wraith-',
       icon: WraithIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',
@@ -54,11 +66,17 @@ export const useGhosts = () => {
         activationStart: store.ghosts.wraith.activationStart
       },
       state: store.ghosts.wraith.state,
+      description: [
+        'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        'Description when communicated. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+        'Description when befriended or banished. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      ]
     },
     { 
       key: 'spirit', 
       type: 'Spirit', 
-      name: 'Spirit',
+      name: 'Spirit-',
       icon: SpiritIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',
@@ -69,11 +87,17 @@ export const useGhosts = () => {
         activationStart: store.ghosts.spirit.activationStart
       },
       state: store.ghosts.spirit.state,
+      description: [
+        'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        'Description when communicated. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+        'Description when befriended or banished. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      ]
     },
     { 
       key: 'phantom', 
       type: 'Phantom', 
-      name: 'Phantom',
+      name: 'Phantom-',
       icon: PhantomIcon, 
       favouredRoom: 'Kitchen',
       favouredItem: 'idk',
@@ -84,6 +108,12 @@ export const useGhosts = () => {
         activationStart: store.ghosts.phantom.activationStart
       },
       state: store.ghosts.phantom.state,
+      description: [
+        'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        'Description when communicated. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+        'Description when befriended or banished. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      ]
     }
   ]);
 
