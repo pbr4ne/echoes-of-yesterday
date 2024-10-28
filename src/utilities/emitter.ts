@@ -1,12 +1,12 @@
 import mitt from 'mitt';
-import { ActionKey, View } from './types';
+import { ActionKey, InventoryKey, View } from './types';
 
 type GameEvent = {
   //actions
-  actionCompleted: { actionKey: ActionKey };
-  actionStarted: { actionKey: ActionKey, amount: number };
-  actionCancelled: { actionKey: ActionKey };
-  actionProgressed: { actionKey: ActionKey; progress: number };
+  actionCompleted: { actionKey: ActionKey | InventoryKey };
+  actionStarted: { actionKey: ActionKey | InventoryKey, amount: number };
+  actionCancelled: { actionKey: ActionKey | InventoryKey };
+  actionProgressed: { actionKey: ActionKey | InventoryKey; progress: number };
 
   researchStarted: { researchKey: string };
   researchCompleted: { researchKey: string };
