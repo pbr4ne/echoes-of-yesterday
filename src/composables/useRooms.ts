@@ -18,13 +18,13 @@ export const useRooms = () => {
   const Cellar = defineAsyncComponent(() => import('../components/rooms/Cellar.vue'));
 
   const rooms = ref([
-    { name: 'Living Room', label: 'Living Room', component: shallowRef(LivingRoom), icon: LivingRoomIcon },
-    { name: 'Kitchen', label: 'Kitchen', component: shallowRef(Kitchen), icon: KitchenIcon },
-    { name: 'Bedroom', label: 'Bedroom', component: shallowRef(Bedroom), icon: BedroomIcon },
-    { name: 'Sunroom', label: 'Sunroom', component: shallowRef(Sunroom), icon: SunroomIcon },
-    { name: 'Bathroom', label: 'Bathroom', component: shallowRef(Bathroom), icon: BathroomIcon },
-    { name: 'Den', label: 'Den', component: shallowRef(Den), icon: DenIcon },
-    { name: 'Cellar', label: 'Crawlspace', component: shallowRef(Cellar), icon: CrawlspaceIcon }
+    { name: 'Living Room', label: 'Living Room', component: shallowRef(LivingRoom), icon: shallowRef(LivingRoomIcon) },
+    { name: 'Kitchen', label: 'Kitchen', component: shallowRef(Kitchen), icon: shallowRef(KitchenIcon) },
+    { name: 'Bedroom', label: 'Bedroom', component: shallowRef(Bedroom), icon: shallowRef(BedroomIcon) },
+    { name: 'Sunroom', label: 'Sunroom', component: shallowRef(Sunroom), icon: shallowRef(SunroomIcon) },
+    { name: 'Bathroom', label: 'Bathroom', component: shallowRef(Bathroom), icon: shallowRef(BathroomIcon) },
+    { name: 'Den', label: 'Den', component: shallowRef(Den), icon: shallowRef(DenIcon) },
+    { name: 'Cellar', label: 'Crawlspace', component: shallowRef(Cellar), icon: shallowRef(CrawlspaceIcon) }
   ]);
 
   const getIconForRoom = (roomName: string) => {
