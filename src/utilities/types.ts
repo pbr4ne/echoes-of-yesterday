@@ -60,7 +60,7 @@ export interface GameState {
   inventory: Inventory;
   ghosts: Ghosts;
   calendar: Calendar;
-  pendingActions: { actionKey: ActionKey; amount: number; startTime: number; duration: number }[];
+  pendingActions: { actionKey: ActionKey | InventoryKey; amount: number; startTime: number; duration: number }[];
   log: LogEntry[];
   research: {
     sustenance: ResearchGroup;
