@@ -1,5 +1,5 @@
 <template>
-  <div v-for="(ghost, key) in ghosts" :key="key" class="sidebar-item">
+  <div v-for="(ghost, key) in knownGhosts" :key="key" class="sidebar-item">
     <n-icon size="24" class="sidebar-icon" :class="{ pulsate: ghost.active.isActive }">
       <component :is="ghost.icon" />
     </n-icon>
@@ -22,7 +22,7 @@ const { collapsed } = defineProps({
   },
 });
 
-const { ghosts, getLabel, getTagColor } = useGhosts();
+const { knownGhosts, getLabel, getTagColor } = useGhosts();
 </script>
 
 <style scoped>

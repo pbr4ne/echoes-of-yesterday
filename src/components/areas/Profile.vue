@@ -16,7 +16,7 @@
     </n-tab-pane>
 
     <n-tab-pane
-      v-for="(ghost, index) in ghosts"
+      v-for="(ghost, index) in knownGhosts"
       :key="ghost.key"
       :name="ghost.key"
       style="padding: 20px;"
@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', updateShowText);
 });
 
-const { ghosts } = useGhosts();
+const { knownGhosts } = useGhosts();
 </script>
 
 <style scoped>

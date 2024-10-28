@@ -117,6 +117,8 @@ export const useGhosts = () => {
     }
   ]);
 
+  const knownGhosts = computed(() => ghosts.value.filter(ghost => ghost.state !== 'Unknown'));
+
   const getTagColor = (state: string) => {
     switch (state) {
       case 'Unknown':
@@ -188,5 +190,5 @@ export const useGhosts = () => {
     store.ghosts[ghostKey].activationStart = null;
   };
 
-  return { activateGhost, deactivateGhost, ghosts, getTagColor, getLabel };
+  return { activateGhost, deactivateGhost, knownGhosts, getTagColor, getLabel };
 };
