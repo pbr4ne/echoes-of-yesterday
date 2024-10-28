@@ -6,66 +6,34 @@
     tab-style="padding: 7px"
   >
     <n-tab-pane
-      v-for="(panel, index) in panels"
-      :key="panel.name"
-      :name="panel.name"
+      v-for="(room, index) in rooms"
+      :key="room.name"
+      :name="room.name"
       style="padding: 20px;"
     >
       <template #tab>
-        <n-icon :class="{ 'pulsate': isRoomActive(panel.name) }" class="tab-icon">
-          <component :is="icons[index]" />
+        <n-icon :class="{ 'pulsate': isRoomActive(room.name) }" class="tab-icon">
+          <component :is="room.icon" />
         </n-icon>
-        <span v-if="showText" :class="{ 'pulsate': isRoomActive(panel.name) }" class="tab-text">
-          {{ panel.label }}
+        <span v-if="showText" :class="{ 'pulsate': isRoomActive(room.name) }" class="tab-text">
+          {{ room.label }}
         </span>
       </template>
 
-      <component :is="panel.component" />
+      <component :is="room.component" />
     </n-tab-pane>
   </n-tabs>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, defineAsyncComponent, shallowRef } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
+import { useRooms } from '../../composables/useRooms';
 import { NIcon } from 'naive-ui';
 
-const LivingRoom = defineAsyncComponent(() => import('../rooms/LivingRoom.vue'));
-const Kitchen = defineAsyncComponent(() => import('../rooms/Kitchen.vue'));
-const Bedroom = defineAsyncComponent(() => import('../rooms/Bedroom.vue'));
-const Sunroom = defineAsyncComponent(() => import('../rooms/Sunroom.vue'));
-const Bathroom = defineAsyncComponent(() => import('../rooms/Bathroom.vue'));
-const Den = defineAsyncComponent(() => import('../rooms/Den.vue'));
-const Cellar = defineAsyncComponent(() => import('../rooms/Cellar.vue'));
-
-import LivingRoomIcon from '@vicons/tabler/Lamp';
-import KitchenIcon from '@vicons/material/KitchenOutlined';
-import BedroomIcon from '@vicons/ionicons5/BedOutline';
-import SunroomIcon from '@vicons/tabler/Plant';
-import BathroomIcon from '@vicons/tabler/Bath';
-import DenIcon from '@vicons/ionicons5/BookOutline';
-import CrawlspaceIcon from '@vicons/fluent/ConferenceRoom24Regular';
-
 const name = ref('Kitchen');
-const panels = ref([
-  { name: 'Living Room', label: 'Living Room', component: shallowRef(LivingRoom) },
-  { name: 'Kitchen', label: 'Kitchen', component: shallowRef(Kitchen) },
-  { name: 'Bedroom', label: 'Bedroom', component: shallowRef(Bedroom) },
-  { name: 'Sunroom', label: 'Sunroom', component: shallowRef(Sunroom) },
-  { name: 'Bathroom', label: 'Bathroom', component: shallowRef(Bathroom) },
-  { name: 'Den', label: 'Den', component: shallowRef(Den) },
-  { name: 'Cellar', label: 'Crawlspace', component: shallowRef(Cellar) }
-]);
 
-const icons = [
-  LivingRoomIcon,
-  KitchenIcon,
-  BedroomIcon,
-  SunroomIcon,
-  BathroomIcon,
-  DenIcon,
-  CrawlspaceIcon
-];
+const { rooms } = useRooms();
 
 const showText = ref(window.innerWidth > 650);
 
