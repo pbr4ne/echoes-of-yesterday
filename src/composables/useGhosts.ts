@@ -1,4 +1,4 @@
-import { computed, ref, shallowRef } from 'vue';
+import { DefineComponent, computed } from 'vue';
 import { useStore } from './useStore';
 import { useRooms } from './useRooms';
 import { GhostDisplay, GhostKey } from '../utilities/types';
@@ -12,12 +12,12 @@ export const useGhosts = () => {
   const store = useStore();
   const { rooms } = useRooms();
 
-  const ghosts = ref<GhostDisplay[]>([
+  const ghosts = computed<GhostDisplay[]>(() => [
     { 
       key: 'poltergeist', 
       type: 'Poltergeist', 
       name: 'Poltergeist-',
-      icon: shallowRef(PoltergeistIcon), 
+      icon: PoltergeistIcon as DefineComponent, 
       favouredRoom: 'bathroom',
       favouredItem: 'idk',
       active: {
@@ -38,7 +38,7 @@ export const useGhosts = () => {
       key: 'orb', 
       type: 'Orb', 
       name: 'Orb-',
-      icon: shallowRef(OrbIcon), 
+      icon: OrbIcon as DefineComponent, 
       favouredRoom: 'bedroom',
       favouredItem: 'idk',
       active: {
@@ -59,7 +59,7 @@ export const useGhosts = () => {
       key: 'wraith', 
       type: 'Wraith', 
       name: 'Wraith-',
-      icon: shallowRef(WraithIcon), 
+      icon: WraithIcon as DefineComponent, 
       favouredRoom: 'den',
       favouredItem: 'idk',
       active: {
@@ -80,7 +80,7 @@ export const useGhosts = () => {
       key: 'spirit', 
       type: 'Spirit', 
       name: 'Spirit-',
-      icon: shallowRef(SpiritIcon), 
+      icon: SpiritIcon as DefineComponent, 
       favouredRoom: 'kitchen',
       favouredItem: 'idk',
       active: {
@@ -101,7 +101,7 @@ export const useGhosts = () => {
       key: 'phantom', 
       type: 'Phantom', 
       name: 'Phantom-',
-      icon: shallowRef(PhantomIcon), 
+      icon: PhantomIcon as DefineComponent, 
       favouredRoom: 'living',
       favouredItem: 'idk',
       active: {

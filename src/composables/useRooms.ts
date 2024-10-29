@@ -1,4 +1,4 @@
-import { computed, defineAsyncComponent, ref, shallowRef } from 'vue';
+import { computed, defineAsyncComponent, DefineComponent } from 'vue';
 import { useStore } from './useStore';
 import { RoomDisplay, RoomKey } from '../utilities/types';
 import LivingRoomIcon from '@vicons/tabler/Lamp';
@@ -21,60 +21,60 @@ export const useRooms = () => {
   const Den = defineAsyncComponent(() => import('../components/rooms/Den.vue'));
   const Cellar = defineAsyncComponent(() => import('../components/rooms/Cellar.vue'));
 
-  const rooms = ref<RoomDisplay[]>([
+  const rooms = computed<RoomDisplay[]>(() => [
     { 
       key: 'living', 
       label: 'Living Room', 
-      component: shallowRef(LivingRoom), 
-      icon: shallowRef(LivingRoomIcon),
+      component: LivingRoom as DefineComponent, 
+      icon: LivingRoomIcon as DefineComponent,
       known: store.rooms.living.known,
       locked: store.rooms.living.locked,
     },
     { 
       key: 'kitchen', 
       label: 'Kitchen', 
-      component: shallowRef(Kitchen), 
-      icon: shallowRef(KitchenIcon),
+      component: Kitchen as DefineComponent, 
+      icon: KitchenIcon as DefineComponent,
       known: store.rooms.kitchen.known,
       locked: store.rooms.kitchen.locked,
     },
     { 
       key: 'bedroom', 
       label: 'Bedroom', 
-      component: shallowRef(Bedroom), 
-      icon: shallowRef(BedroomIcon),
+      component: Bedroom as DefineComponent, 
+      icon: BedroomIcon as DefineComponent,
       known: store.rooms.bedroom.known,
       locked: store.rooms.bedroom.locked,
     },
     { 
       key: 'sunroom', 
       label: 'Sunroom', 
-      component: shallowRef(Sunroom), 
-      icon: shallowRef(SunroomIcon),
+      component: Sunroom as DefineComponent, 
+      icon: SunroomIcon as DefineComponent,
       known: store.rooms.sunroom.known,
       locked: store.rooms.sunroom.locked,
     },
     { 
       key: 'bathroom', 
       label: 'Bathroom', 
-      component: shallowRef(Bathroom), 
-      icon: shallowRef(BathroomIcon),
+      component: Bathroom as DefineComponent, 
+      icon: BathroomIcon as DefineComponent,
       known: store.rooms.bathroom.known,
       locked: store.rooms.bathroom.locked,
     },
     { 
       key: 'den', 
       label: 'Den', 
-      component: shallowRef(Den), 
-      icon: shallowRef(DenIcon),
+      component: Den as DefineComponent, 
+      icon: DenIcon as DefineComponent,
       known: store.rooms.den.known,
       locked: store.rooms.den.locked,
     },
     { 
       key: 'crawlspace', 
       label: 'Crawlspace', 
-      component: shallowRef(Cellar), 
-      icon: shallowRef(CrawlspaceIcon),
+      component: Cellar as DefineComponent, 
+      icon: CrawlspaceIcon as DefineComponent,
       known: store.rooms.crawlspace.known,
       locked: store.rooms.crawlspace.locked,
     }

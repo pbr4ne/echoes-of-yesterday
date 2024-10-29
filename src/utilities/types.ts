@@ -1,4 +1,4 @@
-import { shallowRef } from 'vue';
+import { DefineComponent } from 'vue';
 
 export type ActionKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear';
 export type InventoryKey = 'food' | 'water';
@@ -40,7 +40,7 @@ export interface GhostDisplay extends Ghost {
   key: GhostKey,
   type: string,
   name: string,
-  icon: ReturnType<typeof shallowRef>,
+  icon: DefineComponent,
   favouredRoom: RoomKey,
   favouredItem: string,
   description: string[],
@@ -54,8 +54,8 @@ export interface Room {
 export interface RoomDisplay extends Room {
   key: RoomKey;
   label: string;
-  component: ReturnType<typeof shallowRef>;
-  icon: ReturnType<typeof shallowRef>;
+  component: DefineComponent;
+  icon: DefineComponent; 
 }
 
 export interface LogEntry {
