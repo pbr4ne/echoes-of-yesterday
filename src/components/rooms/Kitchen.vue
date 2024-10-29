@@ -1,5 +1,5 @@
 <template>
-  <n-flex :size="[20, 20]">
+  <n-flex :size="[20, 20]" style="width: 640px;">
     <n-card
       class="flickerable"
       v-for="(card, cardIndex) in actionGroups"
