@@ -7,14 +7,12 @@ export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicate
 export type RoomKey = 'living' | 'kitchen' | 'bedroom' | 'sunroom' | 'bathroom' | 'den' | 'crawlspace';
 export type View = 'Rooms' | 'Research' | 'Profile';
 export type ResearchKeys = 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
-export type ResearchItemKeys = 'sustenance1' | 'sustenance2' | 'fitness1' | 'fitness2' | 'recreation1' | 'recreation2' | 'rest1' | 'rest2' | 'paranormal1' | 'paranormal2' | 'paranormal3' | 'paranormal4' | 'paranormal5' | 'paranormal6' | 'paranormal7' | 'paranormal8';
 
 export type Stats = Record<ActionKey, Stat>;
 export type Inventory = Record<InventoryKey, number>;
 export type Ghosts = Record<GhostKey, Ghost>;
 export type Rooms = Record<RoomKey, Room>;
-export type ResearchGroup =  { [key: string]: ResearchState; };
-export type Research = Record<ResearchKeys, ResearchGroup>;
+export type ResearchGroup =  { [key: string]: Research; };
 
 export interface Calendar {
   days: number;
@@ -66,21 +64,12 @@ export interface LogEntry {
   room: RoomKey;
 }
 
-export interface ResearchState {
+export interface Research {
   visible: boolean;
   known: boolean;
   complete: boolean;
   startTime?: number;
   duration?: number;
-}
-
-export interface ResearchDisplay {
-  key: ResearchKeys;
-  label: string;
-  icon: any;
-  level: number;
-  progress: number;
-  color: string;
 }
 
 export interface GameState {
