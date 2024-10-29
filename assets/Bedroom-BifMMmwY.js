@@ -1,0 +1,1 @@
+import{_ as n,r as e,o as c,c as r,w as s,e as _}from"./index-DWYC7mEV.js";const a={};function d(f,l){const t=e("n-card"),o=e("n-flex");return c(),r(o,{size:[20,20]},{default:s(()=>[_(t,{style:{width:"200px",height:"200px"},title:"bbbbbbb"})]),_:1})}const i=n(a,[["render",d]]);export{i as default};
