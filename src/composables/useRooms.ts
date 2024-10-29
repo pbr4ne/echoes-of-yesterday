@@ -1,4 +1,4 @@
-import { defineAsyncComponent, ref, shallowRef } from 'vue';
+import { computed, defineAsyncComponent, ref, shallowRef } from 'vue';
 import { useStore } from './useStore';
 import { RoomDisplay, RoomKey } from '../utilities/types';
 import LivingRoomIcon from '@vicons/tabler/Lamp';
@@ -80,10 +80,12 @@ export const useRooms = () => {
     }
   ]);
 
+  const knownRooms = computed(() => rooms.value.filter(room => room.known));
+
   const getIconForRoom = (roomKey: RoomKey) => {
     const room = rooms.value.find(room => room.key === roomKey);
     return room ? room.icon : null;
   }
 
-  return { rooms, getIconForRoom };
+  return { knownRooms, rooms, getIconForRoom };
 }

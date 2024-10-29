@@ -4,16 +4,18 @@
     type="card"
     size="small"
     tab-style="padding: 7px"
+    animated
   >
     <n-tab-pane
-      v-for="(room, index) in rooms"
+      v-for="(room, index) in knownRooms"
       :key="room.key"
       :name="room.label"
       style="padding: 20px;"
+      :disabled="room.locked"
     >
       <template #tab>
         <n-icon :class="{ 'pulsate': isRoomActive(room.key) }" class="tab-icon">
-          <component :is="room.icon" />
+          <component :is="room.locked ? RoomLocked : room.icon" />
         </n-icon>
         <span v-if="showText" :class="{ 'pulsate': isRoomActive(room.key) }" class="tab-text">
           {{ room.label }}
@@ -29,11 +31,11 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { useRooms } from '../../composables/useRooms';
-import { NIcon } from 'naive-ui';
+import RoomLocked from '@vicons/material/LockOutlined';
 
 const name = ref('Kitchen');
 
-const { rooms } = useRooms();
+const { knownRooms } = useRooms();
 
 const showText = ref(window.innerWidth > 650);
 
