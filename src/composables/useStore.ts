@@ -137,8 +137,7 @@ export const useStore = defineStore('gameState', {
       Object.values(this.research).forEach(group => {
         scheduleRecursive(group);
       });
-    },
-    
+    },    
 
     completeResearch(researchKey: string) {
       const completeRecursive = (node: any): boolean => {

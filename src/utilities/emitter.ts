@@ -3,10 +3,10 @@ import { ActionKey, InventoryKey, View } from './types';
 
 type GameEvent = {
   //actions
-  actionCompleted: { actionKey: ActionKey | InventoryKey };
   actionStarted: { actionKey: ActionKey | InventoryKey, amount: number };
-  actionCancelled: { actionKey: ActionKey | InventoryKey };
   actionProgressed: { actionKey: ActionKey | InventoryKey; progress: number };
+  actionCancelled: { actionKey: ActionKey | InventoryKey };
+  actionCompleted: { actionKey: ActionKey | InventoryKey };
 
   researchStarted: { researchKey: string };
   researchCompleted: { researchKey: string };

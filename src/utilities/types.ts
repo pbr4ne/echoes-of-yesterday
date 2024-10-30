@@ -72,13 +72,20 @@ export interface Research {
   duration?: number;
 }
 
+export interface Action {
+  actionKey: ActionKey | InventoryKey;
+  amount: number;
+  startTime: number;
+  duration: number;
+}
+
 export interface GameState {
   stats: Stats;
   inventory: Inventory;
   ghosts: Ghosts;
   rooms: Rooms;
   calendar: Calendar;
-  pendingActions: { actionKey: ActionKey | InventoryKey; amount: number; startTime: number; duration: number }[];
+  pendingActions: Action[];
   log: LogEntry[];
   research: {
     sustenance: ResearchGroup;
