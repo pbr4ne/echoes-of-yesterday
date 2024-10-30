@@ -1,9 +1,17 @@
 <template>
-  <n-flex :size="[20, 20]">
-    <n-card style="width: 200px; height: 200px;" title="Bedroom">
-    </n-card>
-  </n-flex>
+  <Room :actionGroups="actionGroups" />
 </template>
 
 <script setup lang="ts">
+import { ActionKey, InventoryKey } from '../../utilities/types';
+import Room from './Room.vue';
+
+const actionGroups: { title: string, actions: { actionKey: ActionKey | InventoryKey, amount: number, label: string }[] }[] = [
+{
+    title: 'Test',
+    actions: [
+      { actionKey: 'food', amount: 1, label: 'Test' },
+    ]
+  },
+];
 </script>

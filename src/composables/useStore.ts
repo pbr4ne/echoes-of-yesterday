@@ -28,7 +28,7 @@ const initialState = (): GameState => ({
     sunroom: { known: true, locked: false },
     bathroom: { known: true, locked: false },
     den: { known: true, locked: false },
-    crawlspace: { known: true, locked: true },
+    cellar: { known: true, locked: true },
   },
   pendingActions: [],
   log: [],

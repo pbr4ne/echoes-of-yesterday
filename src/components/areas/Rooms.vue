@@ -14,7 +14,7 @@
       :disabled="room.locked"
     >
       <template #tab>
-        <n-tooltip trigger="hover">
+        <n-tooltip trigger="hover" :disabled="!room.locked">
           <template #trigger>
             <n-icon :class="{ 'pulsate': isRoomActive(room.key) }" class="tab-icon">
               <component :is="room.locked ? RoomLocked : room.icon" />
@@ -22,7 +22,7 @@
           </template>
           <span v-if="room.locked">Locked</span>
         </n-tooltip>
-        <n-tooltip v-if="showText" trigger="hover">
+        <n-tooltip v-if="showText" trigger="hover" :disabled="!room.locked">
           <template #trigger>
             <span :class="{ 'pulsate': isRoomActive(room.key) }" class="tab-text">
               {{ room.label }}

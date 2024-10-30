@@ -4,7 +4,7 @@ export type ActionKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear';
 export type InventoryKey = 'food' | 'water';
 export type GhostKey = 'poltergeist' | 'orb' | 'wraith' | 'spirit' | 'phantom';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
-export type RoomKey = 'living' | 'kitchen' | 'bedroom' | 'sunroom' | 'bathroom' | 'den' | 'crawlspace';
+export type RoomKey = 'living' | 'kitchen' | 'bedroom' | 'sunroom' | 'bathroom' | 'den' | 'cellar';
 export type View = 'Rooms' | 'Research' | 'Profile';
 export type ResearchKeys = 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
 

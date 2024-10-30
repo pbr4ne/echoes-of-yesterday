@@ -1,48 +1,17 @@
 <template>
-  <n-flex :size="[20, 20]">
-    <n-card
-      v-for="(card, cardIndex) in taskGroups"
-      :key="cardIndex"
-      :title="card.title"
-      style="width: 200px; height: 200px;"
-    >
-      <n-flex vertical>
-        <n-button
-          v-for="task in card.tasks"
-          :key="task.id"
-          round
-        >
-          {{ task.label }}
-        </n-button>
-      </n-flex>
-    </n-card>
-  </n-flex>
+  <Room :actionGroups="actionGroups" />
 </template>
 
 <script setup lang="ts">
+import { ActionKey, InventoryKey } from '../../utilities/types';
+import Room from './Room.vue';
 
-const taskGroups = [
-  {
-    title: 'Television',
-    tasks: [
-      { id: 'television', label: 'Watch Reruns' }
+const actionGroups: { title: string, actions: { actionKey: ActionKey | InventoryKey, amount: number, label: string }[] }[] = [
+{
+    title: 'Test',
+    actions: [
+      { actionKey: 'food', amount: 1, label: 'Test' },
     ]
   },
-  {
-    title: 'Couch',
-    tasks: [
-      { id: 'sitOnCouch', label: 'Sit on Couch' },
-      { id: 'takeANap', label: 'Take a Nap' },
-      { id: 'stareIntoSpace', label: 'Stare into Space' }
-    ]
-  },
-  {
-    title: 'Lamp',
-    tasks: [
-      { id: 'turnOnLamp', label: 'Turn on Lamp' },
-      { id: 'doSomething', label: 'Do Something' }
-    ]
-  }
 ];
 </script>
-

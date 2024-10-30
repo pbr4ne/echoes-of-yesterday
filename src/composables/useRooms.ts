@@ -7,7 +7,7 @@ import BedroomIcon from '@vicons/ionicons5/BedOutline';
 import SunroomIcon from '@vicons/tabler/Plant';
 import BathroomIcon from '@vicons/tabler/Bath';
 import DenIcon from '@vicons/ionicons5/BookOutline';
-import CrawlspaceIcon from '@vicons/fluent/ConferenceRoom24Regular';
+import CellarIcon from '@vicons/fluent/ConferenceRoom24Regular';
 
 export const useRooms = () => {
 
@@ -71,12 +71,12 @@ export const useRooms = () => {
       locked: store.rooms.den.locked,
     },
     { 
-      key: 'crawlspace', 
-      label: 'Crawlspace', 
+      key: 'cellar', 
+      label: 'Cellar', 
       component: Cellar as DefineComponent, 
-      icon: CrawlspaceIcon as DefineComponent,
-      known: store.rooms.crawlspace.known,
-      locked: store.rooms.crawlspace.locked,
+      icon: CellarIcon as DefineComponent,
+      known: store.rooms.cellar.known,
+      locked: store.rooms.cellar.locked,
     }
   ]);
 
