@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
-import { ActionKey, InventoryKey, GameState } from '../utilities/types';
+import { ActionKey, InventoryKey, GameState, OneTimeAction, PersistentAction } from '../utilities/types';
 
 const initialState = (): GameState => ({
   stats: {
@@ -31,6 +31,8 @@ const initialState = (): GameState => ({
     cellar: { known: true, locked: true },
   },
   pendingActions: [],
+  pendingOneTimeActions: [],
+  pendingPersistentActions: [],
   log: [],
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
   research: {
@@ -118,6 +120,16 @@ export const useStore = defineStore('gameState', {
       this.pendingActions.push(action);
     },
 
+    scheduleOneTimeAction(oneTimeAction: OneTimeAction) {
+      const startTime = Date.now();
+      oneTimeAction.startTime = startTime;
+      this.pendingOneTimeActions.push(oneTimeAction);
+    },
+
+    schedulePersistentAction(persistentAction: PersistentAction) {
+      this.pendingPersistentActions.push(persistentAction);
+    },
+
     scheduleResearch(researchKey: string, duration = 10000) {
       const startTime = Date.now();
       
@@ -162,6 +174,14 @@ export const useStore = defineStore('gameState', {
     listenForEvents() {
       emitter.on('actionStarted', ({ actionKey, amount }) => {
         this.scheduleAction(actionKey, amount);
+      });
+
+      emitter.on('oneTimeActionStarted', (oneTimeAction: OneTimeAction) => {
+        this.scheduleOneTimeAction(oneTimeAction);
+      });
+
+      emitter.on('persistentActionStarted', (persistentAction: PersistentAction) => {
+        this.schedulePersistentAction(persistentAction);
       });
 
       emitter.on('researchStarted', ({ researchKey }) => {

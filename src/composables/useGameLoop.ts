@@ -25,6 +25,24 @@ export function startGameLoop() {
         activateGhosts(now);
       }
 
+      store.pendingOneTimeActions = store.pendingOneTimeActions.filter(action => {
+        if (action.startTime === undefined) {
+          return false;
+        }
+        const elapsed = now - action.startTime;
+        const progress = Math.min((elapsed / action.duration) * 100, 100);
+        emitter.emit('oneTimeActionProgressed', { actionKey: action.actionKey, progress });
+
+        if (progress >= 100) {
+          action.affected.forEach(affected => {
+            store.adjustValue(affected.key, affected.amount);
+          });
+          emitter.emit('oneTimeActionCompleted', { actionKey: action.actionKey });
+          return false;
+        }
+        return true;
+      });
+
       store.pendingActions = store.pendingActions.filter(action => {
         const elapsed = now - action.startTime;
         const progress = Math.min((elapsed / action.duration) * 100, 100);

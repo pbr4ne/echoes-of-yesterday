@@ -13,7 +13,7 @@
           :key="action.actionKey"
           round
           :style="getButtonStyle(action.actionKey)"
-          @click="startAction(action.actionKey, action.amount)"
+          @click="startAction(action)"
         >
           {{ action.label }}
         </n-button>
@@ -24,44 +24,52 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, defineProps } from 'vue';
-import { ActionKey, InventoryKey } from '../../utilities/types';
+import { ActionGroup, OneTimeAction, PersistentAction } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
 
 const props = defineProps<{
-  actionGroups: { 
-    title: string, 
-    actions: { 
-      actionKey: ActionKey | InventoryKey, 
-      amount: number, 
-      label: string 
-    }[] 
-  }[]
+  actionGroups: ActionGroup[]
 }>();
+
+const isOneTimeAction = (action: OneTimeAction | PersistentAction): action is OneTimeAction => {
+  return 'duration' in action;
+};
+
+const isPersistentAction = (action: OneTimeAction | PersistentAction): action is PersistentAction => {
+  return 'amountPerSecond' in action;
+};
 
 const progressStyles = ref<{ [actionKey: string]: string }>({});
 
-const handleActionProgressed = (event: { actionKey: ActionKey | InventoryKey; progress: number }) => {
+const handleOneTimeActionProgressed = (event: { actionKey: string; progress: number }) => {
   progressStyles.value[event.actionKey] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
 };
 
-const handleActionCompleted = (event: { actionKey: ActionKey | InventoryKey }) => {
+const handleOneTimeActionCompleted = (event: { actionKey: string }) => {
   progressStyles.value[event.actionKey] = '';
 };
 
-const startAction = (actionKey: ActionKey | InventoryKey, amount: number) => {
-  emitter.emit('actionStarted', { actionKey, amount });
+const startAction = (action: OneTimeAction | PersistentAction) => {
+  if (isOneTimeAction(action)) {
+    emitter.emit('oneTimeActionStarted', action);
+  } else if (isPersistentAction(action)) {
+    emitter.emit('persistentActionStarted', action);
+  } else {
+    console.error('Unknown action type', action);
+  }
 };
 
 onMounted(() => {
-  emitter.on('actionProgressed', handleActionProgressed);
-  emitter.on('actionCompleted', handleActionCompleted);
+  emitter.on('oneTimeActionProgressed', handleOneTimeActionProgressed);
+  emitter.on('oneTimeActionCompleted', handleOneTimeActionCompleted);
 });
 
 onBeforeUnmount(() => {
-  emitter.off('actionProgressed', handleActionProgressed);
+  emitter.off('oneTimeActionProgressed', handleOneTimeActionProgressed);
+  emitter.off('oneTimeActionCompleted', handleOneTimeActionCompleted);
 });
 
-const getButtonStyle = (actionKey: ActionKey | InventoryKey) => {
+const getButtonStyle = (actionKey: string) => {
   return {
     backgroundImage: progressStyles.value[actionKey],
     transition: 'background 0.3s',

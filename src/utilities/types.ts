@@ -1,6 +1,7 @@
 import { DefineComponent } from 'vue';
 
 export type ActionKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear';
+export type StatKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear';
 export type InventoryKey = 'food' | 'water';
 export type GhostKey = 'poltergeist' | 'orb' | 'wraith' | 'spirit' | 'phantom';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
@@ -8,7 +9,7 @@ export type RoomKey = 'living' | 'kitchen' | 'bedroom' | 'sunroom' | 'bathroom' 
 export type View = 'Rooms' | 'Research' | 'Profile';
 export type ResearchKeys = 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
 
-export type Stats = Record<ActionKey, Stat>;
+export type Stats = Record<StatKey, Stat>;
 export type Inventory = Record<InventoryKey, number>;
 export type Ghosts = Record<GhostKey, Ghost>;
 export type Rooms = Record<RoomKey, Room>;
@@ -79,6 +80,24 @@ export interface Action {
   duration: number;
 }
 
+export interface OneTimeAction {
+  actionKey: string;
+  label: string;
+  duration: number;
+  startTime?: number;
+  affected: { key: StatKey | InventoryKey, amount: number }[];
+}
+
+export interface PersistentAction {
+  actionKey: string;
+  label: string;
+  affected: { key: StatKey, amountPerSecond: number }[];
+}
+
+export type ActionGroup = 
+  | { title: string; actions: OneTimeAction[] }
+  | { title: string; actions: PersistentAction[] };
+
 export interface GameState {
   stats: Stats;
   inventory: Inventory;
@@ -86,6 +105,8 @@ export interface GameState {
   rooms: Rooms;
   calendar: Calendar;
   pendingActions: Action[];
+  pendingOneTimeActions: OneTimeAction[];
+  pendingPersistentActions: PersistentAction[];
   log: LogEntry[];
   research: {
     sustenance: ResearchGroup;
