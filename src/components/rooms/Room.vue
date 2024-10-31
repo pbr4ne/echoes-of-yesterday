@@ -36,7 +36,7 @@ const isOneTimeAction = (action: OneTimeAction | PersistentAction): action is On
 };
 
 const isPersistentAction = (action: OneTimeAction | PersistentAction): action is PersistentAction => {
-  return 'amountPerSecond' in action;
+  return !('duration' in action);
 };
 
 const progressStyles = ref<{ [actionKey: string]: string }>({});

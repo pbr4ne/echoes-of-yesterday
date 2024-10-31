@@ -43,6 +43,12 @@ export function startGameLoop() {
         return true;
       });
 
+      store.pendingPersistentActions.forEach(action => {
+        action.affected.forEach(affected => {
+          store.adjustValue(affected.key, affected.amountPerSecond * (delta / 1000));
+        });
+      });
+
       store.pendingActions = store.pendingActions.filter(action => {
         const elapsed = now - action.startTime;
         const progress = Math.min((elapsed / action.duration) * 100, 100);

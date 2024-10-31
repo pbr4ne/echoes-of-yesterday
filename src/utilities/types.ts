@@ -94,9 +94,10 @@ export interface PersistentAction {
   affected: { key: StatKey, amountPerSecond: number }[];
 }
 
-export type ActionGroup = 
-  | { title: string; actions: OneTimeAction[] }
-  | { title: string; actions: PersistentAction[] };
+export type ActionGroup = { 
+  title: string; 
+  actions: (OneTimeAction | PersistentAction)[]; 
+};
 
 export interface GameState {
   stats: Stats;
