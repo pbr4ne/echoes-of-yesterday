@@ -6,12 +6,12 @@
 import { ActionKey, InventoryKey } from '../../utilities/types';
 import Room from './Room.vue';
 
-const actionGroups: { title: string, actions: { actionKey: ActionKey | InventoryKey, amount: number, label: string }[] }[] = [
+const actionGroups: ActionGroup[] = [
 {
     title: 'Test',
     actions: [
-      { actionKey: 'food', amount: 1, label: 'Test' },
-    ]
+      { actionKey: 'test', label: 'Test', duration: 10000, affected: [{ key: 'food', amount: 1 }] },
+    ],
   },
 ];
 </script>
