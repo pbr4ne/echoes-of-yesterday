@@ -6,6 +6,12 @@ import { applyOrbEffect, orbStyles } from './spookyEffects/orbEffect';
 import { applyWhisperEffect } from './spookyEffects/whisperEffect';
 
 export const useSpookyEffects = (toggleColdTrail: Function) => {
+
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  if (urlSearchParams.get('EFFECTS') === 'false') {
+    return;
+  }
+
   const store = useStore();
 
   let cleanupFlicker: Function | null = null;
