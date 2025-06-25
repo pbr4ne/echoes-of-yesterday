@@ -49,20 +49,6 @@ export function startGameLoop() {
         });
       });
 
-      store.pendingActions = store.pendingActions.filter(action => {
-        const elapsed = now - action.startTime;
-        const progress = Math.min((elapsed / action.duration) * 100, 100);
-        emitter.emit('actionProgressed', { actionKey: action.actionKey, progress });
-
-        if (progress >= 100) {
-          const statKey = action.actionKey;
-          store.adjustValue(statKey, action.amount);
-          emitter.emit('actionCompleted', { actionKey: action.actionKey });
-          return false;
-        }
-        return true;
-      });
-
       const processResearchProgress = (researchGroup: any) => {
         Object.keys(researchGroup).forEach(key => {
           const research = researchGroup[key];

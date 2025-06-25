@@ -1,13 +1,8 @@
 import mitt from 'mitt';
-import { ActionKey, InventoryKey, View, PersistentAction, OneTimeAction } from './types';
+import { View, PersistentAction, OneTimeAction } from './types';
 
 type GameEvent = {
   //actions
-  actionStarted: { actionKey: ActionKey | InventoryKey, amount: number };
-  actionProgressed: { actionKey: ActionKey | InventoryKey; progress: number };
-  actionCancelled: { actionKey: ActionKey | InventoryKey };
-  actionCompleted: { actionKey: ActionKey | InventoryKey };
-
   oneTimeActionStarted: OneTimeAction;
   oneTimeActionProgressed: { actionKey: string; progress: number };
   oneTimeActionCancelled: { actionKey: string };

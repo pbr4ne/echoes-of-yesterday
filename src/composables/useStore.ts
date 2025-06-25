@@ -30,7 +30,6 @@ const initialState = (): GameState => ({
     den: { known: true, locked: false },
     cellar: { known: true, locked: true },
   },
-  pendingActions: [],
   pendingOneTimeActions: [],
   pendingPersistentActions: [],
   log: [],
@@ -112,12 +111,6 @@ export const useStore = defineStore('gameState', {
         this.calendar.days += Math.floor(this.calendar.hours / 24);
         this.calendar.hours = this.calendar.hours % 24;
       }
-    },    
-
-    scheduleAction(actionKey: ActionKey | InventoryKey, amount: number, duration = 10000) {
-      const startTime = Date.now();
-      const action = { actionKey, amount, startTime, duration };
-      this.pendingActions.push(action);
     },
 
     scheduleOneTimeAction(oneTimeAction: OneTimeAction) {
@@ -172,10 +165,6 @@ export const useStore = defineStore('gameState', {
     
 
     listenForEvents() {
-      emitter.on('actionStarted', ({ actionKey, amount }) => {
-        this.scheduleAction(actionKey, amount);
-      });
-
       emitter.on('oneTimeActionStarted', (oneTimeAction: OneTimeAction) => {
         this.scheduleOneTimeAction(oneTimeAction);
       });

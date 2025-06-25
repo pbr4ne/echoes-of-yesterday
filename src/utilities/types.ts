@@ -73,13 +73,6 @@ export interface Research {
   duration?: number;
 }
 
-export interface Action {
-  actionKey: ActionKey | InventoryKey;
-  amount: number;
-  startTime: number;
-  duration: number;
-}
-
 export interface OneTimeAction {
   actionKey: string;
   label: string;
@@ -105,7 +98,6 @@ export interface GameState {
   ghosts: Ghosts;
   rooms: Rooms;
   calendar: Calendar;
-  pendingActions: Action[];
   pendingOneTimeActions: OneTimeAction[];
   pendingPersistentActions: PersistentAction[];
   log: LogEntry[];
