@@ -1,7 +1,9 @@
 <template>
   <n-config-provider :theme="theme">
-    <game />
-    <cold-trail v-if="showColdTrail" />
+    <n-modal-provider>
+      <game />
+      <cold-trail v-if="showColdTrail" />
+    </n-modal-provider>
   </n-config-provider>
 </template>
 

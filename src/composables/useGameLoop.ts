@@ -39,6 +39,7 @@ export function startGameLoop() {
           if (action.deviceKey && action.targetGhost) {
             const g = store.ghosts[action.targetGhost];
             g.deviceInteractions[action.deviceKey] = (g.deviceInteractions[action.deviceKey] ?? 0) + 1;
+            emitter.emit('deviceInteractedWith', { deviceKey: action.deviceKey, targetGhost: action.targetGhost });
           }
 
           emitter.emit('oneTimeActionCompleted', { actionKey: action.actionKey });

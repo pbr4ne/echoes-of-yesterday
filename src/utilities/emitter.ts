@@ -11,6 +11,8 @@ type GameEvent = {
   persistentActionStarted: PersistentAction;
   persistentActionCancelled: { actionKey: string };
 
+  deviceInteractedWith: { deviceKey?: string; targetGhost?: string };
+
   researchStarted: { researchKey: string };
   researchCompleted: { researchKey: string };
   researchProgressed: { researchKey: string; progress: number };
