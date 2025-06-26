@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
-import { ActionKey, InventoryKey, GameState, OneTimeAction, PersistentAction } from '../utilities/types';
+import { ActionKey, DeviceKey, GhostKey, InventoryKey, GameState, OneTimeAction, PersistentAction } from '../utilities/types';
+
+const defaultDeviceInteractions = (): Record<DeviceKey, number> => ({
+	teaLeaves: 0,
+	tv: 0,
+});
 
 const initialState = (): GameState => ({
   stats: {
@@ -15,11 +20,11 @@ const initialState = (): GameState => ({
     water: 10,
   },
   ghosts: {
-    poltergeist: { state: 'Banished', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }},
-    orb: { state: 'Befriended', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }},
-    wraith: { state: 'Communicated', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }},
-    spirit: { state: 'Identified', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }},
-    phantom: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }},
+    poltergeist: { state: 'Banished', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
+    orb: { state: 'Befriended', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
+    wraith: { state: 'Communicated', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
+    spirit: { state: 'Identified', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
+    phantom: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
   },
   rooms: {
     living: { known: true, locked: false },
@@ -83,9 +88,10 @@ export const useStore = defineStore('gameState', {
       }
     },
 
-    isActionKey(key: ActionKey | InventoryKey): key is ActionKey {
+    isActionKey(key: ActionKey | InventoryKey ): key is ActionKey {
       return key in this.stats;
     },
+
     isInventoryKey(key: ActionKey | InventoryKey): key is InventoryKey {
       return key in this.inventory;
     },
@@ -114,9 +120,11 @@ export const useStore = defineStore('gameState', {
     },
 
     scheduleOneTimeAction(oneTimeAction: OneTimeAction) {
-      const startTime = Date.now();
-      oneTimeAction.startTime = startTime;
-      this.pendingOneTimeActions.push(oneTimeAction);
+      const startTime = Date.now()
+      oneTimeAction.startTime = startTime
+      const activeGhost = (Object.keys(this.ghosts) as GhostKey[]).find(k => this.ghosts[k].active.isActive)
+      if (activeGhost) oneTimeAction.targetGhost = activeGhost
+      this.pendingOneTimeActions.push(oneTimeAction)
     },
 
     schedulePersistentAction(persistentAction: PersistentAction) {

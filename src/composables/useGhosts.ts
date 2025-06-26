@@ -27,6 +27,7 @@ export const useGhosts = () => {
         activationStart: store.ghosts.poltergeist.active.activationStart
       },
       state: store.ghosts.poltergeist.state,
+      deviceInteractions: store.ghosts.poltergeist.deviceInteractions,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -48,6 +49,7 @@ export const useGhosts = () => {
         activationStart: store.ghosts.orb.active.activationStart
       },
       state: store.ghosts.orb.state,
+      deviceInteractions: store.ghosts.orb.deviceInteractions,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -69,6 +71,7 @@ export const useGhosts = () => {
         activationStart: store.ghosts.wraith.active.activationStart
       },
       state: store.ghosts.wraith.state,
+      deviceInteractions: store.ghosts.wraith.deviceInteractions,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -90,6 +93,7 @@ export const useGhosts = () => {
         activationStart: store.ghosts.spirit.active.activationStart
       },
       state: store.ghosts.spirit.state,
+      deviceInteractions: store.ghosts.spirit.deviceInteractions,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -111,6 +115,7 @@ export const useGhosts = () => {
         activationStart: store.ghosts.phantom.active.activationStart
       },
       state: store.ghosts.phantom.state,
+      deviceInteractions: store.ghosts.phantom.deviceInteractions,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',

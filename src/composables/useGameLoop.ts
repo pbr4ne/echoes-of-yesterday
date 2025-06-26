@@ -34,9 +34,13 @@ export function startGameLoop() {
         emitter.emit('oneTimeActionProgressed', { actionKey: action.actionKey, progress });
 
         if (progress >= 100) {
-          action.affected.forEach(affected => {
-            store.adjustValue(affected.key, affected.amount);
-          });
+          action.affected.forEach(a => store.adjustValue(a.key, a.amount));
+
+          if (action.deviceKey && action.targetGhost) {
+            const g = store.ghosts[action.targetGhost];
+            g.deviceInteractions[action.deviceKey] = (g.deviceInteractions[action.deviceKey] ?? 0) + 1;
+          }
+
           emitter.emit('oneTimeActionCompleted', { actionKey: action.actionKey });
           return false;
         }

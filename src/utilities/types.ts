@@ -8,6 +8,7 @@ export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicate
 export type RoomKey = 'living' | 'kitchen' | 'bedroom' | 'sunroom' | 'bathroom' | 'den' | 'cellar';
 export type View = 'Rooms' | 'Research' | 'Profile';
 export type ResearchKeys = 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
+export type DeviceKey = 'teaLeaves' | 'tv';
 
 export type Stats = Record<StatKey, Stat>;
 export type Inventory = Record<InventoryKey, number>;
@@ -35,6 +36,7 @@ export interface Ghost {
     activeDuration: number | null;
     activationStart: number | null;
   };
+  deviceInteractions: Record<DeviceKey, number>;
 }
 
 export interface GhostDisplay extends Ghost {
@@ -79,6 +81,8 @@ export interface OneTimeAction {
   duration: number;
   startTime?: number;
   affected: { key: StatKey | InventoryKey, amount: number }[];
+  deviceKey?: DeviceKey;
+  targetGhost?: GhostKey;
 }
 
 export interface PersistentAction {
