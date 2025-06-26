@@ -17,7 +17,7 @@ const actionGroups: ActionGroup[] = [
   {
     title: 'Tea Set',
     actions: [
-      { actionKey: 'teaLeaves', label: 'Read Tea Leaves', duration: 5000, deviceKey: 'teaLeaves', affected: [] },
+      { actionKey: 'teaLeaves', label: 'Read Tea Leaves', duration: 1000, deviceKey: 'teaLeaves', affected: [] },
     ],
   }
 ];

@@ -47,6 +47,7 @@ export interface GhostDisplay extends Ghost {
   favouredRoom: RoomKey,
   favouredItem: string,
   description: string[],
+  deviceCommunication: Record<DeviceKey, string[][]>;
 }
 
 export interface Room {

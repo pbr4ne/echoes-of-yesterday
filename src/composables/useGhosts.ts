@@ -1,6 +1,7 @@
 import { DefineComponent, computed } from 'vue';
 import { useStore } from './useStore';
 import { useRooms } from './useRooms';
+import { useDevices } from './useDevices';
 import { GhostDisplay, GhostKey } from '../utilities/types';
 import PoltergeistIcon from '@vicons/tabler/Tornado';
 import OrbIcon from '@vicons/tabler/ChartBubble';
@@ -10,6 +11,7 @@ import PhantomIcon from '@vicons/carbon/WindySnow';
 
 export const useGhosts = () => {
   const store = useStore();
+  const { devices } = useDevices();
   const { rooms } = useRooms();
 
   const ghosts = computed<GhostDisplay[]>(() => [
@@ -28,6 +30,7 @@ export const useGhosts = () => {
       },
       state: store.ghosts.poltergeist.state,
       deviceInteractions: store.ghosts.poltergeist.deviceInteractions,
+      deviceCommunication: devices.poltergeist.deviceCommunication,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -50,6 +53,7 @@ export const useGhosts = () => {
       },
       state: store.ghosts.orb.state,
       deviceInteractions: store.ghosts.orb.deviceInteractions,
+      deviceCommunication: devices.poltergeist.deviceCommunication,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -72,6 +76,7 @@ export const useGhosts = () => {
       },
       state: store.ghosts.wraith.state,
       deviceInteractions: store.ghosts.wraith.deviceInteractions,
+      deviceCommunication: devices.poltergeist.deviceCommunication,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -94,6 +99,7 @@ export const useGhosts = () => {
       },
       state: store.ghosts.spirit.state,
       deviceInteractions: store.ghosts.spirit.deviceInteractions,
+      deviceCommunication: devices.poltergeist.deviceCommunication,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -116,6 +122,7 @@ export const useGhosts = () => {
       },
       state: store.ghosts.phantom.state,
       deviceInteractions: store.ghosts.phantom.deviceInteractions,
+      deviceCommunication: devices.poltergeist.deviceCommunication,
       description: [
         'Description when encountered. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         'Description when identified. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
