@@ -3,7 +3,7 @@ import { useModal } from 'naive-ui'
 import { emitter } from '../utilities/emitter'
 import { DeviceKey, GhostKey } from '../utilities/types'
 
-export const useDevices = () => {
+export const useDeviceCommunication = () => {
 	const modal = useModal()
 
 	const handleInteraction = (e: { deviceKey?: string; targetGhost?: string }) => {

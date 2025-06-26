@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
   import { ref, watchEffect, onBeforeUnmount, onMounted, shallowRef } from 'vue';
-  import { useDevices } from '../../composables/useDevices';
+  import { useDeviceCommunication } from '../../composables/useDeviceCommunication';
   import { emitter } from '../../utilities/emitter';  
   import { View } from '../../utilities/types';
   import GameFooter from './GameFooter.vue';
@@ -63,7 +63,7 @@
   import Research from '../areas/Research.vue';
   import Profile from '../areas/Profile.vue';
 
-  useDevices();
+  useDeviceCommunication();
 
   const leftCollapsed = ref(isSmallWindow());
   const rightCollapsed = ref(isSmallWindow());
