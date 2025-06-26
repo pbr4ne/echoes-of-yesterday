@@ -32,6 +32,11 @@ export const useDeviceCommunication = () => {
     const gKey = targetGhost as GhostKey;
 
     const interactions = devices.devices[gKey].deviceCommunication[dKey];
+    if (!interactions || interactions.length === 0) {
+      console.warn(`No interactions found for device ${dKey} with ghost ${gKey}`);
+      return;
+    }
+    
     const idx = Math.min(store.ghosts[gKey].deviceInteractions[dKey] - 1, interactions.length - 1);
 
     const intro = `used ${dKey} to communicate with ${gKey}. numTimes: ${idx + 1}.`;
