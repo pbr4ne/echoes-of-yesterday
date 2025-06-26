@@ -10,6 +10,21 @@ export const useDeviceCommunication = () => {
   const devices = useDevices();
   const store = useStore();
 
+  const showDialogs = (intro: string, messages: string[]) => {
+    const open = (i: number) => {
+      modal.create({
+				title: 'Device interaction',
+				preset: 'dialog',
+				content: i === 0 ? `${intro}\n\n${messages[i]}` : messages[i],
+				positiveText: i < messages.length - 1 ? 'Next' : 'OK',
+				onPositiveClick: () => {
+					if (i < messages.length - 1) open(i + 1)
+				}
+			})
+		}
+		open(0)
+	};
+
   const handleInteraction = ({ deviceKey, targetGhost }: { deviceKey?: string; targetGhost?: string }) => {
     if (!deviceKey || !targetGhost) return;
 
@@ -18,15 +33,12 @@ export const useDeviceCommunication = () => {
 
     const interactions = devices.devices[gKey].deviceCommunication[dKey];
     const idx = Math.min(store.ghosts[gKey].deviceInteractions[dKey] - 1, interactions.length - 1);
-    const dialogText = interactions[idx][0];
 
-    modal.create({
-      title: 'Device interaction',
-      preset: 'dialog',
-      content: `used ${dKey} to communicate with ${gKey}. numTimes: ${idx + 1}.\n\ndialogText: ${dialogText}`,
-      positiveText: 'OK',
-    });
-  }
+    const intro = `used ${dKey} to communicate with ${gKey}. numTimes: ${idx + 1}.`;
+    const messages = interactions[idx];
+
+    showDialogs(intro, messages);
+	}
 
 	emitter.on('deviceInteractedWith', handleInteraction);
 
