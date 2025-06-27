@@ -2,6 +2,7 @@ import { DefineComponent, computed } from 'vue';
 import { useStore } from './useStore';
 import { useRooms } from './useRooms';
 import { useDevices } from './useDevices';
+import { useTime } from './useTime';
 import { GhostDisplay, GhostKey } from '../utilities/types';
 import PoltergeistIcon from '@vicons/tabler/Tornado';
 import OrbIcon from '@vicons/tabler/ChartBubble';
@@ -13,6 +14,7 @@ export const useGhosts = () => {
   const store = useStore();
   const { devices } = useDevices();
   const { rooms } = useRooms();
+  const { gameNow } = useTime();
 
   const ghosts = computed<GhostDisplay[]>(() => [
     { 
@@ -172,7 +174,7 @@ export const useGhosts = () => {
     store.ghosts[ghostKey].active.isActive = true;
     store.ghosts[ghostKey].active.activeRoom = randomRoom.key;
     store.ghosts[ghostKey].active.activeDuration = duration;
-    store.ghosts[ghostKey].active.activationStart = Date.now();
+    store.ghosts[ghostKey].active.activationStart = gameNow();
 
     const ghostDescriptions: Record<keyof typeof store.ghosts, string> = {
       poltergeist: 'Strange noise',

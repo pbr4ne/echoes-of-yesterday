@@ -35,9 +35,10 @@
     </n-tooltip>
     <n-tooltip placement="top" trigger="hover">
       <template #trigger>
-        <n-button strong circle>
+        <n-button strong circle @click="switchPause">
           <template #icon>
-            <n-icon><pause-icon /></n-icon>
+            <n-icon><pause-icon v-if="!paused"/></n-icon>
+            <n-icon><play-icon v-if="paused"/></n-icon>
           </template>
         </n-button>
       </template>
@@ -79,8 +80,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from '../../composables/useStore';
+import { useTime } from '../../composables/useTime';
 import { QuestionOutlined as AboutIcon, PauseOutlined as PauseIcon } from '@vicons/antd';
 import { IosGitBranch as VersionIcon } from '@vicons/ionicons4';
+import { PlayOutline as PlayIcon } from '@vicons/ionicons5';
 import {
   DarkModeOutlined as DarkModeIcon,
   FileUploadOutlined as ImportIcon,
@@ -90,9 +93,18 @@ import {
 } from '@vicons/material';
 import { NButton, NIcon, NSpace, NTooltip } from 'naive-ui';
 import useTheme from '../../composables/useTheme';
+import { emitter } from '../../utilities/emitter';
 
 const { lightMode, switchTheme } = useTheme();
+const { paused } = useTime();
 
+const switchPause = () => {
+  if (paused.value) {
+    emitter.emit('unpaused', {});
+  } else {
+    emitter.emit('paused', {});
+  }
+}
 const otherThemeName = computed(() => (lightMode.value ? 'Dark Mode' : 'Light Mode'));
 
 const restart = () => {

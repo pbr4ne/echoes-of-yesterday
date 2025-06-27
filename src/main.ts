@@ -5,6 +5,8 @@ import { piniaPlugin } from './utilities/piniaPlugin';
 import { naive } from './utilities/naiveUI';
 import { useStore } from './composables/useStore';
 import { startGameLoop } from './composables/useGameLoop'; 
+import { useTime } from './composables/useTime';
+import { emitter } from './utilities/emitter';
 import VueBlocksTree from 'vue3-blocks-tree';
 import 'vue3-blocks-tree/dist/vue3-blocks-tree.css';
 import './styles/animations.css';
@@ -21,6 +23,10 @@ app.use(VueBlocksTree, defaultoptions);
 
 const store = useStore();
 store.listenForEvents();
+
+const { pause, resume } = useTime();
+emitter.on('paused', pause);
+emitter.on('unpaused', resume);
 
 startGameLoop();
 

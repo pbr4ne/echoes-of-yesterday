@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
+import { useTime } from '../composables/useTime';
 import { ActionKey, DeviceKey, GhostKey, InventoryKey, GameState, OneTimeAction, PersistentAction } from '../utilities/types';
 
 const defaultDeviceInteractions = (): Record<DeviceKey, number> => ({
@@ -120,11 +121,12 @@ export const useStore = defineStore('gameState', {
     },
 
     scheduleOneTimeAction(oneTimeAction: OneTimeAction) {
-      const startTime = Date.now()
-      oneTimeAction.startTime = startTime
-      const activeGhost = (Object.keys(this.ghosts) as GhostKey[]).find(k => this.ghosts[k].active.isActive)
-      if (activeGhost) oneTimeAction.targetGhost = activeGhost
-      this.pendingOneTimeActions.push(oneTimeAction)
+      const { gameNow } = useTime();
+      const startTime = gameNow();
+      oneTimeAction.startTime = startTime;
+      const activeGhost = (Object.keys(this.ghosts) as GhostKey[]).find(k => this.ghosts[k].active.isActive);
+      if (activeGhost) oneTimeAction.targetGhost = activeGhost;
+      this.pendingOneTimeActions.push(oneTimeAction);
     },
 
     schedulePersistentAction(persistentAction: PersistentAction) {
@@ -132,7 +134,8 @@ export const useStore = defineStore('gameState', {
     },
 
     scheduleResearch(researchKey: string, duration = 10000) {
-      const startTime = Date.now();
+      const { gameNow } = useTime();
+      const startTime = gameNow();
       
       const scheduleRecursive = (node: any): boolean => {
         if (node[researchKey]) {
