@@ -170,7 +170,6 @@ export const useStore = defineStore('gameState', {
         completeRecursive(group);
       });
     },
-    
 
     listenForEvents() {
       emitter.on('oneTimeActionStarted', (oneTimeAction: OneTimeAction) => {

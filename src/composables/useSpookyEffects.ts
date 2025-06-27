@@ -8,7 +8,7 @@ import { applyWhisperEffect } from './spookyEffects/whisperEffect';
 export const useSpookyEffects = (toggleColdTrail: Function) => {
 
   const urlSearchParams = new URLSearchParams(window.location.search);
-  if (urlSearchParams.get('EFFECTS') === 'false') {
+  if (urlSearchParams.get('DISABLE_EFFECTS') === 'true') {
     return;
   }
 
