@@ -16,7 +16,7 @@
       <template #tab>
         <n-tooltip trigger="hover" :disabled="!room.locked">
           <template #trigger>
-            <n-icon :class="{ 'pulsate': isRoomActive(room.key) }" class="tab-icon">
+            <n-icon :class="{ 'pulsate': isRoomActive(room.key) && !paused }" class="tab-icon">
               <component :is="room.locked ? RoomLocked : room.icon" />
             </n-icon>
           </template>
@@ -24,7 +24,7 @@
         </n-tooltip>
         <n-tooltip v-if="showText" trigger="hover" :disabled="!room.locked">
           <template #trigger>
-            <span :class="{ 'pulsate': isRoomActive(room.key) }" class="tab-text">
+            <span :class="{ 'pulsate': isRoomActive(room.key) && !paused}" class="tab-text">
               {{ room.label }}
             </span>
           </template>
@@ -41,7 +41,10 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { useRooms } from '../../composables/useRooms';
+import { useTime } from '../../composables/useTime';
 import RoomLocked from '@vicons/material/LockOutlined';
+
+const { paused } = useTime();
 
 const name = ref('Kitchen');
 

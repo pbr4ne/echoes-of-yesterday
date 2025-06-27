@@ -12,17 +12,22 @@ export const useDeviceCommunication = () => {
 
   const showDialogs = (intro: string, messages: string[]) => {
     const open = (i: number) => {
+      emitter.emit('paused', {});
       modal.create({
 				title: 'Device interaction',
 				preset: 'dialog',
 				content: i === 0 ? `${intro}\n\n${messages[i]}` : messages[i],
 				positiveText: i < messages.length - 1 ? 'Next' : 'OK',
 				onPositiveClick: () => {
-					if (i < messages.length - 1) open(i + 1)
+					if (i < messages.length - 1) {
+            open(i + 1);
+          } else {
+            emitter.emit('unpaused', {});
+          }
 				}
 			})
 		}
-		open(0)
+		open(0);
 	};
 
   const handleInteraction = ({ deviceKey, targetGhost }: { deviceKey?: string; targetGhost?: string }) => {

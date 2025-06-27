@@ -1,16 +1,62 @@
 import { useStore } from './useStore';
 import { useGhosts } from './useGhosts';
+import { useTime } from './useTime';
 import { emitter } from '../utilities/emitter';
 import { ResearchKeys } from '../utilities/types';
 
 export function startGameLoop() {
   const store = useStore();
   const ghosts = useGhosts();
+  const { paused } = useTime();
 
   const TICK_RATE = 50;
   let lastTick = Date.now();
+  let pausedAt: number | null = null
+
+  const shiftOneTimeStarts = (ms: number) =>
+		store.pendingOneTimeActions.forEach(a => {
+			if (a.startTime) a.startTime += ms;
+		});
+
+	const shiftResearchStarts = (node: any, ms: number) => {
+		Object.values(node).forEach((r: any) => {
+			if (r.startTime) r.startTime += ms;
+			if (r.children)   shiftResearchStarts(r.children, ms);
+		});
+	}
+
+	const shiftGhostActivationStarts = (ms: number) =>
+		Object.values(store.ghosts).forEach(g => {
+			if (g.active.activationStart) g.active.activationStart += ms;
+		});
+
+	emitter.on('paused', () => {
+		if (!paused.value) {
+			paused.value = true;
+			pausedAt = Date.now();
+		}
+	});
+
+	emitter.on('unpaused', () => {
+		if (paused.value && pausedAt !== null) {
+			const drift = Date.now() - pausedAt;
+
+			lastTick += drift;
+			shiftOneTimeStarts(drift);
+			Object.values(store.research).forEach(rg => shiftResearchStarts(rg, drift));
+			shiftGhostActivationStarts(drift);
+
+			paused.value = false;
+			pausedAt = null;
+		}
+	});
 
   const gameLoop = () => {
+    if (paused.value) {
+			store._gameLoopId = requestAnimationFrame(gameLoop);
+			return;
+		}
+
     const now = Date.now();
     const delta = now - lastTick;
 

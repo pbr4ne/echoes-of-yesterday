@@ -3,15 +3,15 @@
     <n-icon 
       size="24" 
       class="sidebar-icon" 
-      :class="{ pulsate: ghost.active.isActive }"
+      :class="{ pulsate: (ghost.active.isActive && !paused) }"
       :color="collapsed ? getTagColor(ghost.state).textColor : undefined"
     >
       <component :is="ghost.icon" />
     </n-icon>
-    <span class="ghost-label" style="padding-left: 10px;" :class="{ pulsate: ghost.active.isActive }" v-if="!collapsed">
+    <span class="ghost-label" style="padding-left: 10px;" :class="{ pulsate: ghost.active.isActive && !paused }" v-if="!collapsed">
       {{ getLabel(ghost) }}
     </span>
-    <n-tag :color="getTagColor(ghost.state)" size="small" round :class="{ pulsate: ghost.active.isActive }" v-if="!collapsed">
+    <n-tag :color="getTagColor(ghost.state)" size="small" round :class="{ pulsate: ghost.active.isActive && !paused }" v-if="!collapsed">
       {{ ghost.state }}
     </n-tag>
   </div>
@@ -19,6 +19,9 @@
 
 <script setup lang="ts">
 import { useGhosts } from '../../composables/useGhosts';
+import { useTime } from '../../composables/useTime';
+
+const { paused } = useTime();
 
 const { collapsed } = defineProps({
   collapsed: {

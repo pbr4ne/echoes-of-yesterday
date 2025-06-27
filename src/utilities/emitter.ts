@@ -20,6 +20,8 @@ type GameEvent = {
   switchView: { view: View };
 
   autosaved: { timestamp: Date; storeId: string };
+  paused: { };
+  unpaused: { };
 };
 
 export const emitter = mitt<GameEvent>();
