@@ -43,9 +43,12 @@
           </template>
         </n-button>
       </n-badge>
-      <span class="timeHeader" v-if="showTitle">
+      <span class="timeHeader" v-if="showTitle && !paused">
         Day {{ store.calendar.days }} 
         {{ String(store.calendar.hours).padStart(2, '0') }}:{{ String(Math.floor(store.calendar.minutes / 10) * 10).padStart(2, '0') }}
+      </span>
+      <span class="timeHeader" v-else-if="showTitle && paused">
+        &nbsp;//Paused//
       </span>
       <component class="eoyHeader" :is="renderIcon(SunIcon, '#f7de5e')" />
     </n-space>
@@ -56,6 +59,7 @@
   import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
   import { View } from '../../utilities/types';
   import { useStore } from '../../composables/useStore';
+  import { useTime } from '../../composables/useTime';
   import { emitter } from '../../utilities/emitter';
   import { Door as RoomsIcon, UserSearch as ProfileIcon } from '@vicons/tabler';
   import { AccountTreeOutlined as ResearchIcon } from '@vicons/material';
@@ -65,6 +69,7 @@
   const showTitle = ref(window.innerWidth > 730);
   const store = useStore();
   const currentView = ref<View>('Rooms');
+  const { paused } = useTime();
 
   const switchView = (view: View) => {
     currentView.value = view;
