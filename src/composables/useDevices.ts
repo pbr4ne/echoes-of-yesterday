@@ -1,6 +1,6 @@
 export const useDevices = () => {
 
-  const devices = { 
+  const ghostDeviceCommunication = { 
     poltergeist: {
       deviceCommunication: {
         teaLeaves: [
@@ -123,5 +123,5 @@ export const useDevices = () => {
     }
   };
 
-  return { devices };
+  return { ghostDeviceCommunication };
 }

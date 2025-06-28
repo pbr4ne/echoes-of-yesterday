@@ -182,11 +182,11 @@ export const useStore = defineStore('gameState', {
     },
 
     updateGhostStateAfterInteraction(ghostKey: GhostKey, deviceKey: DeviceKey): void {
-      const { devices } = useDevices();
+      const { ghostDeviceCommunication } = useDevices();
       const { knownGhosts } = useGhosts();
       const favDevice = knownGhosts.value.find(g => g.key === ghostKey)?.favouredDevice;
 
-      const stepsForDevice = devices[ghostKey].deviceCommunication[deviceKey]?.length ?? 0;
+      const stepsForDevice = ghostDeviceCommunication[ghostKey].deviceCommunication[deviceKey]?.length ?? 0;
       if (stepsForDevice === 0) {
         return;
       }
@@ -201,7 +201,7 @@ export const useStore = defineStore('gameState', {
       }
 
       if (g.state === 'Identified') {
-        const allDone = Object.entries(devices[ghostKey].deviceCommunication)
+        const allDone = Object.entries(ghostDeviceCommunication[ghostKey].deviceCommunication)
           .every(([dKey, msgs]) =>
             g.deviceInteractions[dKey as DeviceKey] >= msgs.length
           );

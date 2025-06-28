@@ -7,7 +7,7 @@ import { useStore } from './useStore';
 
 export const useDeviceCommunication = () => {
 	const modal = useModal();
-  const devices = useDevices();
+  const { ghostDeviceCommunication } = useDevices();
   const store = useStore();
 
   const showDialogs = (intro: string, messages: string[]) => {
@@ -36,7 +36,7 @@ export const useDeviceCommunication = () => {
     const dKey = deviceKey as DeviceKey;
     const gKey = targetGhost as GhostKey;
 
-    const interactions = devices.devices[gKey].deviceCommunication[dKey];
+    const interactions = ghostDeviceCommunication[gKey].deviceCommunication[dKey];
     if (!interactions || interactions.length === 0) {
       console.warn(`No interactions found for device ${dKey} with ghost ${gKey}`);
       return;
