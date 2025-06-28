@@ -22,8 +22,8 @@ export const useGhosts = () => {
       type: 'Poltergeist', 
       name: 'Poltergeist-',
       icon: PoltergeistIcon as DefineComponent, 
-      favouredRoom: 'bathroom',
-      favouredItem: 'idk',
+      favouredRoom: 'living',
+      favouredDevice: 'tv',
       active: {
         isActive: store.ghosts.poltergeist.active.isActive,
         activeRoom: store.ghosts.poltergeist.active.activeRoom,
@@ -46,7 +46,7 @@ export const useGhosts = () => {
       name: 'Orb-',
       icon: OrbIcon as DefineComponent, 
       favouredRoom: 'bedroom',
-      favouredItem: 'idk',
+      favouredDevice: 'blackLight',
       active: {
         isActive: store.ghosts.orb.active.isActive,
         activeRoom: store.ghosts.orb.active.activeRoom,
@@ -69,7 +69,7 @@ export const useGhosts = () => {
       name: 'Wraith-',
       icon: WraithIcon as DefineComponent, 
       favouredRoom: 'den',
-      favouredItem: 'idk',
+      favouredDevice: 'ghostBook',
       active: {
         isActive: store.ghosts.wraith.active.isActive,
         activeRoom: store.ghosts.wraith.active.activeRoom,
@@ -92,7 +92,7 @@ export const useGhosts = () => {
       name: 'Spirit-',
       icon: SpiritIcon as DefineComponent, 
       favouredRoom: 'kitchen',
-      favouredItem: 'idk',
+      favouredDevice: 'teaLeaves',
       active: {
         isActive: store.ghosts.spirit.active.isActive,
         activeRoom: store.ghosts.spirit.active.activeRoom,
@@ -114,8 +114,8 @@ export const useGhosts = () => {
       type: 'Phantom', 
       name: 'Phantom-',
       icon: PhantomIcon as DefineComponent, 
-      favouredRoom: 'living',
-      favouredItem: 'idk',
+      favouredRoom: 'bathroom',
+      favouredDevice: 'shrine',
       active: {
         isActive: store.ghosts.phantom.active.isActive,
         activeRoom: store.ghosts.phantom.active.activeRoom,

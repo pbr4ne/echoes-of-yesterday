@@ -9,7 +9,7 @@ export function startGameLoop() {
   const { paused, gameNow } = useTime();
 
   const TICK_RATE = 50;
-  let   lastRealNow = Date.now();
+  let lastRealNow = Date.now();
 
   const normaliseStart = (start: number, now: number): number =>
     start > now ? now : start;
@@ -43,7 +43,9 @@ export function startGameLoop() {
           emitter.emit('researchCompleted', { researchKey: key });
         }
       }
-      if (r.children) updateResearch(r.children, now);
+      if (r.children) {
+        updateResearch(r.children, now);
+      }
     });
   };
 
@@ -66,15 +68,21 @@ export function startGameLoop() {
     const now = gameNow();
 
     const url = new URLSearchParams(window.location.search);
-    if (url.get('DISABLE_GHOSTS') !== 'true') handleGhosts(now);
+    if (url.get('DISABLE_GHOSTS') !== 'true') {
+      handleGhosts(now);
+    }
 
     store.pendingOneTimeActions = store.pendingOneTimeActions.filter(a => {
-      if (!a.startTime) return false;
+      if (!a.startTime) {
+        return false;
+      }
       a.startTime = normaliseStart(a.startTime, now);
       const prog  = Math.min(((now - a.startTime) / a.duration) * 100, 100);
       emitter.emit('oneTimeActionProgressed', { actionKey: a.actionKey, progress: prog });
 
-      if (prog < 100) return true;
+      if (prog < 100) {
+        return true;
+      }
 
       a.affected.forEach(x => store.adjustValue(x.key, x.amount));
       if (a.deviceKey && a.targetGhost) {

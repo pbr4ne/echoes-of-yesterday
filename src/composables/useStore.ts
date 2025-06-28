@@ -2,10 +2,15 @@ import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
 import { useTime } from '../composables/useTime';
 import { ActionKey, DeviceKey, GhostKey, InventoryKey, GameState, OneTimeAction, PersistentAction } from '../utilities/types';
+import { useDevices } from '../composables/useDevices';
+import { useGhosts } from '../composables/useGhosts';
 
 const defaultDeviceInteractions = (): Record<DeviceKey, number> => ({
 	teaLeaves: 0,
 	tv: 0,
+  shrine: 0,
+  blackLight: 0,
+  ghostBook: 0,
 });
 
 const initialState = (): GameState => ({
@@ -21,10 +26,10 @@ const initialState = (): GameState => ({
     water: 10,
   },
   ghosts: {
-    poltergeist: { state: 'Banished', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
-    orb: { state: 'Befriended', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
-    wraith: { state: 'Communicated', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
-    spirit: { state: 'Identified', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
+    poltergeist: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
+    orb: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
+    wraith: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
+    spirit: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
     phantom: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
   },
   rooms: {
@@ -125,7 +130,9 @@ export const useStore = defineStore('gameState', {
       const startTime = gameNow();
       oneTimeAction.startTime = startTime;
       const activeGhost = (Object.keys(this.ghosts) as GhostKey[]).find(k => this.ghosts[k].active.isActive);
-      if (activeGhost) oneTimeAction.targetGhost = activeGhost;
+      if (activeGhost) {
+        oneTimeAction.targetGhost = activeGhost;
+      }
       this.pendingOneTimeActions.push(oneTimeAction);
     },
 
@@ -174,6 +181,36 @@ export const useStore = defineStore('gameState', {
       });
     },
 
+    updateGhostStateAfterInteraction(ghostKey: GhostKey, deviceKey: DeviceKey): void {
+      const { devices } = useDevices();
+      const { knownGhosts } = useGhosts();
+      const favDevice = knownGhosts.value.find(g => g.key === ghostKey)?.favouredDevice;
+
+      const stepsForDevice = devices[ghostKey].deviceCommunication[deviceKey]?.length ?? 0;
+      if (stepsForDevice === 0) {
+        return;
+      }
+
+      const g = this.ghosts[ghostKey];
+      const progress = g.deviceInteractions[deviceKey];
+
+      if (g.state === 'Encountered' &&
+          deviceKey === favDevice &&
+          progress   >= stepsForDevice) {
+        g.state = 'Identified';
+      }
+
+      if (g.state === 'Identified') {
+        const allDone = Object.entries(devices[ghostKey].deviceCommunication)
+          .every(([dKey, msgs]) =>
+            g.deviceInteractions[dKey as DeviceKey] >= msgs.length
+          );
+        if (allDone) {
+          g.state = 'Communicated';
+        }
+      }
+    },
+
     listenForEvents() {
       emitter.on('oneTimeActionStarted', (oneTimeAction: OneTimeAction) => {
         this.scheduleOneTimeAction(oneTimeAction);
@@ -185,6 +222,12 @@ export const useStore = defineStore('gameState', {
 
       emitter.on('researchStarted', ({ researchKey }) => {
         this.scheduleResearch(researchKey);
+      });
+
+      emitter.on('deviceInteractedWith', ({ deviceKey, targetGhost }) => {
+        if (deviceKey && targetGhost) {
+          this.updateGhostStateAfterInteraction(targetGhost as GhostKey, deviceKey as DeviceKey);
+        }  
       });
     },
 

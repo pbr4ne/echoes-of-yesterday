@@ -15,9 +15,18 @@ const actionGroups: ActionGroup[] = [
     ],
   },
   {
-    title: 'Tea Set',
+    title: 'Interactions',
     actions: [
       { actionKey: 'teaLeaves', label: 'Read Tea Leaves', duration: 1000, deviceKey: 'teaLeaves', affected: [] },
+      { actionKey: 'tv', label: 'Watch Static', duration: 1000, deviceKey: 'tv', affected: [] },
+      { actionKey: 'blackLight', label: 'Use Black Light', duration: 1000, deviceKey: 'blackLight', affected: [] },
+    ],
+  },
+  {
+    title: 'Interactions',
+    actions: [
+      { actionKey: 'shrine', label: 'Use Shrine', duration: 1000, deviceKey: 'shrine', affected: [] },
+      { actionKey: 'ghostBook', label: 'Write in Ghost Book', duration: 1000, deviceKey: 'ghostBook', affected: [] },
     ],
   }
 ];
