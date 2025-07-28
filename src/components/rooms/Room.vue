@@ -6,6 +6,7 @@
       :key="cardIndex"
       :title="card.title"
       style="width: 200px; height: 200px;"
+      v-show="cardHasVisibleActions(card)"
     >
       <n-flex vertical>
         <n-button
@@ -14,6 +15,7 @@
           round
           :style="getButtonStyle(action.actionKey)"
           @click="startAction(action)"
+          v-show="isVisibleAction(action)"
         >
           {{ action.label }}
         </n-button>
@@ -24,20 +26,24 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, defineProps } from 'vue';
-import { ActionGroup, OneTimeAction, PersistentAction } from '../../utilities/types';
+import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
+import { useStore } from '../../composables/useStore';
 
-const props = defineProps<{
-  actionGroups: ActionGroup[]
-}>();
+const props = defineProps<{ actionGroups: ActionGroup[] }>();
 
-const isOneTimeAction = (action: OneTimeAction | PersistentAction): action is OneTimeAction => {
-  return 'duration' in action;
-};
+const store = useStore();
 
-const isPersistentAction = (action: OneTimeAction | PersistentAction): action is PersistentAction => {
-  return !('duration' in action);
-};
+const isDeviceAction = (a: GenericAction): a is GenericAction & { deviceKey: DeviceKey } =>
+	'deviceKey' in a && typeof (a as any).deviceKey === 'string';
+
+const isVisibleAction = (a: GenericAction) => !isDeviceAction(a) || !!store.devices[a.deviceKey]?.known;
+
+const cardHasVisibleActions = (card: ActionGroup) => card.actions.some(isVisibleAction);
+
+const isOneTimeAction = (action: GenericAction): action is OneTimeAction =>  'duration' in action;
+
+const isPersistentAction = (action: GenericAction): action is PersistentAction => !('duration' in action);
 
 const progressStyles = ref<{ [actionKey: string]: string }>({});
 

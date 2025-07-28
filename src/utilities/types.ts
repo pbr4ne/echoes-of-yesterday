@@ -14,6 +14,7 @@ export type Stats = Record<StatKey, Stat>;
 export type Inventory = Record<InventoryKey, number>;
 export type Ghosts = Record<GhostKey, Ghost>;
 export type Rooms = Record<RoomKey, Room>;
+export type Devices = Record<DeviceKey, Device>;
 export type ResearchGroup =  { [key: string]: Research; };
 
 export interface Calendar {
@@ -48,6 +49,10 @@ export interface GhostDisplay extends Ghost {
   favouredDevice: DeviceKey,
   description: string[],
   deviceCommunication: Record<DeviceKey, string[][]>;
+}
+
+export interface Device {
+  known: boolean;
 }
 
 export interface Room {
@@ -92,9 +97,11 @@ export interface PersistentAction {
   affected: { key: StatKey, amountPerSecond: number }[];
 }
 
+export type GenericAction = OneTimeAction | PersistentAction;
+
 export type ActionGroup = { 
   title: string; 
-  actions: (OneTimeAction | PersistentAction)[]; 
+  actions: (GenericAction)[]; 
 };
 
 export interface GameState {
@@ -102,6 +109,7 @@ export interface GameState {
   inventory: Inventory;
   ghosts: Ghosts;
   rooms: Rooms;
+  devices: Devices;
   calendar: Calendar;
   pendingOneTimeActions: OneTimeAction[];
   pendingPersistentActions: PersistentAction[];

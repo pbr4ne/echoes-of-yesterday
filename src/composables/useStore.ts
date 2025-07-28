@@ -41,6 +41,13 @@ const initialState = (): GameState => ({
     den: { known: true, locked: false },
     cellar: { known: true, locked: true },
   },
+  devices: {
+    teaLeaves: { known: true },
+    tv: { known: true },
+    blackLight: { known: true, },
+    shrine: { known: true },
+    ghostBook: { known: true },
+  },
   pendingOneTimeActions: [],
   pendingPersistentActions: [],
   log: [],
