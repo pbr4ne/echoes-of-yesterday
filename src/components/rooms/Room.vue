@@ -9,16 +9,25 @@
       v-show="cardHasVisibleActions(card)"
     >
       <n-flex vertical>
-        <n-button
-          v-for="action in card.actions"
-          :key="action.actionKey"
-          round
-          :style="getButtonStyle(action.actionKey)"
-          @click="startAction(action)"
-          v-show="isVisibleAction(action)"
-        >
-          {{ action.label }}
-        </n-button>
+        <n-badge
+					v-for="action in card.actions"
+					:key="action.actionKey"
+					:show="showBadge(action)"
+					processing
+          value="new"
+					type="info"
+					v-show="isVisibleAction(action)"
+          :offset="[-140, 0]"
+				>
+					<n-button
+						round
+						:style="getButtonStyle(action.actionKey)"
+						@click="startAction(action)"
+            @mouseenter="deviceSeen(action)"
+					>
+						{{ action.label }}
+					</n-button>
+				</n-badge>
       </n-flex>
     </n-card>
   </n-flex>
@@ -38,6 +47,8 @@ const isDeviceAction = (a: GenericAction): a is GenericAction & { deviceKey: Dev
 	'deviceKey' in a && typeof (a as any).deviceKey === 'string';
 
 const isVisibleAction = (a: GenericAction) => !isDeviceAction(a) || !!store.devices[a.deviceKey]?.known;
+
+const showBadge = (a: GenericAction) => isDeviceAction(a) && store.devices[a.deviceKey]?.seen === false;
 
 const cardHasVisibleActions = (card: ActionGroup) => card.actions.some(isVisibleAction);
 
@@ -63,6 +74,12 @@ const startAction = (action: OneTimeAction | PersistentAction) => {
   } else {
     console.error('Unknown action type', action);
   }
+};
+
+const deviceSeen = (a: GenericAction) => {
+	if (isDeviceAction(a) && store.devices[a.deviceKey]?.seen === false) {
+		emitter.emit('deviceSeen', { deviceKey: a.deviceKey });
+	}
 };
 
 onMounted(() => {

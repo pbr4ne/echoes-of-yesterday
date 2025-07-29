@@ -53,6 +53,7 @@ export interface GhostDisplay extends Ghost {
 
 export interface Device {
   known: boolean;
+  seen: boolean;
 }
 
 export interface Room {

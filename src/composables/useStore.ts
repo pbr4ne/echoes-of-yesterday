@@ -42,11 +42,11 @@ const initialState = (): GameState => ({
     cellar: { known: true, locked: true },
   },
   devices: {
-    teaLeaves: { known: true },
-    tv: { known: true },
-    blackLight: { known: true, },
-    shrine: { known: true },
-    ghostBook: { known: true },
+    teaLeaves: { known: true, seen: false },
+    tv: { known: true, seen: false },
+    blackLight: { known: true, seen: false },
+    shrine: { known: true, seen: false },
+    ghostBook: { known: true, seen: false },
   },
   pendingOneTimeActions: [],
   pendingPersistentActions: [],
@@ -235,6 +235,12 @@ export const useStore = defineStore('gameState', {
         if (deviceKey && targetGhost) {
           this.updateGhostStateAfterInteraction(targetGhost as GhostKey, deviceKey as DeviceKey);
         }  
+      });
+      
+      emitter.on('deviceSeen', ({ deviceKey }) => {
+        if (deviceKey) {
+          this.devices[deviceKey as DeviceKey].seen = true;
+        }
       });
     },
 
