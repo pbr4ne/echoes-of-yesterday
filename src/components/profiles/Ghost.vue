@@ -17,7 +17,7 @@
           <span class="tag-label">Stage</span><n-tag>{{ ghost.state }}</n-tag>
         </div> 
         <div>
-          <span class="tag-label">Active</span><n-tag>{{ ghost.active.activeRoom ? ghost.active.activeRoom : 'No' }}</n-tag>
+          <span class="tag-label">Active</span><n-tag>{{ ghost.active.activeRoom ? toTitleCase(ghost.active.activeRoom) : 'No' }}</n-tag>
         </div>
       </n-space>
     </n-space>
@@ -47,8 +47,10 @@
 <script setup lang="ts">
 import { useRooms } from '../../composables/useRooms';
 import { useGhosts } from '../../composables/useGhosts';
+import { useText } from '../../composables/useText';
 
 const { getIconForRoom } = useRooms();
+const { toTitleCase } = useText();
 
 const { ghost } = defineProps({
   ghost: {

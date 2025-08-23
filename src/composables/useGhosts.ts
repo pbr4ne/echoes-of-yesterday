@@ -3,6 +3,7 @@ import { useStore } from './useStore';
 import { useRooms } from './useRooms';
 import { useDevices } from './useDevices';
 import { useTime } from './useTime';
+import { useText } from './useText';
 import { GhostDisplay, GhostKey } from '../utilities/types';
 import PoltergeistIcon from '@vicons/tabler/Tornado';
 import OrbIcon from '@vicons/tabler/ChartBubble';
@@ -14,6 +15,7 @@ export const useGhosts = () => {
   const store = useStore();
   const { ghostDeviceCommunication } = useDevices();
   const { rooms } = useRooms();
+  const { toTitleCase } = useText();
   const { gameNow } = useTime();
 
   const ghosts = computed<GhostDisplay[]>(() => [
@@ -163,7 +165,7 @@ export const useGhosts = () => {
       return ghost.name;
     } 
     else {
-      return ghost.key.charAt(0).toUpperCase() + ghost.key.slice(1);
+      return toTitleCase(ghost.key);
     }
   };
 
@@ -172,7 +174,7 @@ export const useGhosts = () => {
       return '???';
     }
     else {
-      return ghost.name.charAt(0).toUpperCase() + ghost.name.slice(1);
+      return toTitleCase(ghost.name);
     }
   }
 
@@ -180,7 +182,7 @@ export const useGhosts = () => {
     if (ghost.state === 'Encountered') {
       return '???';
     } else {
-      return ghost.type.charAt(0).toUpperCase() + ghost.type.slice(1);
+      return toTitleCase(ghost.type);
     }
   };
 
