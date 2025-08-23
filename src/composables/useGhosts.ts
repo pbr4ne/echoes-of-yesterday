@@ -167,6 +167,23 @@ export const useGhosts = () => {
     }
   };
 
+  const getName = (ghost: any) => {
+    if (ghost.state === 'Encountered') {
+      return '???';
+    }
+    else {
+      return ghost.name.charAt(0).toUpperCase() + ghost.name.slice(1);
+    }
+  }
+
+  const getType = (ghost: any) => {
+    if (ghost.state === 'Encountered') {
+      return '???';
+    } else {
+      return ghost.type.charAt(0).toUpperCase() + ghost.type.slice(1);
+    }
+  };
+
   const activateGhost = (ghostKey: GhostKey, duration: number) => {
     const randomRoom = rooms.value[Math.floor(Math.random() * rooms.value.length)];
     console.log(`Activating ${ghostKey} in ${randomRoom.key} for ${duration}ms`);
@@ -206,5 +223,5 @@ export const useGhosts = () => {
     store.ghosts[ghostKey].active.activationStart = null;
   };
 
-  return { activateGhost, deactivateGhost, knownGhosts, getTagColor, getLabel };
+  return { activateGhost, deactivateGhost, knownGhosts, getTagColor, getLabel, getName, getType };
 };

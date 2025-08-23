@@ -8,10 +8,10 @@
       </n-avatar>
       <n-space vertical style="padding: 20px;">
         <div>
-          <span class="tag-label">Type</span><n-tag>{{ ghost.type }}</n-tag>
+          <span class="tag-label">Type</span><n-tag>{{ getType(ghost) }}</n-tag>
         </div>
         <div>
-          <span class="tag-label">Name</span><n-tag>{{ ghost.name }}</n-tag>
+          <span class="tag-label">Name</span><n-tag>{{ getName(ghost) }}</n-tag>
         </div>
         <div>
           <span class="tag-label">Stage</span><n-tag>{{ ghost.state }}</n-tag>
@@ -46,6 +46,7 @@
 </template>
 <script setup lang="ts">
 import { useRooms } from '../../composables/useRooms';
+import { useGhosts } from '../../composables/useGhosts';
 
 const { getIconForRoom } = useRooms();
 
@@ -55,6 +56,8 @@ const { ghost } = defineProps({
     required: true,
   },
 });
+
+const { getName, getType } = useGhosts();
 </script>
 <style scoped>
   .n-card {

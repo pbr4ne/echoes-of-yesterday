@@ -25,7 +25,7 @@
         <n-icon :class="{ 'pulsate': ghost.active.isActive }" class="tab-icon">
           <component :is="ghost.icon" />
         </n-icon>
-        <span v-if="showText" :class="{ 'pulsate': ghost.active.isActive }" class="tab-text">{{ ghost.type }}</span>
+        <span v-if="showText" :class="{ 'pulsate': ghost.active.isActive }" class="tab-text">{{ getLabel(ghost) }}</span>
       </template>
       <ghost :ghost="ghost" />
     </n-tab-pane>
@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', updateShowText);
 });
 
-const { knownGhosts } = useGhosts();
+const { knownGhosts, getLabel } = useGhosts();
 </script>
 
 <style scoped>
