@@ -39,7 +39,6 @@ export function startGameLoop() {
         const prog = Math.min(((now - r.startTime) / r.duration) * 100, 100);
         emitter.emit('researchProgressed', { researchKey: key, progress: prog });
         if (prog >= 100) {
-          store.completeResearch(key);
           emitter.emit('researchCompleted', { researchKey: key });
         }
       }
@@ -104,7 +103,7 @@ export function startGameLoop() {
 
     if (url.get('DISABLE_DECAY') !== 'true') {
       Object.entries(store.stats).forEach(([k, s]) =>
-        store.adjustValue(k as any, s.decayRate * (realDelta / 1000))
+        store.adjustValue(k as any, store.getEffectiveDecay(k as any) * (realDelta / 1000))
       );
     }
 

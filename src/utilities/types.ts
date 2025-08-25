@@ -17,6 +17,12 @@ export type Rooms = Record<RoomKey, Room>;
 export type Devices = Record<DeviceKey, Device>;
 export type ResearchGroup =  { [key: string]: Research; };
 
+export type ResearchEffect =
+	| { type: 'unlock_device'; device: DeviceKey }
+	| { type: 'unlock_room'; room: RoomKey }
+	| { type: 'stat_decay_multiplier'; stat: StatKey; multiplier: number }
+	| { type: 'stat_decay_add'; stat: StatKey; perSecond: number };
+
 export interface Calendar {
   days: number;
   hours: number;
@@ -105,6 +111,11 @@ export type ActionGroup = {
   actions: (GenericAction)[]; 
 };
 
+export interface Modifiers {
+	decayMult: Partial<Record<StatKey, number>>;
+	decayAdd: Partial<Record<StatKey, number>>;
+}
+
 export interface GameState {
   stats: Stats;
   inventory: Inventory;
@@ -122,4 +133,6 @@ export interface GameState {
     rest: ResearchGroup;
     paranormal: ResearchGroup;
   };
+  modifiers: Modifiers;
+  appliedResearch: Set<string>;
 }

@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
 import { useTime } from '../composables/useTime';
-import { ActionKey, DeviceKey, GhostKey, InventoryKey, GameState, OneTimeAction, PersistentAction } from '../utilities/types';
+import { ActionKey, DeviceKey, GhostKey, InventoryKey, StatKey, ResearchEffect, GameState, OneTimeAction, PersistentAction } from '../utilities/types';
+import { researchEffects } from '../composables/useResearchEffects';
 import { useDevices } from '../composables/useDevices';
 import { useGhosts } from '../composables/useGhosts';
 
@@ -42,8 +43,8 @@ const initialState = (): GameState => ({
     cellar: { known: true, locked: true },
   },
   devices: {
-    teaLeaves: { known: true, seen: false },
-    tv: { known: true, seen: false },
+    teaLeaves: { known: false, seen: false },
+    tv: { known: false, seen: false },
     blackLight: { known: true, seen: false },
     shrine: { known: true, seen: false },
     ghostBook: { known: true, seen: false },
@@ -54,8 +55,8 @@ const initialState = (): GameState => ({
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
   research: {
     sustenance: {
-      sustenance1: { visible: true, known: true, complete: true },
-      sustenance2: { visible: true, known: true, complete: true },
+      sustenance1: { visible: true, known: true, complete: false },
+      sustenance2: { visible: true, known: true, complete: false },
     },
     fitness: {
       fitness1: { visible: true, known: true, complete: true },
@@ -70,8 +71,8 @@ const initialState = (): GameState => ({
       rest2: { visible: true, known: false, complete: false },
     },
     paranormal: {
-      paranormal1: { visible: true, known: false, complete: false },
-      paranormal2: { visible: true, known: false, complete: false },
+      paranormal1: { visible: true, known: true, complete: false },
+      paranormal2: { visible: true, known: true, complete: false },
       paranormal3: { visible: true, known: false, complete: false },
       paranormal4: { visible: true, known: false, complete: false },
       paranormal5: { visible: true, known: false, complete: false },
@@ -80,6 +81,11 @@ const initialState = (): GameState => ({
       paranormal8: { visible: true, known: false, complete: false },
     },
   },
+  modifiers: {
+		decayMult: {},
+		decayAdd: {}
+	},
+	appliedResearch: new Set<string>() as Set<string>,
 });
 
 export const useStore = defineStore('gameState', {
@@ -218,6 +224,43 @@ export const useStore = defineStore('gameState', {
       }
     },
 
+    getEffectiveDecay(stat: StatKey): number {
+      const base = this.stats[stat].decayRate;
+      const mult = this.modifiers.decayMult[stat] ?? 1;
+      const add  = this.modifiers.decayAdd[stat]  ?? 0;
+      return base * mult + add;
+    },
+
+    applyResearchEffects(researchKey: string) {
+      if (this.appliedResearch.has(researchKey)) return;
+
+      const effects = researchEffects[researchKey] ?? [];
+
+      (effects as ResearchEffect[]).forEach((e: ResearchEffect) => {
+        switch (e.type) {
+          case 'unlock_device':
+            this.devices[e.device].known = true;
+            break;
+          case 'unlock_room':
+            this.rooms[e.room].known = true;
+            this.rooms[e.room].locked = false;
+            break;
+          case 'stat_decay_multiplier': {
+            const cur = this.modifiers.decayMult[e.stat] ?? 1;
+            this.modifiers.decayMult[e.stat] = cur * e.multiplier;
+            break;
+          }
+          case 'stat_decay_add': {
+            const cur = this.modifiers.decayAdd[e.stat] ?? 0;
+            this.modifiers.decayAdd[e.stat] = cur + e.perSecond;
+            break;
+          }
+        }
+      });
+
+      this.appliedResearch.add(researchKey);
+    },
+
     listenForEvents() {
       emitter.on('oneTimeActionStarted', (oneTimeAction: OneTimeAction) => {
         this.scheduleOneTimeAction(oneTimeAction);
@@ -235,6 +278,11 @@ export const useStore = defineStore('gameState', {
         if (deviceKey && targetGhost) {
           this.updateGhostStateAfterInteraction(targetGhost as GhostKey, deviceKey as DeviceKey);
         }  
+      });
+
+      emitter.on('researchCompleted', ({ researchKey }) => {
+        this.completeResearch(researchKey);
+        this.applyResearchEffects(researchKey);
       });
       
       emitter.on('deviceSeen', ({ deviceKey }) => {
