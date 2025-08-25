@@ -17,6 +17,7 @@ type GameEvent = {
   researchStarted: { researchKey: string };
   researchCompleted: { researchKey: string };
   researchProgressed: { researchKey: string; progress: number };
+  researchUnlocked: { researchKey: string };
 
   switchView: { view: View };
 

@@ -21,7 +21,8 @@ export type ResearchEffect =
 	| { type: 'unlock_device'; device: DeviceKey }
 	| { type: 'unlock_room'; room: RoomKey }
 	| { type: 'stat_decay_multiplier'; stat: StatKey; multiplier: number }
-	| { type: 'stat_decay_add'; stat: StatKey; perSecond: number };
+	| { type: 'stat_decay_add'; stat: StatKey; perSecond: number }
+  | { type: 'unlock_research'; key: string };
 
 export interface Calendar {
   days: number;

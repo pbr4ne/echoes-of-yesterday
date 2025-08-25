@@ -72,7 +72,7 @@ const initialState = (): GameState => ({
     },
     paranormal: {
       paranormal1: { visible: true, known: true, complete: false },
-      paranormal2: { visible: true, known: true, complete: false },
+      paranormal2: { visible: true, known: false, complete: false },
       paranormal3: { visible: true, known: false, complete: false },
       paranormal4: { visible: true, known: false, complete: false },
       paranormal5: { visible: true, known: false, complete: false },
@@ -155,25 +155,14 @@ export const useStore = defineStore('gameState', {
 
     scheduleResearch(researchKey: string, duration = 10000) {
       const { gameNow } = useTime();
-      const startTime = gameNow();
-      
-      const scheduleRecursive = (node: any): boolean => {
-        if (node[researchKey]) {
-          console.log('scheduling research', researchKey, startTime, duration);
-          node[researchKey].startTime = startTime;
-          node[researchKey].duration = duration;
-          return true;
-        }
-        if (node.children) {
-          return Object.values(node.children).some(child => scheduleRecursive(child));
-        }
+      const node = this.getResearchNode(researchKey);
+      if (!node || !node.known || node.complete || node.startTime) {
         return false;
-      };
-    
-      Object.values(this.research).forEach(group => {
-        scheduleRecursive(group);
-      });
-    },    
+      }
+      node.startTime = gameNow();
+      node.duration = duration;
+      return true;
+    },   
 
     completeResearch(researchKey: string) {
       const completeRecursive = (node: any): boolean => {
@@ -255,10 +244,28 @@ export const useStore = defineStore('gameState', {
             this.modifiers.decayAdd[e.stat] = cur + e.perSecond;
             break;
           }
-        }
+          case 'unlock_research':
+            this.unlockResearch(e.key);
+            emitter.emit('researchUnlocked', { researchKey: e.key });
+            break;
+          }
       });
 
       this.appliedResearch.add(researchKey);
+    },
+
+    getResearchNode(researchKey: string): any | null {
+      for (const group of Object.values(this.research) as any[]) {
+        if (group[researchKey]) return group[researchKey];
+      }
+      return null;
+    },
+
+    unlockResearch(researchKey: string) {
+      const node = this.getResearchNode(researchKey);
+      if (!node) return;
+      node.visible = true;
+      node.known = true;
     },
 
     listenForEvents() {

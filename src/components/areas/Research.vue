@@ -1,6 +1,7 @@
 <template>
   <n-scrollbar x-scrollable x-placement="top">
     <blocks-tree 
+      :key="version"
       :data="treeData" 
       :horizontal="false" 
       :collapsable="true"
@@ -50,6 +51,7 @@ import { emitter } from '../../utilities/emitter';
 const { research } = useResearch();
 const progressStyles = ref<{ [researchKey: string]: string }>({});
 const { hexToRgba } = useColorUtils();
+const version = ref(0);
 
 const rootNode = {
   title: 'Research',
@@ -68,7 +70,7 @@ const buildTree = (node: any, parentColorDark?: string): any => ({
   complete: node.complete == undefined ? true : node.complete,
   known: node.known == undefined ? true : node.known,
   expand: true,
-  children: node.children ? Object.values(node.children).map(child => buildTree(child, node.colorDark || parentColorDark)) : []
+  children: node.children ? Object.values(node.children).map((child: any) => buildTree(child, node.colorDark || parentColorDark)) : []
 });
 
 let treeData = reactive(buildTree(rootNode));
@@ -105,6 +107,15 @@ const handleResearchCompleted = (event: {researchKey: string} ) => {
   progressStyles.value[event.researchKey] = '';
 };
 
+const handleResearchUnlocked = (event: { researchKey: string }) => {
+  const node = findResearchNode(treeData, event.researchKey);
+  if (node) {
+    node.visible = true;
+    node.known = true;
+    version.value++;
+  }
+};
+
 const updateTreeData = (researchKey: string) => {
   const updateNode = (node: any) => {
     if (node.key === researchKey) {
@@ -116,7 +127,6 @@ const updateTreeData = (researchKey: string) => {
 };
 
 const startResearch = (data: any) => {
-  console.log(data);
   if (!data.complete && data.known) {
     emitter.emit('researchStarted', { researchKey: data.key });
   }
@@ -125,11 +135,13 @@ const startResearch = (data: any) => {
 onMounted(() => {
   emitter.on('researchProgressed', handleResearchProgressed);
   emitter.on('researchCompleted', handleResearchCompleted);
+  emitter.on('researchUnlocked', handleResearchUnlocked);
 });
 
 onBeforeUnmount(() => {
   emitter.off('researchProgressed', handleResearchProgressed);
   emitter.off('researchCompleted', handleResearchCompleted);
+  emitter.off('researchUnlocked', handleResearchUnlocked);
 });
 
 const getButtonStyle = (data: any) => {
