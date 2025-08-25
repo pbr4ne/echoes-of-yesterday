@@ -9,24 +9,33 @@
       <template #node="{ data }">
         <n-tooltip placement="bottom" trigger="hover" style="max-width: 100px;">
           <template #trigger>
-            <n-button 
-              size="small" 
-              round
-              ghost
-              color="#d5d5d69D"
-              :dashed="!data.known"
-              :style="getButtonStyle(data)"
-              @click="startResearch(data)"
+            <n-badge
+              :show="data.known && data.seen === false"
+              processing
+              value="new"
+              type="info"
+              :offset="[-110, 10]"
             >
-              <div class="button-content">
-                <span v-if="data.known">
-                  {{ data.label }}
-                </span>
-                <span v-else class="redacted-label">
-                  {{ truncatedLabel(data.label) }}
-                </span>
-              </div>
-            </n-button>
+              <n-button 
+                size="small" 
+                round
+                ghost
+                color="#d5d5d69D"
+                :dashed="!data.known"
+                :style="getButtonStyle(data)"
+                @click="startResearch(data)"
+                @mouseenter="researchSeen(data)"
+              >
+                <div class="button-content">
+                  <span v-if="data.known">
+                    {{ data.label }}
+                  </span>
+                  <span v-else class="redacted-label">
+                    {{ truncatedLabel(data.label) }}
+                  </span>
+                </div>
+              </n-button>
+            </n-badge>
           </template>
           <span v-if="data.known">
             <span style="font-weight: bold;">{{ data.label }}</span><br />
@@ -59,6 +68,7 @@ const rootNode = {
   colorDark: '#2b2f30',
   complete: true,
   known: true,
+  seen: true,
   visible: true,
   children: research.value
 };
@@ -69,6 +79,7 @@ const buildTree = (node: any, parentColorDark?: string): any => ({
   colorDark: node.colorDark || parentColorDark,
   complete: node.complete == undefined ? true : node.complete,
   known: node.known == undefined ? true : node.known,
+  seen: node.seen == undefined ? true : node.seen,
   expand: true,
   children: node.children ? Object.values(node.children).map((child: any) => buildTree(child, node.colorDark || parentColorDark)) : []
 });
@@ -84,6 +95,13 @@ const handleResearchProgressed = (event: { researchKey: string; progress: number
   
   if (researchNode) {
     progressStyles.value[event.researchKey] = `linear-gradient(45deg, ${researchNode.colorDark} ${event.progress}%, transparent 0%)`;
+  }
+};
+
+const researchSeen = (data: any) => {
+  if (data.known && data.seen === false) {
+    updateTreeData(data.key, false, true);
+    emitter.emit('researchSeen', { researchKey: data.key });
   }
 };
 
@@ -103,7 +121,7 @@ const findResearchNode = (node: any, researchKey: string): any | null => {
 };
 
 const handleResearchCompleted = (event: {researchKey: string} ) => {
-  updateTreeData(event.researchKey);
+  updateTreeData(event.researchKey, true, false);
   progressStyles.value[event.researchKey] = '';
 };
 
@@ -116,10 +134,13 @@ const handleResearchUnlocked = (event: { researchKey: string }) => {
   }
 };
 
-const updateTreeData = (researchKey: string) => {
+const updateTreeData = (researchKey: string, complete: boolean, seen: boolean) => {
   const updateNode = (node: any) => {
-    if (node.key === researchKey) {
+    if (node.key === researchKey && complete) {
       node.complete = true;
+    }
+    if (node.key === researchKey && seen) {
+      node.seen = true;
     }
     node.children?.forEach(updateNode);
   };

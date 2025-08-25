@@ -25,6 +25,7 @@ export const useResearch = () => {
           title: 'Sustenance 1',
           visible: store.research.sustenance.sustenance1.visible,
           known: store.research.sustenance.sustenance1.known,
+          seen: store.research.sustenance.sustenance1.seen,
           complete: store.research.sustenance.sustenance1.complete,
           children: {
             sustenance2: {
@@ -50,6 +51,7 @@ export const useResearch = () => {
           title: 'Fitness 1',
           visible: store.research.fitness.fitness1.visible,
           known: store.research.fitness.fitness1.known,
+          seen: store.research.fitness.fitness1.seen,
           complete: store.research.fitness.fitness1.complete,
           children: {
             fitness2: {
@@ -57,6 +59,7 @@ export const useResearch = () => {
               title: 'Fitness 2',
               visible: store.research.fitness.fitness2.visible,
               known: store.research.fitness.fitness2.known,
+              seen: store.research.fitness.fitness2.seen,
               complete: store.research.fitness.fitness2.complete,
             },
           }
@@ -75,6 +78,7 @@ export const useResearch = () => {
           title: 'Recreation 1',
           visible: store.research.recreation.recreation1.visible,
           known: store.research.recreation.recreation1.known,
+          seen: store.research.recreation.recreation1.seen,
           complete: store.research.recreation.recreation1.complete,
           children: {
             recreation2: {
@@ -82,6 +86,7 @@ export const useResearch = () => {
               title: 'Recreation 2',
               visible: store.research.recreation.recreation2.visible,
               known: store.research.recreation.recreation2.known,
+              seen: store.research.recreation.recreation2.seen,
               complete: store.research.recreation.recreation2.complete,
             },
           }
@@ -100,6 +105,7 @@ export const useResearch = () => {
           title: 'Rest 1',
           visible: store.research.rest.rest1.visible,
           known: store.research.rest.rest1.known,
+          seen: store.research.rest.rest1.seen,
           complete: store.research.rest.rest1.complete,
           children: {
             rest2: {
@@ -107,6 +113,7 @@ export const useResearch = () => {
               title: 'Rest 2',
               visible: store.research.rest.rest2.visible,
               known: store.research.rest.rest2.known,
+              seen: store.research.rest.rest2.seen,
               complete: store.research.rest.rest2.complete,
             },
           }
@@ -125,6 +132,7 @@ export const useResearch = () => {
           title: 'Paranormal 1',
           visible: store.research.paranormal.paranormal1.visible,
           known: store.research.paranormal.paranormal1.known,
+          seen: store.research.paranormal.paranormal1.seen,
           complete: store.research.paranormal.paranormal1.complete,
           children: {
             paranormal2: {
@@ -132,6 +140,7 @@ export const useResearch = () => {
               title: 'Paranormal 2',
               visible: store.research.paranormal.paranormal2.visible,
               known: store.research.paranormal.paranormal2.known,
+              seen: store.research.paranormal.paranormal2.seen,
               complete: store.research.paranormal.paranormal2.complete,
             },
             paranormal3: {
@@ -139,6 +148,7 @@ export const useResearch = () => {
               title: 'Paranormal 3',
               visible: store.research.paranormal.paranormal3.visible,
               known: store.research.paranormal.paranormal3.known,
+              seen: store.research.paranormal.paranormal3.seen,
               complete: store.research.paranormal.paranormal3.complete,
               children: {
                 paranormal4: {
@@ -146,6 +156,7 @@ export const useResearch = () => {
                   title: 'Paranormal 4',
                   visible: store.research.paranormal.paranormal4.visible,
                   known: store.research.paranormal.paranormal4.known,
+                  seen: store.research.paranormal.paranormal4.seen,
                   complete: store.research.paranormal.paranormal4.complete,
                   children: {
                     paranormal5: {
@@ -153,6 +164,7 @@ export const useResearch = () => {
                       title: 'Paranormal 5',
                       visible: store.research.paranormal.paranormal5.visible,
                       known: store.research.paranormal.paranormal5.known,
+                      seen: store.research.paranormal.paranormal5.seen,
                       complete: store.research.paranormal.paranormal5.complete,
                       children: {
                         paranormal6: {
@@ -160,6 +172,7 @@ export const useResearch = () => {
                           title: 'Paranormal 6',
                           visible: store.research.paranormal.paranormal6.visible,
                           known: store.research.paranormal.paranormal6.known,
+                          seen: store.research.paranormal.paranormal6.seen,
                           complete: store.research.paranormal.paranormal6.complete,
                         },
                       }
@@ -169,6 +182,7 @@ export const useResearch = () => {
                       title: 'Paranormal 7',
                       visible: store.research.paranormal.paranormal7.visible,
                       known: store.research.paranormal.paranormal7.known,
+                      seen: store.research.paranormal.paranormal7.seen,
                       complete: store.research.paranormal.paranormal7.complete,
                     },
                   }
@@ -178,6 +192,7 @@ export const useResearch = () => {
                   title: 'Paranormal 8',
                   visible: store.research.paranormal.paranormal8.visible,
                   known: store.research.paranormal.paranormal8.known,
+                  seen: store.research.paranormal.paranormal8.seen,
                   complete: store.research.paranormal.paranormal8.complete,
                 },
               }

@@ -84,6 +84,7 @@ export interface LogEntry {
 export interface Research {
   visible: boolean;
   known: boolean;
+  seen: boolean;
   complete: boolean;
   startTime?: number;
   duration?: number;

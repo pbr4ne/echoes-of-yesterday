@@ -55,30 +55,30 @@ const initialState = (): GameState => ({
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
   research: {
     sustenance: {
-      sustenance1: { visible: true, known: true, complete: false },
-      sustenance2: { visible: true, known: true, complete: false },
+      sustenance1: { visible: true, known: true, seen: false, complete: false },
+      sustenance2: { visible: true, known: true, seen: false, complete: false },
     },
     fitness: {
-      fitness1: { visible: true, known: true, complete: true },
-      fitness2: { visible: true, known: true, complete: false },
+      fitness1: { visible: true, known: true, seen: false, complete: true },
+      fitness2: { visible: true, known: true, seen: false, complete: false },
     },
     recreation: {
-      recreation1: { visible: true, known: true, complete: false },
-      recreation2: { visible: true, known: false, complete: false },
+      recreation1: { visible: true, known: true, seen: false, complete: false },
+      recreation2: { visible: true, known: false, seen: false, complete: false },
     },
     rest: {
-      rest1: { visible: true, known: false, complete: false },
-      rest2: { visible: true, known: false, complete: false },
+      rest1: { visible: true, known: false, seen: false, complete: false },
+      rest2: { visible: true, known: false, seen: false, complete: false },
     },
     paranormal: {
-      paranormal1: { visible: true, known: true, complete: false },
-      paranormal2: { visible: true, known: false, complete: false },
-      paranormal3: { visible: true, known: false, complete: false },
-      paranormal4: { visible: true, known: false, complete: false },
-      paranormal5: { visible: true, known: false, complete: false },
-      paranormal6: { visible: true, known: false, complete: false },
-      paranormal7: { visible: true, known: false, complete: false },
-      paranormal8: { visible: true, known: false, complete: false },
+      paranormal1: { visible: true, known: true, seen: false, complete: false },
+      paranormal2: { visible: true, known: false, seen: false, complete: false },
+      paranormal3: { visible: true, known: false, seen: false, complete: false },
+      paranormal4: { visible: true, known: false, seen: false, complete: false },
+      paranormal5: { visible: true, known: false, seen: false, complete: false },
+      paranormal6: { visible: true, known: false, seen: false, complete: false },
+      paranormal7: { visible: true, known: false, seen: false, complete: false },
+      paranormal8: { visible: true, known: false, seen: false, complete: false },
     },
   },
   modifiers: {
@@ -295,6 +295,13 @@ export const useStore = defineStore('gameState', {
       emitter.on('deviceSeen', ({ deviceKey }) => {
         if (deviceKey) {
           this.devices[deviceKey as DeviceKey].seen = true;
+        }
+      });
+
+      emitter.on('researchSeen', ({ researchKey }) => {
+        const node = this.getResearchNode(researchKey);
+        if (node) {
+          node.seen = true;
         }
       });
     },
