@@ -3,9 +3,9 @@ export const useDevices = () => {
   const ghostDeviceCommunication = { 
     poltergeist: {
       deviceCommunication: {
-        teaLeaves: [
-          ['The leaves swirl. Poltergeist.', 'Step 2'],
-          ['The leaves scatter. Poltergeist.'],
+        ouijaBoard: [
+          ['The planchette moves slowly. Poltergeist.', 'Step 2'],
+          ['The planchette zooms. Poltergeist.'],
         ],
         tv: [
           ['The screen flickers. Poltergeist.', 'Step 2'],
@@ -27,9 +27,9 @@ export const useDevices = () => {
     },
     orb: {
       deviceCommunication: {
-        teaLeaves: [
-          ['The leaves swirl. Orb.', 'Step 2'],
-          ['The leaves scatter. Orb.'],
+        ouijaBoard: [
+          ['The planchette moves slowly. Orb.', 'Step 2'],
+          ['The planchette zooms. Orb.'],
         ],
         tv: [
           ['The screen flickers. Orb.', 'Step 2'],
@@ -51,9 +51,9 @@ export const useDevices = () => {
     },
     wraith: {
       deviceCommunication: {
-        teaLeaves: [
-          ['The leaves swirl. Wraith.', 'Step 2'],
-          ['The leaves scatter. Wraith.'],
+        ouijaBoard: [
+          ['The planchette moves slowly. Wraith.', 'Step 2'],
+          ['The planchette zooms. Wraith.'],
         ],
         tv: [
           ['The screen flickers. Wraith.', 'Step 2'],
@@ -75,9 +75,9 @@ export const useDevices = () => {
     },
     spirit: {
       deviceCommunication: {
-        teaLeaves: [
-          ['The leaves swirl. Spirit.', 'Step 2'],
-          ['The leaves scatter. Spirit.'],
+        ouijaBoard: [
+          ['The planchette moves slowly. Spirit.', 'Step 2'],
+          ['The planchette zooms. Spirit.'],
         ],
         tv: [
           ['The screen flickers. Spirit.', 'Step 2'],
@@ -99,9 +99,9 @@ export const useDevices = () => {
     },
     phantom: {
       deviceCommunication: {
-        teaLeaves: [
-          ['The leaves swirl. Phantom.', 'Step 2'],
-          ['The leaves scatter. Phantom.'],
+        ouijaBoard: [
+          ['The planchette moves slowly. Phantom.', 'Step 2'],
+          ['The planchette zooms. Phantom.'],
         ],
         tv: [
           ['The screen flickers. Phantom.', 'Step 2'],

@@ -7,7 +7,7 @@ import { useDevices } from '../composables/useDevices';
 import { useGhosts } from '../composables/useGhosts';
 
 const defaultDeviceInteractions = (): Record<DeviceKey, number> => ({
-	teaLeaves: 0,
+	ouijaBoard: 0,
 	tv: 0,
   shrine: 0,
   blackLight: 0,
@@ -43,7 +43,7 @@ const initialState = (): GameState => ({
     cellar: { known: true, locked: true },
   },
   devices: {
-    teaLeaves: { known: false, seen: false },
+    ouijaBoard: { known: false, seen: false },
     tv: { known: false, seen: false },
     blackLight: { known: true, seen: false },
     shrine: { known: true, seen: false },

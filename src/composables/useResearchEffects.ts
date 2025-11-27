@@ -3,7 +3,7 @@ import { ResearchEffect } from '../utilities/types';
 
 export const researchEffects: Record<string, ResearchEffect[]> = {
 	paranormal1: [
-		{ type: 'unlock_device', device: 'teaLeaves' as DeviceKey },
+		{ type: 'unlock_device', device: 'ouijaBoard' as DeviceKey },
     { type: 'unlock_research', key: 'paranormal2' as ResearchKeys }
 	],
 	paranormal2: [

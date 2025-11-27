@@ -93,8 +93,8 @@ export const useGhosts = () => {
       type: 'Spirit', 
       name: 'Spirit-',
       icon: SpiritIcon as DefineComponent, 
-      favouredRoom: 'kitchen',
-      favouredDevice: 'teaLeaves',
+      favouredRoom: 'cellar',
+      favouredDevice: 'ouijaBoard',
       active: {
         isActive: store.ghosts.spirit.active.isActive,
         activeRoom: store.ghosts.spirit.active.activeRoom,

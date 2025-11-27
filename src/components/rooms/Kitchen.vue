@@ -17,7 +17,7 @@ const actionGroups: ActionGroup[] = [
   {
     title: 'Interactions',
     actions: [
-      { actionKey: 'teaLeaves', label: 'Read Tea Leaves', duration: 1000, deviceKey: 'teaLeaves', affected: [] },
+      { actionKey: 'ouijaBoard', label: 'Use Planchette', duration: 1000, deviceKey: 'ouijaBoard', affected: [] },
       { actionKey: 'tv', label: 'Watch Static', duration: 1000, deviceKey: 'tv', affected: [] },
       { actionKey: 'blackLight', label: 'Use Black Light', duration: 1000, deviceKey: 'blackLight', affected: [] },
     ],
