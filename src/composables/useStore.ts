@@ -25,6 +25,18 @@ const initialState = (): GameState => ({
   inventory: {
     food: 10,
     water: 10,
+    tea: 0,
+    sage: 0,
+    ginger: 0,
+    tomato: 0,
+    potato: 0,
+    carrot: 0,
+    strawberry: 0,
+    lemon: 0,
+    fig: 0,
+    sunflower: 0,
+    chamomile: 0,
+    lavender: 0,
   },
   ghosts: {
     poltergeist: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
