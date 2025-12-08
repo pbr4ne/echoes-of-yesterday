@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { ActionKey, InventoryKey } from '../../utilities/types';
+import { ActionGroup } from '../../utilities/types';
 import Room from './Room.vue';
 
 const actionGroups: ActionGroup[] = [
