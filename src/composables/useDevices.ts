@@ -22,7 +22,17 @@ export const useDevices = () => {
         ghostBook: [
           ['The pages turn. Poltergeist.', 'Step 2'],
           ['The book opens to a page. Poltergeist.'],
-        ]
+        ],
+        teaLeaves: [],
+        windChimes: [],
+        thermometer: [],
+        fireplace: [],
+        radio: [],
+        candles: [],
+        mirror: [],
+        bathtub: [],
+        computerGame: [],
+        ectoplasm: [],
       }
     },
     orb: {
@@ -46,7 +56,17 @@ export const useDevices = () => {
         ghostBook: [
           ['The pages turn. Orb.', 'Step 2'],
           ['The book opens to a page. Orb.'],
-        ]
+        ],
+        teaLeaves: [],
+        windChimes: [],
+        thermometer: [],
+        fireplace: [],
+        radio: [],
+        candles: [],
+        mirror: [],
+        bathtub: [],
+        computerGame: [],
+        ectoplasm: [],
       }
     },
     wraith: {
@@ -70,7 +90,17 @@ export const useDevices = () => {
         ghostBook: [
           ['The pages turn. Wraith.', 'Step 2'],
           ['The book opens to a page. Wraith.'],
-        ]
+        ],
+        teaLeaves: [],
+        windChimes: [],
+        thermometer: [],
+        fireplace: [],
+        radio: [],
+        candles: [],
+        mirror: [],
+        bathtub: [],
+        computerGame: [],
+        ectoplasm: [],
       }
     },
     spirit: {
@@ -94,7 +124,17 @@ export const useDevices = () => {
         ghostBook: [
           ['The pages turn. Spirit.', 'Step 2'],
           ['The book opens to a page. Spirit.'],
-        ]
+        ],
+        teaLeaves: [],
+        windChimes: [],
+        thermometer: [],
+        fireplace: [],
+        radio: [],
+        candles: [],
+        mirror: [],
+        bathtub: [],
+        computerGame: [],
+        ectoplasm: [],
       }
     },
     phantom: {
@@ -118,7 +158,17 @@ export const useDevices = () => {
         ghostBook: [
           ['The pages turn. Phantom.', 'Step 2'],
           ['The book opens to a page. Phantom.'],
-        ]
+        ],
+        teaLeaves: [],
+        windChimes: [],
+        thermometer: [],
+        fireplace: [],
+        radio: [],
+        candles: [],
+        mirror: [],
+        bathtub: [],
+        computerGame: [],
+        ectoplasm: [],
       }
     }
   };
