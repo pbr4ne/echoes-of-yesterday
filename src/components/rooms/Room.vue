@@ -17,7 +17,7 @@
           value="new"
 					type="info"
 					v-show="isVisibleAction(action)"
-          :offset="[-140, 0]"
+          :offset="[-190, 0]"
 				>
 					<n-button
 						round
@@ -59,13 +59,14 @@ const isPersistentAction = (action: GenericAction): action is PersistentAction =
 const progressStyles = ref<{ [actionKey: string]: string }>({});
 
 const getVisibleActionsCount = (card: ActionGroup) =>
-	card.actions.filter(isVisibleAction).length
+	card.actions.filter(isVisibleAction).length;
 
 const getCardStyle = (card: ActionGroup) => {
-	const visibleCount = getVisibleActionsCount(card)
-	const baseHeightPerAction = 50
-	const headerAndPadding = 60
-	const height = Math.max(130, headerAndPadding + visibleCount * baseHeightPerAction)
+	const visibleCount = getVisibleActionsCount(card);
+  console.log('visibleCount for card', card.title, visibleCount);
+	const baseHeightPerAction = 50;
+	const headerAndPadding = 60;
+	const height = Math.max(130, headerAndPadding + visibleCount * baseHeightPerAction);
 
 	return {
 		width: '250px',
