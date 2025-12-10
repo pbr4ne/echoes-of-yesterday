@@ -63,7 +63,6 @@ const getVisibleActionsCount = (card: ActionGroup) =>
 
 const getCardStyle = (card: ActionGroup) => {
 	const visibleCount = getVisibleActionsCount(card);
-  console.log('visibleCount for card', card.title, visibleCount);
 	const baseHeightPerAction = 50;
 	const headerAndPadding = 60;
 	const height = Math.max(130, headerAndPadding + visibleCount * baseHeightPerAction);
