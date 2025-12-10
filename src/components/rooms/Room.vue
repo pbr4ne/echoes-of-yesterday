@@ -5,7 +5,7 @@
       v-for="(card, cardIndex) in actionGroups"
       :key="cardIndex"
       :title="card.title"
-      style="width: 200px; height: 200px;"
+      :style="getCardStyle(card)"
       v-show="cardHasVisibleActions(card)"
     >
       <n-flex vertical>
@@ -57,6 +57,21 @@ const isOneTimeAction = (action: GenericAction): action is OneTimeAction =>  'du
 const isPersistentAction = (action: GenericAction): action is PersistentAction => !('duration' in action);
 
 const progressStyles = ref<{ [actionKey: string]: string }>({});
+
+const getVisibleActionsCount = (card: ActionGroup) =>
+	card.actions.filter(isVisibleAction).length
+
+const getCardStyle = (card: ActionGroup) => {
+	const visibleCount = getVisibleActionsCount(card)
+	const baseHeightPerAction = 50
+	const headerAndPadding = 60
+	const height = Math.max(130, headerAndPadding + visibleCount * baseHeightPerAction)
+
+	return {
+		width: '250px',
+		height: `${height}px`,
+	}
+}
 
 const handleOneTimeActionProgressed = (event: { actionKey: string; progress: number }) => {
   progressStyles.value[event.actionKey] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
