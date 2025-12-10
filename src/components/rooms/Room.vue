@@ -21,7 +21,9 @@
 				>
 					<n-button
 						round
-						:style="getButtonStyle(action.actionKey)"
+            ghost
+            :color="getButtonColour(action)"
+						:style="getButtonStyle(action)"
 						@click="startAction(action)"
             @mouseenter="deviceSeen(action)"
 					>
@@ -34,12 +36,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
 import { useStore } from '../../composables/useStore';
 
 const props = defineProps<{ actionGroups: ActionGroup[] }>();
+
+const actionMap = computed<Record<string, GenericAction>>(() => {
+	const map: Record<string, GenericAction> = {};
+	for (const group of props.actionGroups) {
+		for (const action of group.actions) {
+			map[action.actionKey] = action;
+		}
+	}
+	return map;
+});
 
 const store = useStore();
 
@@ -74,7 +86,13 @@ const getCardStyle = (card: ActionGroup) => {
 }
 
 const handleOneTimeActionProgressed = (event: { actionKey: string; progress: number }) => {
-  progressStyles.value[event.actionKey] = `linear-gradient(90deg, #43738B ${event.progress}%, transparent 0%)`;
+	const action = actionMap.value[event.actionKey];
+	const isDevice = action && isDeviceAction(action);
+
+	const baseColor = isDevice ? '#5c1516' : '#43738B';
+
+	progressStyles.value[event.actionKey] =
+		`linear-gradient(90deg, ${baseColor} ${event.progress}%, transparent 0%)`;
 };
 
 const handleOneTimeActionCompleted = (event: { actionKey: string }) => {
@@ -107,9 +125,16 @@ onBeforeUnmount(() => {
   emitter.off('oneTimeActionCompleted', handleOneTimeActionCompleted);
 });
 
-const getButtonStyle = (actionKey: string) => {
+const getButtonColour = (action: GenericAction) => {
+  if (isDeviceAction(action)) {
+    return '#9c2c2d';
+  }
+  return null;
+};
+
+const getButtonStyle = (action: GenericAction) => {
   return {
-    backgroundImage: progressStyles.value[actionKey],
+    backgroundImage: progressStyles.value[action.actionKey],
     transition: 'background 0.3s',
   };
 };
