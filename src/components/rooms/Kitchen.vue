@@ -21,6 +21,7 @@ const actionGroups: ActionGroup[] = [
     title: 'Radio',
     actions: [
       { actionKey: 'listenToMusic', label: 'Listen to Music', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
+      { actionKey: 'listenToVoices', label: 'Listen to Voices', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
     ],
   },
   {
