@@ -21,7 +21,7 @@ const actionGroups: ActionGroup[] = [
     title: 'Radio',
     actions: [
       { actionKey: 'listenToMusic', label: 'Listen to Music', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
-      { actionKey: 'listenToVoices', label: 'Listen to Voices', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
+      { actionKey: 'listenToVoices', label: 'Listen to Voices', duration: 10000, deviceKey: 'radio', affected: [] },
     ],
   },
   {
@@ -40,6 +40,7 @@ const actionGroups: ActionGroup[] = [
       { actionKey: 'chamomileTea', label: 'Chamomile Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
       { actionKey: 'gingerLemonTea', label: 'Ginger Lemon Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
       { actionKey: 'lavenderFigTea', label: 'Lavender Fig Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
+      { actionKey: 'readTeaLeaves', label: 'Read Tea Leaves', duration: 10000, deviceKey: 'teaLeaves', affected: [] },
     ],
   },
 
