@@ -39,5 +39,12 @@ const actionGroups: ActionGroup[] = [
       { actionKey: 'gatherLavender', label: 'Lavender', duration: 10000, affected: [{ key: 'lavender', amount: 1 }] },
     ],
   },
+  {
+    title: 'Window',
+    actions: [
+      { actionKey: 'listenToWindChimes', label: 'Listen to Wind Chimes', duration: 10000, deviceKey: 'windChimes', affected: [] },
+      { actionKey: 'readThermometer', label: 'Read Thermometer', duration: 10000, deviceKey: 'thermometer', affected: [] },
+    ],
+  }
 ];
 </script>
