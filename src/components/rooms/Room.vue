@@ -24,6 +24,7 @@
             ghost
             :color="getButtonColour(action)"
 						:style="getButtonStyle(action)"
+            :disabled="isActionDisabled(action)"
 						@click="startAction(action)"
             @mouseenter="deviceSeen(action)"
 					>
@@ -37,7 +38,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
-import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction } from '../../utilities/types';
+import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction, InventoryKey, StatKey } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
 import { useStore } from '../../composables/useStore';
 
@@ -97,6 +98,33 @@ const handleOneTimeActionProgressed = (event: { actionKey: string; progress: num
 
 const handleOneTimeActionCompleted = (event: { actionKey: string }) => {
   progressStyles.value[event.actionKey] = '';
+};
+
+const hasInventoryKey = (key: StatKey | InventoryKey): key is InventoryKey => {
+	return key in store.inventory;
+};
+
+const isActionDisabled = (action: GenericAction): boolean => {
+	if (!isOneTimeAction(action)) {
+		return false;
+	}
+
+	for (const effect of action.affected) {
+		if (effect.amount >= 0) {
+			continue;
+		}
+
+		if (!hasInventoryKey(effect.key)) {
+			continue;
+		}
+
+		const current = store.inventory[effect.key];
+		if (current + effect.amount < 0) {
+			return true;
+		}
+	}
+
+	return false;
 };
 
 const startAction = (action: OneTimeAction | PersistentAction) => {
