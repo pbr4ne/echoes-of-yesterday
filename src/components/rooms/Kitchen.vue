@@ -10,10 +10,9 @@ const actionGroups: ActionGroup[] = [
   {
     title: 'Stove',
     actions: [
-      { actionKey: 'tomatoSageSoup', label: 'Tomato & Sage Soup', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'potatoCarrotHash', label: 'Potato & Carrot Hash', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'lemonGingerStirFry', label: 'Lemon Ginger Stir Fry', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'rootVeggieStew', label: 'Root Veggie Stew', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
+      { actionKey: 'eatSoup', label: 'Make Soup', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
+      { actionKey: 'eatStew', label: 'Prepare Stew', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
+      { actionKey: 'eatHash', label: 'Sauté Hash', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
       //{ actionKey: 'persistentCook', label: 'Persistent Cook', affected: [{ key: 'fatigue', amountPerSecond: -1 }] },
     ],
   },
@@ -25,39 +24,20 @@ const actionGroups: ActionGroup[] = [
     ],
   },
   {
-    title: 'Prep Counter',
+    title: 'Counter',
     actions: [
-      { actionKey: 'strawberryFigTart', label: 'Strawberry & Fig Tart', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'lemonSunflowerSeedLoaf', label: 'Lemon Sunflower Seed Loaf', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'carrotSunflowerSalad', label: 'Carrot Sunflower Salad', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'sourdoughBread', label: 'Sourdough Bread', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
+      { actionKey: 'eatSalad', label: 'Mix Salad', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
+      { actionKey: 'eatPorridge', label: 'Stir Porridge', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
+      { actionKey: 'eatBread', label: 'Bake Bread', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
     ],
   },
   {
     title: 'Tea Kettle',
     actions: [
-      { actionKey: 'blackTea', label: 'Black Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'chamomileTea', label: 'Chamomile Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'gingerLemonTea', label: 'Ginger Lemon Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-      { actionKey: 'lavenderFigTea', label: 'Lavender Fig Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
+      { actionKey: 'blackTea', label: 'Steep Black Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }, { key: 'fatigue', amount: -10 }] },
+      { actionKey: 'herbalTea', label: 'Infuse Herbal Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
       { actionKey: 'readTeaLeaves', label: 'Read Tea Leaves', duration: 10000, deviceKey: 'teaLeaves', affected: [] },
     ],
   },
-
-  // {
-  //   title: 'Interactions',
-  //   actions: [
-  //     { actionKey: 'ouijaBoard', label: 'Use Planchette', duration: 1000, deviceKey: 'ouijaBoard', affected: [] },
-  //     { actionKey: 'tv', label: 'Watch Static', duration: 1000, deviceKey: 'tv', affected: [] },
-  //     { actionKey: 'blackLight', label: 'Use Black Light', duration: 1000, deviceKey: 'blackLight', affected: [] },
-  //   ],
-  // },
-  // {
-  //   title: 'Interactions',
-  //   actions: [
-  //     { actionKey: 'shrine', label: 'Use Shrine', duration: 1000, deviceKey: 'shrine', affected: [] },
-  //     { actionKey: 'ghostBook', label: 'Write in Ghost Book', duration: 1000, deviceKey: 'ghostBook', affected: [] },
-  //   ],
-  // }
 ];
 </script>

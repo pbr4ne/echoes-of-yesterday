@@ -17,7 +17,7 @@
           value="new"
 					type="info"
 					v-show="isVisibleAction(action)"
-          :offset="[-190, 0]"
+          :offset="[-170, 0]"
 				>
 					<n-button
 						round
@@ -80,7 +80,7 @@ const getCardStyle = (card: ActionGroup) => {
 	const height = Math.max(130, headerAndPadding + visibleCount * baseHeightPerAction);
 
 	return {
-		width: '250px',
+		width: '220px',
 		height: `${height}px`,
 	}
 }
