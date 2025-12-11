@@ -2,7 +2,7 @@ import { DefineComponent } from 'vue';
 
 export type ActionKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear';
 export type StatKey = 'hunger' | 'frailty' | 'boredom' | 'fatigue' | 'fear';
-export type InventoryKey = 'vegetable' | 'fruit' | 'grain' | 'herb' | 'tea' | 'sage';
+export type InventoryKey = 'vegetable' | 'fruit' | 'grain' | 'herb' | 'tea' | 'driedHerb' | 'driedTea';
 export type GhostKey = 'poltergeist' | 'orb' | 'wraith' | 'spirit' | 'phantom';
 export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicated' | 'Befriended' | 'Banished';
 export type RoomKey = 'living' | 'kitchen' | 'bedroom' | 'sunroom' | 'bathroom' | 'den' | 'cellar';

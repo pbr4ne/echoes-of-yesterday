@@ -1,3 +1,7 @@
+<template>
+	<Room :actionGroups="actionGroups" />
+</template>
+
 <script setup lang="ts">
 import { ActionGroup } from '../../utilities/types';
 import Room from './Room.vue';
@@ -12,11 +16,10 @@ const actionGroups: ActionGroup[] = [
 		],
 	},
 	{
-		title: 'Herb Trellis',
+		title: 'Hanging Pots',
 		actions: [
 			{ actionKey: 'gatherHerbs', label: 'Pluck Herbs', duration: 10000, affected: [{ key: 'herb', amount: 1 }] },
 			{ actionKey: 'gatherTea', label: 'Gather Tea Leaves', duration: 10000, affected: [{ key: 'tea', amount: 1 }] },
-			{ actionKey: 'gatherSage', label: 'Snip Sage', duration: 10000, affected: [{ key: 'sage', amount: 1 }] },
 		],
 	},
 	{
@@ -27,9 +30,12 @@ const actionGroups: ActionGroup[] = [
 			{ actionKey: 'readThermometer', label: 'Read Thermometer', duration: 10000, deviceKey: 'thermometer', affected: [] },
 		],
 	},
+  {
+    title: 'Drying Rack',
+    actions: [
+      { actionKey: 'dryHerbs', label: 'Dry Herbs', duration: 10000, affected: [{ key: 'herb', amount: -1 }, { key: 'driedHerb', amount: 1 }] },
+      { actionKey: 'dryTea', label: 'Dry Tea Leaves', duration: 10000, affected: [{ key: 'tea', amount: -1 }, { key: 'driedTea', amount: 1 }] },
+    ],
+  }
 ];
 </script>
-
-<template>
-	<Room :actionGroups="actionGroups" />
-</template>

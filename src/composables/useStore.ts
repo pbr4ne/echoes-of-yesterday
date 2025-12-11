@@ -38,7 +38,8 @@ const initialState = (): GameState => ({
     grain: 0,
     herb: 0,
     tea: 0,
-    sage: 0,
+    driedHerb: 0,
+    driedTea: 0,
   },
   ghosts: {
     poltergeist: { state: 'Encountered', active: { isActive: false, activeRoom: null, activeDuration: null, activationStart: null }, deviceInteractions: defaultDeviceInteractions()},
@@ -54,7 +55,7 @@ const initialState = (): GameState => ({
     sunroom: { known: true, locked: false },
     bathroom: { known: true, locked: false },
     den: { known: true, locked: false },
-    cellar: { known: true, locked: true },
+    cellar: { known: true, locked: false },
   },
   devices: {
     ouijaBoard: { known: true, seen: false },
