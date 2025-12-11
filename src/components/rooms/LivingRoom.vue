@@ -12,19 +12,20 @@ const actionGroups: ActionGroup[] = [
     actions: [
       { actionKey: 'watchTV', label: 'Watch TV', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
       { actionKey: 'doTaebo', label: 'Do Taebo', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
-      { actionKey: 'watchStatic', label: 'Watch Static', duration: 10000, deviceKey: 'tv', affected: [] },
+      { actionKey: 'stareAtStatic', label: 'Stare At Static', duration: 10000, deviceKey: 'tv', affected: [] },
     ],
   },
   {
     title: 'Chesterfield',
     actions: [
-      { actionKey: 'nap', label: 'Nap', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
-      { actionKey: 'readBook', label: 'Read Book', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
+      { actionKey: 'doze', label: 'Doze', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
+      { actionKey: 'readMagazine', label: 'Read Magazine', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
     ],
   },
   {
     title: 'Fireplace',
     actions: [
+      { actionKey: 'stokeFire', label: 'Stoke Fire', duration: 10000, affected: [{key: 'frailty', amount: -10}] },
       { actionKey: 'studyFlames', label: 'Study Flames', duration: 10000, deviceKey: 'fireplace', affected: [] },
     ],
   },
