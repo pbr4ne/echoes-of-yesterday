@@ -71,8 +71,8 @@ export interface Room {
 export interface RoomDisplay extends Room {
   key: RoomKey;
   label: string;
-  component: DefineComponent;
   icon: DefineComponent; 
+  actionGroups: ActionGroup[];
 }
 
 export interface LogEntry {

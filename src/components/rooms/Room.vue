@@ -38,11 +38,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
-import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction, InventoryKey, StatKey } from '../../utilities/types';
+import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction, InventoryKey, StatKey, RoomKey } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
 import { useStore } from '../../composables/useStore';
 
-const props = defineProps<{ actionGroups: ActionGroup[] }>();
+const props = defineProps<{ roomKey: RoomKey; actionGroups: ActionGroup[] }>();
 
 const actionMap = computed<Record<string, GenericAction>>(() => {
 	const map: Record<string, GenericAction> = {};

@@ -32,7 +32,7 @@
         </n-tooltip>
       </template>
 
-      <component :is="room.component" />
+      <Room :room-key="room.key" :action-groups="room.actionGroups" />
     </n-tab-pane>
   </n-tabs>
 </template>
