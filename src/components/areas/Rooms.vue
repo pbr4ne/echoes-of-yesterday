@@ -7,7 +7,7 @@
     animated
   >
     <n-tab-pane
-      v-for="(room, index) in knownRooms"
+      v-for="room in knownRooms"
       :key="room.key"
       :name="room.label"
       style="padding: 20px;"
@@ -24,9 +24,16 @@
         </n-tooltip>
         <n-tooltip v-if="showText" trigger="hover" :disabled="!room.locked">
           <template #trigger>
-            <span :class="{ 'pulsate': isRoomActive(room.key) && !paused}" class="tab-text">
-              {{ room.label }}
-            </span>
+            <n-badge
+              dot
+              processing
+              type="warning"
+              :show="!room.locked && !!roomHasUnseenDevices[room.key]"
+            >
+              <span :class="{ 'pulsate': isRoomActive(room.key) && !paused }" class="tab-text">
+                {{ room.label }}
+              </span>
+            </n-badge>
           </template>
           <span v-if="room.locked">Locked</span>
         </n-tooltip>
@@ -38,11 +45,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { useStore } from '../../composables/useStore';
 import { useRooms } from '../../composables/useRooms';
 import { useTime } from '../../composables/useTime';
 import RoomLocked from '@vicons/material/LockOutlined';
+import type { RoomKey } from '../../utilities/types';
+import Room from '../rooms/Room.vue';
 
 const { paused } = useTime();
 
@@ -66,9 +75,32 @@ onBeforeUnmount(() => {
 
 const gameStore = useStore();
 
-const isRoomActive = (roomName: string) => {
+const isRoomActive = (roomName: RoomKey) => {
   return Object.values(gameStore.ghosts).some(ghost => ghost.active.activeRoom === roomName && ghost.active.isActive);
 };
+
+const roomHasUnseenDevices = computed(() => {
+	const result: Partial<Record<RoomKey, boolean>> = {};
+
+	for (const room of knownRooms.value) {
+		const hasUnseen = room.actionGroups.some(group =>
+			group.actions.some(action =>
+				'actionKey' in action &&
+				'deviceKey' in action &&
+				action.deviceKey &&
+				gameStore.devices[action.deviceKey]?.known &&
+				!gameStore.devices[action.deviceKey]?.seen
+			)
+		);
+
+		if (hasUnseen) {
+			result[room.key] = true;
+		}
+	}
+
+	return result;
+});
+
 </script>
 
 <style scoped>
