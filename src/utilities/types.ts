@@ -8,7 +8,7 @@ export type GhostState = 'Unknown' | 'Encountered' | 'Identified' | 'Communicate
 export type RoomKey = 'living' | 'kitchen' | 'bedroom' | 'sunroom' | 'bathroom' | 'den' | 'cellar';
 export type View = 'Rooms' | 'Research' | 'Profile';
 export type ResearchKeys = 'sustenance' | 'fitness' | 'recreation' | 'rest' | 'paranormal';
-export type DeviceKey = 'ouijaBoard' | 'tv' | 'blackLight' | 'shrine' | 'ghostBook' | 'teaLeaves' | 'windChimes' | 'thermometer' | 'fireplace' | 'radio' | 'candles' | 'mirror' | 'bathtub' | 'computerGame' | 'ectoplasm';
+export type DeviceKey = 'ouijaBoard' | 'tv' | 'blackLight' | 'ghostBook' | 'teaLeaves' | 'windChimes' | 'thermometer' | 'fireplace' | 'radio' | 'candles' | 'mirror' | 'bathtub' | 'computerGame' | 'ectoplasm';
 
 export type Stats = Record<StatKey, Stat>;
 export type Inventory = Record<InventoryKey, number>;

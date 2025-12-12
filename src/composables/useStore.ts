@@ -9,7 +9,6 @@ import { useGhosts } from '../composables/useGhosts';
 const defaultDeviceInteractions = (): Record<DeviceKey, number> => ({
 	ouijaBoard: 0,
 	tv: 0,
-  shrine: 0,
   blackLight: 0,
   ghostBook: 0,
   teaLeaves: 0,
@@ -61,7 +60,6 @@ const initialState = (): GameState => ({
     ouijaBoard: { known: true, seen: false },
     tv: { known: true, seen: false },
     blackLight: { known: true, seen: false },
-    shrine: { known: true, seen: false },
     ghostBook: { known: true, seen: false },
     teaLeaves: { known: true, seen: false },
     windChimes: { known: true, seen: false },

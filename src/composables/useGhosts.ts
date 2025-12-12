@@ -117,7 +117,7 @@ export const useGhosts = () => {
       name: 'Phantom-',
       icon: PhantomIcon as DefineComponent, 
       favouredRoom: 'bathroom',
-      favouredDevice: 'shrine',
+      favouredDevice: 'mirror',
       active: {
         isActive: store.ghosts.phantom.active.isActive,
         activeRoom: store.ghosts.phantom.active.activeRoom,
