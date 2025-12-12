@@ -51,7 +51,7 @@ import { useRooms } from '../../composables/useRooms';
 import { useTime } from '../../composables/useTime';
 import RoomLocked from '@vicons/material/LockOutlined';
 import type { RoomKey } from '../../utilities/types';
-import Room from '../rooms/Room.vue';
+import Room from './Room.vue';
 
 const { paused } = useTime();
 
