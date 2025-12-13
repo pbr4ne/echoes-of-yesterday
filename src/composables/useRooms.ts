@@ -33,7 +33,7 @@ export const useRooms = () => {
       title: 'Fireplace',
       actions: [
         { actionKey: 'stokeFire', label: 'Stoke Fire', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
-        { actionKey: 'studyFlames', label: 'Study Flames', duration: 10000, deviceKey: 'fireplace', affected: [] },
+        { actionKey: 'studyFlames', label: 'Study Flames', duration: 10000, deviceKey: 'candles', affected: [] },
       ],
     },
   ];
@@ -44,7 +44,7 @@ export const useRooms = () => {
       actions: [
         { actionKey: 'bathe', label: 'Bathe', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
         { actionKey: 'readBook', label: 'Read Book', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
-        { actionKey: 'sensoryDeprivation', label: 'Sensory Deprivation', duration: 10000, deviceKey: 'bathtub', affected: [] },
+        { actionKey: 'shrine', label: 'Shrine', duration: 10000, deviceKey: 'shrine', affected: [] },
       ],
     },
     {
@@ -85,7 +85,7 @@ export const useRooms = () => {
       actions: [
         { actionKey: 'blackTea', label: 'Steep Black Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }, { key: 'fatigue', amount: -10 }] },
         { actionKey: 'herbalTea', label: 'Infuse Herbal Tea', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
-        { actionKey: 'readTeaLeaves', label: 'Read Tea Leaves', duration: 10000, deviceKey: 'teaLeaves', affected: [] },
+        { actionKey: 'readTeaLeaves', label: 'Read Tea Leaves', duration: 10000, deviceKey: 'teaKettle', affected: [] },
       ],
     },
   ];
@@ -115,7 +115,7 @@ export const useRooms = () => {
       actions: [
         { actionKey: 'readNovel', label: 'Read Novel', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
         { actionKey: 'solvePuzzleBook', label: 'Solve Puzzle Book', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
-        { actionKey: 'lookAtGhostBook', label: 'Look at Ghost Book', duration: 10000, deviceKey: 'ghostBook', affected: [] },
+        { actionKey: 'lookAtGhostBook', label: 'Look at Ghost Book', duration: 10000, deviceKey: 'journal', affected: [] },
       ],
     },
     {
@@ -123,7 +123,7 @@ export const useRooms = () => {
       actions: [
         { actionKey: 'readForums', label: 'Read Forums', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
         { actionKey: 'playSolitaire', label: 'Play Solitaire', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
-        { actionKey: 'playComputerGame', label: 'Play Computer Game', duration: 10000, deviceKey: 'computerGame', affected: [] },
+        { actionKey: 'playComputerGame', label: 'Play Computer Game', duration: 10000, deviceKey: 'computer', affected: [] },
       ],
     },
   ];
@@ -133,7 +133,7 @@ export const useRooms = () => {
       title: 'Corner',
       actions: [
         { actionKey: 'liftWeights', label: 'Lift Weights', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
-        { actionKey: 'cleanEctoplasm', label: 'Clean Ectoplasm', duration: 10000, deviceKey: 'ectoplasm', affected: [] },
+        { actionKey: 'eatMushrooms', label: 'Eat Mushrooms', duration: 10000, deviceKey: 'mushrooms', affected: [] },
       ],
     },
     {
@@ -166,7 +166,7 @@ export const useRooms = () => {
       actions: [
         { actionKey: 'tendToFlowers', label: 'Tend to Flowers', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
         { actionKey: 'listenToWindChimes', label: 'Listen to Wind Chimes', duration: 10000, deviceKey: 'windChimes', affected: [] },
-        { actionKey: 'readThermometer', label: 'Read Thermometer', duration: 10000, deviceKey: 'thermometer', affected: [] },
+        { actionKey: 'readTarot', label: 'Read Tarot Cards', duration: 10000, deviceKey: 'tarot', affected: [] },
       ],
     },
     {
