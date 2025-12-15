@@ -1,12 +1,17 @@
 <template>
   <div v-for="(item, index) in stats" :key="item.key" class="sidebar-item">
-    <n-icon 
-      size="24" 
-      class="sidebar-icon" 
-      :color="collapsed ? getProgressColor(item.percentage) : undefined"
-    >
-      <component :is="item.icon" />
-    </n-icon>
+    <n-tooltip trigger="hover" :disabled="!collapsed">
+      <template #trigger>
+        <n-icon 
+          size="24" 
+          class="sidebar-icon" 
+          :color="collapsed ? getProgressColor(item.percentage) : undefined"
+        >
+          <component :is="item.icon" />
+        </n-icon>
+        </template>
+      <span>{{ item.label }}</span>
+    </n-tooltip>
     <div class="progress-wrapper" v-if="!collapsed">
       <n-progress
         :percentage="item.percentage"
