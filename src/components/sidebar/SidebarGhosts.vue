@@ -1,13 +1,18 @@
 <template>
   <div v-for="(ghost, key) in knownGhosts" :key="key" class="sidebar-item">
-    <n-icon 
-      size="24" 
-      class="sidebar-icon" 
-      :class="{ pulsate: (ghost.active.isActive && !paused) }"
-      :color="collapsed ? getTagColor(ghost.state).textColor : undefined"
-    >
-      <component :is="ghost.icon" />
-    </n-icon>
+    <n-tooltip trigger="hover" :disabled="!collapsed">
+      <template #trigger>
+        <n-icon 
+          size="24" 
+          class="sidebar-icon" 
+          :class="{ pulsate: (ghost.active.isActive && !paused) }"
+          :color="collapsed ? getTagColor(ghost.state).textColor : undefined"
+        >
+          <component :is="ghost.icon" />
+        </n-icon>
+      </template>
+      <span>{{ getLabel(ghost) }}</span>
+    </n-tooltip>
     <span class="ghost-label" style="padding-left: 10px;" :class="{ pulsate: ghost.active.isActive && !paused }" v-if="!collapsed">
       {{ getLabel(ghost) }}
     </span>
