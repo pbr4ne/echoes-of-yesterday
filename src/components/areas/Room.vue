@@ -53,9 +53,10 @@
           v-if="card.hasCat"
           round 
           class="cat-button" 
-          @click="unfocusButton"
+          @click="unfocusButton($event); onCatClick($event)"
         >
           <img :src="catsWalking" alt="cat" />
+          <span class="meow-label">meow!</span>
         </n-button>
       </div>
     </n-card>
@@ -69,6 +70,7 @@ import { emitter } from '../../utilities/emitter';
 import { useStore } from '../../composables/useStore';
 import { InfoCircleOutlined  } from '@vicons/antd';
 import catsWalking from '@/assets/cat_sitting.gif';
+import { gsap } from 'gsap'
 
 const props = defineProps<{ roomKey: RoomKey; actionGroups: ActionGroup[] }>();
 
@@ -87,6 +89,33 @@ const store = useStore();
 function unfocusButton(event: Event) {
   const el = event.currentTarget as HTMLElement;
   requestAnimationFrame(() => el.blur());
+}
+
+function onCatClick(e: MouseEvent) {
+  const button = e.currentTarget as HTMLElement;
+  const label = button.querySelector('.meow-label') as HTMLElement | null;
+  if (!label) {
+    return;
+  }
+
+  gsap.killTweensOf(label);
+
+  gsap.fromTo(
+    label,
+    { opacity: 0, y: 0 },
+    {
+      opacity: 1,
+      y: -24,
+      duration: 0.6,
+      ease: 'power1.out',
+      onComplete: () => {
+        gsap.to(label, {
+          opacity: 0,
+          duration: 0.3
+        });
+      }
+    }
+  );
 }
 
 const isDeviceAction = (a: GenericAction): a is GenericAction & { deviceKey: DeviceKey } =>
@@ -215,5 +244,17 @@ const getButtonStyle = (action: GenericAction) => {
 
   .cat-button {
     --n-border: none !important;
+  }
+
+  .meow-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #63e2b7;
+    pointer-events: none;
+    opacity: 0;
+    white-space: nowrap;
   }
 </style>
