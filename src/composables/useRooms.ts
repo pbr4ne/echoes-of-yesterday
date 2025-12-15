@@ -24,6 +24,7 @@ export const useRooms = () => {
     },
     {
       title: 'Chesterfield',
+      hasCat: true,
       actions: [
         { actionKey: 'doze', label: 'Doze', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
         { actionKey: 'readMagazine', label: 'Read Magazine', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
@@ -49,6 +50,7 @@ export const useRooms = () => {
     },
     {
       title: 'Vanity',
+      hasCat: true,
       actions: [
         { actionKey: 'readSigils', label: 'Read Mirror Sigils', duration: 10000, deviceKey: 'mirror', affected: [] },
       ],
@@ -75,6 +77,7 @@ export const useRooms = () => {
     },
     {
       title: 'Counter',
+      hasCat: true,
       actions: [
         { actionKey: 'eatSalad', label: 'Mix Salad', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
         { actionKey: 'eatPorridge', label: 'Stir Porridge', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
@@ -94,6 +97,7 @@ export const useRooms = () => {
   const bedroomActions: ActionGroup[] = [
     {
       title: 'Bed',
+      hasCat: true,
       actions: [
         { actionKey: 'nap', label: 'Nap', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
         { actionKey: 'sleep', label: 'Sleep', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
@@ -126,7 +130,7 @@ export const useRooms = () => {
         { actionKey: 'playSolitaire', label: 'Play Solitaire', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
         { actionKey: 'playComputerGame', label: 'Play Computer Game', duration: 10000, deviceKey: 'computer', affected: [] },
       ],
-    },
+    }
   ];
 
   const cellarActions: ActionGroup[] = [
@@ -139,6 +143,7 @@ export const useRooms = () => {
     },
     {
       title: 'Shelves',
+      hasCat: true,
       actions: [
         { actionKey: 'sortBoxes', label: 'Sort Boxes', duration: 10000, affected: [{ key: 'boredom', amount: -10 }, { key: 'frailty', amount: -10 }] },
         { actionKey: 'useOuijaBoard', label: 'Use Ouija Board', duration: 10000, deviceKey: 'ouijaBoard', affected: [] },
@@ -164,6 +169,7 @@ export const useRooms = () => {
     },
     {
       title: 'Window Box',
+      hasCat: true,
       actions: [
         { actionKey: 'tendToFlowers', label: 'Tend to Flowers', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
         { actionKey: 'listenToWindChimes', label: 'Listen to Wind Chimes', duration: 10000, deviceKey: 'windChimes', affected: [] },

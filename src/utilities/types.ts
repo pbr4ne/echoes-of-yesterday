@@ -18,10 +18,10 @@ export type Devices = Record<DeviceKey, Device>;
 export type ResearchGroup =  { [key: string]: Research; };
 
 export type ResearchEffect =
-	| { type: 'unlock_device'; device: DeviceKey }
-	| { type: 'unlock_room'; room: RoomKey }
-	| { type: 'stat_decay_multiplier'; stat: StatKey; multiplier: number }
-	| { type: 'stat_decay_add'; stat: StatKey; perSecond: number }
+  | { type: 'unlock_device'; device: DeviceKey }
+  | { type: 'unlock_room'; room: RoomKey }
+  | { type: 'stat_decay_multiplier'; stat: StatKey; multiplier: number }
+  | { type: 'stat_decay_add'; stat: StatKey; perSecond: number }
   | { type: 'unlock_research'; key: string };
 
 export interface Calendar {
@@ -111,12 +111,13 @@ export type GenericAction = OneTimeAction | PersistentAction;
 export type ActionGroup = { 
   title: string; 
   description?: string;
+  hasCat?: boolean;
   actions: (GenericAction)[]; 
 };
 
 export interface Modifiers {
-	decayMult: Partial<Record<StatKey, number>>;
-	decayAdd: Partial<Record<StatKey, number>>;
+  decayMult: Partial<Record<StatKey, number>>;
+  decayAdd: Partial<Record<StatKey, number>>;
 }
 
 export interface GameState {
