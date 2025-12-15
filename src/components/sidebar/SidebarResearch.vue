@@ -1,12 +1,17 @@
 <template>
   <div v-for="(r, index) in research" :key="r.key" class="sidebar-item">
-    <n-icon 
-      size="24" 
-      class="sidebar-icon"
-      :color="collapsed && researchProgresses[r.key] > 0 ? r.colorLight : undefined"
-    >
-      <component :is="r.icon" />
-    </n-icon>
+    <n-tooltip trigger="hover" :disabled="!collapsed">
+      <template #trigger>
+        <n-icon 
+          size="24" 
+          class="sidebar-icon"
+          :color="collapsed && researchProgresses[r.key] > 0 ? r.colorLight : undefined"
+        >
+          <component :is="r.icon" />
+        </n-icon>
+      </template>
+      <span>{{ r.title }}</span>
+    </n-tooltip>
     <span style="padding-left: 10px;" v-if="!collapsed">
       {{ r.title }}
     </span>
