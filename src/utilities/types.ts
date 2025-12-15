@@ -110,6 +110,7 @@ export type GenericAction = OneTimeAction | PersistentAction;
 
 export type ActionGroup = { 
   title: string; 
+  description?: string;
   actions: (GenericAction)[]; 
 };
 

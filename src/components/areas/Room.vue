@@ -4,10 +4,25 @@
       class="flickerable"
       v-for="(card, cardIndex) in actionGroups"
       :key="cardIndex"
-      :title="card.title"
       :style="getCardStyle(card)"
       v-show="cardHasVisibleActions(card)"
     >
+      <template #header>
+        <n-flex align="center" :wrap="false">
+          <span>{{ card.title }}</span>
+          <n-tooltip
+            v-if="card.description"
+            trigger="hover"
+          >
+            <template #trigger>
+              <n-icon size="16" style="cursor: help;">
+                <InfoCircleOutlined  />
+              </n-icon>
+            </template>
+            <span>{{ card.description }}</span>
+          </n-tooltip>
+        </n-flex>
+      </template>
       <n-flex vertical>
         <n-badge
 					v-for="action in card.actions"
@@ -41,6 +56,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction, InventoryKey, StatKey, RoomKey } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
 import { useStore } from '../../composables/useStore';
+import { InfoCircleOutlined  } from '@vicons/antd';
 
 const props = defineProps<{ roomKey: RoomKey; actionGroups: ActionGroup[] }>();
 

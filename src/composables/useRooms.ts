@@ -58,6 +58,7 @@ export const useRooms = () => {
   const kitchenActions: ActionGroup[] = [
     {
       title: 'Stove',
+      //description: 'Stove description',
       actions: [
         { actionKey: 'eatSoup', label: 'Make Soup', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
         { actionKey: 'eatStew', label: 'Prepare Stew', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
