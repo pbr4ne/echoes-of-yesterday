@@ -61,7 +61,7 @@ import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction,
 import { emitter } from '../../utilities/emitter';
 import { useStore } from '../../composables/useStore';
 import { InfoCircleOutlined  } from '@vicons/antd';
-import catSitting from '@/assets/cat_sitting.gif';
+import catSitting from '@/assets/cat/cat_sitting.gif';
 import Cat from '../areas/Cat.vue';
 
 const props = defineProps<{ roomKey: RoomKey; actionGroups: ActionGroup[] }>();
