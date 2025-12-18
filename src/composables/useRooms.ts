@@ -44,6 +44,14 @@ export const useRooms = () => {
         { actionKey: 'studyFlames', label: 'Study Flames', duration: 10000, deviceKey: 'candles', affected: [] },
       ],
     },
+    {
+      title: 'Room',
+      description: 'Living Room description',
+      actions: [
+        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
+      ],
+    },
   ];
 
   const bathroomActions: ActionGroup[] = [
@@ -62,12 +70,19 @@ export const useRooms = () => {
         { actionKey: 'readSigils', label: 'Read Mirror Sigils', duration: 10000, deviceKey: 'mirror', affected: [] },
       ],
     },
+    {
+      title: 'Room',
+      description: 'Bathroom description',
+      actions: [
+        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
+      ],
+    },
   ];
 
   const kitchenActions: ActionGroup[] = [
     {
       title: 'Stove',
-      //description: 'Stove description',
       actions: [
         { actionKey: 'eatSoup', label: 'Make Soup', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
         { actionKey: 'eatStew', label: 'Prepare Stew', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
@@ -99,6 +114,14 @@ export const useRooms = () => {
         { actionKey: 'readTeaLeaves', label: 'Read Tea Leaves', duration: 10000, deviceKey: 'teaKettle', affected: [] },
       ],
     },
+    {
+      title: 'Room',
+      description: 'Kitchen description',
+      actions: [
+        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
+      ],
+    },
   ];
 
   const bedroomActions: ActionGroup[] = [
@@ -112,24 +135,24 @@ export const useRooms = () => {
       ],
     },
     {
-      title: 'Room',
+      title: 'Rug',
       actions: [
-        { actionKey: 'useBlackLight', label: 'Use Black Light', duration: 10000, deviceKey: 'blackLight', affected: [] },
-        { actionKey: 'lightCandles', label: 'Light Candles', duration: 10000, deviceKey: 'candles', affected: [] },
         { actionKey: 'doCalisthenics', label: 'Do Calisthenics', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'lightCandles', label: 'Light Candles', duration: 10000, deviceKey: 'candles', affected: [] },
+      ],
+    },
+    {
+      title: 'Room',
+      description: 'Bedroom description',
+      actions: [
+        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
+        { actionKey: 'useBlackLight', label: 'Use Black Light', duration: 10000, deviceKey: 'blackLight', affected: [] },
       ],
     },
   ];
 
   const denActions: ActionGroup[] = [
-    {
-      title: 'Room',
-      cat: catPlaying,
-      actions: [
-        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
-        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
-      ],
-    },
     {
       title: 'Bookshelf',
       actions: [
@@ -145,7 +168,15 @@ export const useRooms = () => {
         { actionKey: 'playSolitaire', label: 'Play Solitaire', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
         { actionKey: 'playComputerGame', label: 'Play Computer Game', duration: 10000, deviceKey: 'computer', affected: [] },
       ],
-    }
+    },
+    {
+      title: 'Room',
+      cat: catPlaying,
+      actions: [
+        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
+      ],
+    },
   ];
 
   const cellarActions: ActionGroup[] = [
@@ -162,6 +193,14 @@ export const useRooms = () => {
       actions: [
         { actionKey: 'sortBoxes', label: 'Sort Boxes', duration: 10000, affected: [{ key: 'boredom', amount: -10 }, { key: 'frailty', amount: -10 }] },
         { actionKey: 'useOuijaBoard', label: 'Use Ouija Board', duration: 10000, deviceKey: 'ouijaBoard', affected: [] },
+      ],
+    },
+    {
+      title: 'Room',
+      description: 'Cellar description',
+      actions: [
+        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
       ],
     },
   ];
@@ -196,6 +235,14 @@ export const useRooms = () => {
       actions: [
         { actionKey: 'dryHerbs', label: 'Dry Herbs', duration: 10000, affected: [{ key: 'herb', amount: -1 }, { key: 'driedHerb', amount: 1 }] },
         { actionKey: 'dryTea', label: 'Dry Tea Leaves', duration: 10000, affected: [{ key: 'tea', amount: -1 }, { key: 'driedTea', amount: 1 }] },
+      ],
+    },
+    {
+      title: 'Room',
+      description: 'Sunroom description',
+      actions: [
+        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
       ],
     },
   ];
