@@ -15,8 +15,8 @@
             trigger="hover"
           >
             <template #trigger>
-              <n-icon size="16" style="cursor: help;">
-                <InfoCircleOutlined />
+              <n-icon size="24" style="cursor: help;">
+                <EyeTwotone />
               </n-icon>
             </template>
             <span>{{ card.description }}</span>
@@ -60,7 +60,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction, InventoryKey, StatKey, RoomKey } from '../../utilities/types';
 import { emitter } from '../../utilities/emitter';
 import { useStore } from '../../composables/useStore';
-import { InfoCircleOutlined  } from '@vicons/antd';
+import { EyeTwotone  } from '@vicons/antd';
 import Cat from '../areas/Cat.vue';
 
 const props = defineProps<{ roomKey: RoomKey; actionGroups: ActionGroup[] }>();
