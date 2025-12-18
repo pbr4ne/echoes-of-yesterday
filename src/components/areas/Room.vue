@@ -97,18 +97,10 @@ const isPersistentAction = (action: GenericAction): action is PersistentAction =
 
 const progressStyles = ref<{ [actionKey: string]: string }>({});
 
-const getVisibleActionsCount = (card: ActionGroup) =>
-  card.actions.filter(isVisibleAction).length;
-
 const getCardStyle = (card: ActionGroup) => {
-  const visibleCount = getVisibleActionsCount(card);
-  const baseHeightPerAction = 50;
-  const headerAndPadding = 60;
-  const height = Math.max(130, headerAndPadding + visibleCount * baseHeightPerAction);
-
   return {
     width: '220px',
-    height: `${height}px`,
+    height: `220px`,
   }
 }
 
@@ -197,7 +189,6 @@ const getButtonStyle = (action: GenericAction) => {
 <style scoped>
   .card-content {
     position: relative;
+    height: 100%;
   }
-
-
 </style>
