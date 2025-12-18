@@ -8,6 +8,13 @@ import SunroomIcon from '@vicons/tabler/Plant';
 import BathroomIcon from '@vicons/tabler/Bath';
 import DenIcon from '@vicons/ionicons5/BookOutline';
 import CellarIcon from '@vicons/fluent/ConferenceRoom24Regular';
+import catBatting from '@/assets/cat/cat_batting.gif';
+import catClimbing from '@/assets/cat/cat_climbing.gif';
+import catDigging from '@/assets/cat/cat_digging.gif';
+import catDozing from '@/assets/cat/cat_dozing.gif';
+import catPlaying from '@/assets/cat/cat_playing.gif';
+import catSittingStanding from '@/assets/cat/cat_sitting_standing.gif';
+import catSleeping from '@/assets/cat/cat_sleeping.gif';
 
 export const useRooms = () => {
 
@@ -24,7 +31,6 @@ export const useRooms = () => {
     },
     {
       title: 'Chesterfield',
-      hasCat: true,
       actions: [
         { actionKey: 'doze', label: 'Doze', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
         { actionKey: 'readMagazine', label: 'Read Magazine', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
@@ -32,6 +38,7 @@ export const useRooms = () => {
     },
     {
       title: 'Fireplace',
+      cat: catDozing,
       actions: [
         { actionKey: 'stokeFire', label: 'Stoke Fire', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
         { actionKey: 'studyFlames', label: 'Study Flames', duration: 10000, deviceKey: 'candles', affected: [] },
@@ -50,7 +57,7 @@ export const useRooms = () => {
     },
     {
       title: 'Vanity',
-      hasCat: true,
+      cat: catSittingStanding,
       actions: [
         { actionKey: 'readSigils', label: 'Read Mirror Sigils', duration: 10000, deviceKey: 'mirror', affected: [] },
       ],
@@ -77,7 +84,7 @@ export const useRooms = () => {
     },
     {
       title: 'Counter',
-      hasCat: true,
+      cat: catBatting,
       actions: [
         { actionKey: 'eatSalad', label: 'Mix Salad', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
         { actionKey: 'eatPorridge', label: 'Stir Porridge', duration: 10000, affected: [{ key: 'hunger', amount: -10 }] },
@@ -97,7 +104,7 @@ export const useRooms = () => {
   const bedroomActions: ActionGroup[] = [
     {
       title: 'Bed',
-      hasCat: true,
+      cat: catSleeping,
       actions: [
         { actionKey: 'nap', label: 'Nap', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
         { actionKey: 'sleep', label: 'Sleep', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
@@ -115,6 +122,14 @@ export const useRooms = () => {
   ];
 
   const denActions: ActionGroup[] = [
+    {
+      title: 'Room',
+      cat: catPlaying,
+      actions: [
+        { actionKey: 'clean', label: 'Clean', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
+        { actionKey: 'sage' , label: 'Sage', duration: 10000, affected: [] },
+      ],
+    },
     {
       title: 'Bookshelf',
       actions: [
@@ -143,7 +158,7 @@ export const useRooms = () => {
     },
     {
       title: 'Shelves',
-      hasCat: true,
+      cat: catClimbing,
       actions: [
         { actionKey: 'sortBoxes', label: 'Sort Boxes', duration: 10000, affected: [{ key: 'boredom', amount: -10 }, { key: 'frailty', amount: -10 }] },
         { actionKey: 'useOuijaBoard', label: 'Use Ouija Board', duration: 10000, deviceKey: 'ouijaBoard', affected: [] },
@@ -169,7 +184,7 @@ export const useRooms = () => {
     },
     {
       title: 'Window Box',
-      hasCat: true,
+      cat: catDigging,
       actions: [
         { actionKey: 'tendToFlowers', label: 'Tend to Flowers', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
         { actionKey: 'listenToWindChimes', label: 'Listen to Wind Chimes', duration: 10000, deviceKey: 'windChimes', affected: [] },

@@ -111,7 +111,7 @@ export type GenericAction = OneTimeAction | PersistentAction;
 export type ActionGroup = { 
   title: string; 
   description?: string;
-  hasCat?: boolean;
+  cat?: string;
   actions: (GenericAction)[]; 
 };
 

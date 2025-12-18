@@ -49,7 +49,7 @@
             </n-button>
           </n-badge>
         </n-flex>
-        <cat :src="catSitting" v-if="card.hasCat"/>
+        <cat :src="card.cat" v-if="card.cat"/>
       </div>
     </n-card>
   </n-flex>
@@ -61,7 +61,6 @@ import { ActionGroup, DeviceKey, GenericAction, OneTimeAction, PersistentAction,
 import { emitter } from '../../utilities/emitter';
 import { useStore } from '../../composables/useStore';
 import { InfoCircleOutlined  } from '@vicons/antd';
-import catSitting from '@/assets/cat/cat_sitting.gif';
 import Cat from '../areas/Cat.vue';
 
 const props = defineProps<{ roomKey: RoomKey; actionGroups: ActionGroup[] }>();
