@@ -48,7 +48,7 @@ export const useGhosts = () => {
       name: 'Orb-',
       icon: OrbIcon as DefineComponent, 
       favouredRoom: 'bathroom',
-      favouredDevice: 'shrine',
+      favouredDevice: 'mirror',
       active: {
         isActive: store.ghosts.orb.active.isActive,
         activeRoom: store.ghosts.orb.active.activeRoom,
