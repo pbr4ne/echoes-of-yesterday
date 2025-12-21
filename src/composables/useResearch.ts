@@ -1,6 +1,6 @@
 import { computed, markRaw } from 'vue';
 import { useStore } from './useStore';
-import { ResearchKeys } from '../utilities/types';
+import { Research, ResearchKeys } from '../utilities/types';
 import { 
   BookTheta24Regular as SustenanceIcon,
   BookPulse24Regular as FitnessIcon,
@@ -33,6 +33,7 @@ export const useResearch = () => {
               title: 'Sustenance 2',
               visible: store.research.sustenance.sustenance2.visible,
               known: store.research.sustenance.sustenance2.known,
+              seen: store.research.sustenance.sustenance2.seen,
               complete: store.research.sustenance.sustenance2.complete,
             },
           }
