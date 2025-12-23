@@ -80,6 +80,11 @@ const initialState = (): GameState => ({
     sustenance: {
       sustenance1: { visible: true, known: true, seen: false, complete: false },
       sustenance2: { visible: true, known: true, seen: false, complete: false },
+      sustenance3: { visible: true, known: true, seen: false, complete: false },
+      sustenance4: { visible: true, known: true, seen: false, complete: false },
+      sustenance5: { visible: true, known: true, seen: false, complete: false },
+      sustenance6: { visible: true, known: true, seen: false, complete: false },
+      sustenance7: { visible: true, known: true, seen: false, complete: false },
     },
     fitness: {
       fitness1: { visible: true, known: true, seen: false, complete: true },

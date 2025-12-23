@@ -22,7 +22,7 @@ export const useResearch = () => {
       children: { 
         sustenance1: {
           key: 'sustenance1',
-          title: 'Sustenance 1',
+          title: 'Herbalism',
           visible: store.research.sustenance.sustenance1.visible,
           known: store.research.sustenance.sustenance1.known,
           seen: store.research.sustenance.sustenance1.seen,
@@ -30,13 +30,61 @@ export const useResearch = () => {
           children: {
             sustenance2: {
               key: 'sustenance2',
-              title: 'Sustenance 2',
+              title: 'Gourmet Cat Food',
               visible: store.research.sustenance.sustenance2.visible,
               known: store.research.sustenance.sustenance2.known,
               seen: store.research.sustenance.sustenance2.seen,
               complete: store.research.sustenance.sustenance2.complete,
+              children: {
+                sustenance3: {
+                  key: 'sustenance3',
+                  title: 'Miniature Fruit Trees',
+                  visible: store.research.sustenance.sustenance3.visible,
+                  known: store.research.sustenance.sustenance3.known,
+                  seen: store.research.sustenance.sustenance3.seen,
+                  complete: store.research.sustenance.sustenance3.complete,
+                  children: {
+                    sustenance4: {
+                      key: 'sustenance4',
+                      title: 'Hunger Cues',
+                      visible: store.research.sustenance.sustenance4.visible,
+                      known: store.research.sustenance.sustenance4.known,
+                      seen: store.research.sustenance.sustenance4.seen,
+                      complete: store.research.sustenance.sustenance4.complete,
+                    },
+                  },
+                },
+              }
             },
-          }
+            sustenance5: {
+              key: 'sustenance5',
+              title: 'Kitchen Efficiency',
+              visible: store.research.sustenance.sustenance5.visible,
+              known: store.research.sustenance.sustenance5.known,
+              seen: store.research.sustenance.sustenance5.seen,
+              complete: store.research.sustenance.sustenance5.complete,
+              children: {
+                sustenance6: {
+                  key: 'sustenance6',
+                  title: 'Whole Grains',
+                  visible: store.research.sustenance.sustenance6.visible,
+                  known: store.research.sustenance.sustenance6.known,
+                  seen: store.research.sustenance.sustenance6.seen,
+                  complete: store.research.sustenance.sustenance6.complete,
+                  children: {
+                    sustenance7: {
+                      key: 'sustenance7',
+                      title: 'Satiety',
+                      visible: store.research.sustenance.sustenance7.visible,
+                      known: store.research.sustenance.sustenance7.known,
+                      seen: store.research.sustenance.sustenance7.seen,
+                      complete: store.research.sustenance.sustenance7.complete,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
