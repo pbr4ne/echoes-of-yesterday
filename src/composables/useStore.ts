@@ -87,8 +87,12 @@ const initialState = (): GameState => ({
       sustenance7: { visible: true, known: true, seen: false, complete: false },
     },
     fitness: {
-      fitness1: { visible: true, known: true, seen: false, complete: true },
-      fitness2: { visible: true, known: true, seen: false, complete: false },
+      calisthenics: { visible: true, known: true, seen: false, complete: false },
+      catnip: { visible: true, known: true, seen: false, complete: false },
+      kinesiology: { visible: true, known: true, seen: false, complete: false },
+      weights: { visible: true, known: true, seen: false, complete: false },
+      mobility: { visible: true, known: true, seen: false, complete: false },
+      sprinting: { visible: true, known: true, seen: false, complete: false },
     },
     recreation: {
       recreation1: { visible: true, known: true, seen: false, complete: false },

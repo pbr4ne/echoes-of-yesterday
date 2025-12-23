@@ -95,23 +95,61 @@ export const useResearch = () => {
       colorLight: '#826c62',
       icon: markRaw(FitnessIcon),
       children: {
-        fitness1: {
-          key: 'fitness1',
-          title: 'Fitness 1',
-          visible: store.research.fitness.fitness1.visible,
-          known: store.research.fitness.fitness1.known,
-          seen: store.research.fitness.fitness1.seen,
-          complete: store.research.fitness.fitness1.complete,
+        calisthenics: {
+          key: 'calisthenics',
+          title: 'Calisthenics',
+          visible: store.research.fitness.calisthenics.visible,
+          known: store.research.fitness.calisthenics.known,
+          seen: store.research.fitness.calisthenics.seen,
+          complete: store.research.fitness.calisthenics.complete,
           children: {
-            fitness2: {
-              key: 'fitness2',
-              title: 'Fitness 2',
-              visible: store.research.fitness.fitness2.visible,
-              known: store.research.fitness.fitness2.known,
-              seen: store.research.fitness.fitness2.seen,
-              complete: store.research.fitness.fitness2.complete,
+            catnip: {
+              key: 'catnip',
+              title: 'Growing Catnip',
+              visible: store.research.fitness.catnip.visible,
+              known: store.research.fitness.catnip.known,
+              seen: store.research.fitness.catnip.seen,
+              complete: store.research.fitness.catnip.complete,
+              children: {
+                kinesiology: {
+                  key: 'kinesiology',
+                  title: 'Kinesiology',
+                  visible: store.research.fitness.kinesiology.visible,
+                  known: store.research.fitness.kinesiology.known,
+                  seen: store.research.fitness.kinesiology.seen,
+                  complete: store.research.fitness.kinesiology.complete,
+                  children: {                    
+                    mobility: {
+                      key: 'mobility',
+                      title: 'Mobility',
+                      visible: store.research.fitness.mobility.visible,
+                      known: store.research.fitness.mobility.known,
+                      seen: store.research.fitness.mobility.seen,
+                      complete: store.research.fitness.mobility.complete,
+                    },
+                  },
+                },
+                weights: {
+                  key: 'weights',
+                  title: 'Weight Training',
+                  visible: store.research.fitness.weights.visible,
+                  known: store.research.fitness.weights.known,
+                  seen: store.research.fitness.weights.seen,
+                  complete: store.research.fitness.weights.complete,
+                  children: {
+                    sprinting: {
+                      key: 'sprinting',
+                      title: 'Sprinting',
+                      visible: store.research.fitness.sprinting.visible,
+                      known: store.research.fitness.sprinting.known,
+                      seen: store.research.fitness.sprinting.seen,
+                      complete: store.research.fitness.sprinting.complete,
+                    },
+                  },
+                },
+              },
             },
-          }
+          },                    
         },
       },
     },
