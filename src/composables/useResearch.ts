@@ -212,7 +212,7 @@ export const useResearch = () => {
             },
             paranormal9: {
               key: 'paranormal10',
-              title: 'Parapsychology',
+              title: 'Para-psychology',
               visible: store.research.paranormal.paranormal10.visible,
               known: store.research.paranormal.paranormal10.known,
               seen: store.research.paranormal.paranormal10.seen,

@@ -22,7 +22,10 @@
                 ghost
                 color="#d5d5d69D"
                 :dashed="!data.known"
-                :style="getButtonStyle(data)"
+                :style="{
+                  ...getButtonStyle(data),
+                  maxWidth: '120px'
+                }"
                 @click="startResearch(data)"
                 @mouseenter="researchSeen(data)"
               >
@@ -193,7 +196,10 @@ const getButtonStyle = (data: any) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.2;
   }
 
   .redacted-label {
