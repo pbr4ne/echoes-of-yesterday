@@ -54,7 +54,7 @@ export const useResearch = () => {
                     },
                   },
                 },
-              }
+              },
             },
             kitchenEfficiency: {
               key: 'kitchenEfficiency',
@@ -209,9 +209,9 @@ export const useResearch = () => {
                       known: store.research.recreation.daydreaming.known,
                       seen: store.research.recreation.daydreaming.seen,
                       complete: store.research.recreation.daydreaming.complete,
-                    }
+                    },
                   },
-                }
+                },
               },
             },
           },
@@ -264,7 +264,7 @@ export const useResearch = () => {
                       known: store.research.rest.sheepTechnique.known,
                       seen: store.research.rest.sheepTechnique.seen,
                       complete: store.research.rest.sheepTechnique.complete,
-                    }
+                    },
                   },
                 },
               },
