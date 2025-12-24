@@ -131,7 +131,7 @@ export const useRooms = () => {
       actions: [
         { actionKey: 'sleep', label: 'Sleep', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
         { actionKey: 'lucidDream', label: 'Lucid Dream', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
-        { actionKey: 'read', label: 'Read', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
+        { actionKey: 'astralProjection', label: 'Astral Projection', duration: 10000, deviceKey: 'bed', affected: [] },
       ],
     },
     {
