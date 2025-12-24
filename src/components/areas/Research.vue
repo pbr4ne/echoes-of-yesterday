@@ -79,12 +79,13 @@ const rootNode = {
 const buildTree = (node: any, parentColorDark?: string): any => ({
   key: node.key,
   label: node.title,
+  visible: node.visible == undefined ? true : node.visible,
   colorDark: node.colorDark || parentColorDark,
   complete: node.complete == undefined ? true : node.complete,
   known: node.known == undefined ? true : node.known,
   seen: node.seen == undefined ? true : node.seen,
   expand: true,
-  children: node.children ? Object.values(node.children).map((child: any) => buildTree(child, node.colorDark || parentColorDark)) : []
+  children: node.children ? Object.values(node.children).filter((child: any) => child.visible !== false).map((child: any) => buildTree(child, node.colorDark || parentColorDark)) : []
 });
 
 let treeData = reactive(buildTree(rootNode));
