@@ -95,8 +95,12 @@ const initialState = (): GameState => ({
       sprinting: { visible: true, known: true, seen: false, complete: false },
     },
     recreation: {
-      recreation1: { visible: true, known: true, seen: false, complete: false },
-      recreation2: { visible: true, known: false, seen: false, complete: false },
+      puzzles: { visible: true, known: true, seen: false, complete: false },
+      fun: { visible: true, known: true, seen: false, complete: false },
+      catTricks: { visible: true, known: true, seen: false, complete: false },
+      entertainmentTBD: { visible: true, known: true, seen: false, complete: false },
+      lateralThinking: { visible: true, known: true, seen: false, complete: false },
+      daydreaming: { visible: true, known: true, seen: false, complete: false },
     },
     rest: {
       rest1: { visible: true, known: false, seen: false, complete: false },

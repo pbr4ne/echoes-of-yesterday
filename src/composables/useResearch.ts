@@ -160,23 +160,61 @@ export const useResearch = () => {
       colorLight: '#678264',
       icon: markRaw(EntertainmentIcon),
       children: {
-        recreation1: {
-          key: 'recreation1',
-          title: 'Recreation 1',
-          visible: store.research.recreation.recreation1.visible,
-          known: store.research.recreation.recreation1.known,
-          seen: store.research.recreation.recreation1.seen,
-          complete: store.research.recreation.recreation1.complete,
+        puzzles: {
+          key: 'puzzles',
+          title: 'Puzzle Solving',
+          visible: store.research.recreation.puzzles.visible,
+          known: store.research.recreation.puzzles.known,
+          seen: store.research.recreation.puzzles.seen,
+          complete: store.research.recreation.puzzles.complete,
           children: {
-            recreation2: {
-              key: 'recreation2',
-              title: 'Recreation 2',
-              visible: store.research.recreation.recreation2.visible,
-              known: store.research.recreation.recreation2.known,
-              seen: store.research.recreation.recreation2.seen,
-              complete: store.research.recreation.recreation2.complete,
+            fun: {
+              key: 'fun',
+              title: 'How to Have Fun',
+              visible: store.research.recreation.fun.visible,
+              known: store.research.recreation.fun.known,
+              seen: store.research.recreation.fun.seen,
+              complete: store.research.recreation.fun.complete,
             },
-          }
+          },
+        },
+        catTricks: {
+          key: 'catTricks',
+          title: 'Cat Tricks',
+          visible: store.research.recreation.catTricks.visible,
+          known: store.research.recreation.catTricks.known,
+          seen: store.research.recreation.catTricks.seen,
+          complete: store.research.recreation.catTricks.complete,
+          children: {
+            entertainmentTBD: {
+              key: 'entertainmentTBD',
+              title: 'Entertainment TBD',
+              visible: store.research.recreation.entertainmentTBD.visible,
+              known: store.research.recreation.entertainmentTBD.known,
+              seen: store.research.recreation.entertainmentTBD.seen,
+              complete: store.research.recreation.entertainmentTBD.complete,
+              children: {
+                lateralThinking: {
+                  key: 'lateralThinking',
+                  title: 'Lateral Thinking',
+                  visible: store.research.recreation.lateralThinking.visible,
+                  known: store.research.recreation.lateralThinking.known,
+                  seen: store.research.recreation.lateralThinking.seen,
+                  complete: store.research.recreation.lateralThinking.complete,
+                  children: {
+                    daydreaming: {
+                      key: 'daydreaming',
+                      title: 'Daydreaming',
+                      visible: store.research.recreation.daydreaming.visible,
+                      known: store.research.recreation.daydreaming.known,
+                      seen: store.research.recreation.daydreaming.seen,
+                      complete: store.research.recreation.daydreaming.complete,
+                    }
+                  },
+                }
+              },
+            },
+          },
         },
       },
     },
