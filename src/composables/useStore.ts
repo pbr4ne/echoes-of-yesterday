@@ -103,8 +103,11 @@ const initialState = (): GameState => ({
       daydreaming: { visible: true, known: true, seen: false, complete: false },
     },
     rest: {
-      rest1: { visible: true, known: false, seen: false, complete: false },
-      rest2: { visible: true, known: false, seen: false, complete: false },
+      sleepHygiene: { visible: true, known: true, seen: false, complete: false },
+      catNapping: { visible: true, known: true, seen: false, complete: false },
+      lucidDreams: { visible: true, known: true, seen: false, complete: false },
+      deepRest: { visible: true, known: true, seen: false, complete: false },
+      sheepTechnique: { visible: true, known: true, seen: false, complete: false },
     },
     paranormal: {
       paranormal1: { visible: true, known: true, seen: false, complete: false },

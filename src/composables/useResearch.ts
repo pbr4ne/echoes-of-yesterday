@@ -225,23 +225,51 @@ export const useResearch = () => {
       colorLight: '#5a648c',
       icon: markRaw(RestIcon),
       children: {
-        rest1: {
-          key: 'rest1',
-          title: 'Rest 1',
-          visible: store.research.rest.rest1.visible,
-          known: store.research.rest.rest1.known,
-          seen: store.research.rest.rest1.seen,
-          complete: store.research.rest.rest1.complete,
+        sleepHygiene: {
+          key: 'sleepHygiene',
+          title: 'Sleep Hygiene',
+          visible: store.research.rest.sleepHygiene.visible,
+          known: store.research.rest.sleepHygiene.known,
+          seen: store.research.rest.sleepHygiene.seen,
+          complete: store.research.rest.sleepHygiene.complete,
           children: {
-            rest2: {
-              key: 'rest2',
-              title: 'Rest 2',
-              visible: store.research.rest.rest2.visible,
-              known: store.research.rest.rest2.known,
-              seen: store.research.rest.rest2.seen,
-              complete: store.research.rest.rest2.complete,
+            catNapping: {
+              key: 'catNapping',
+              title: 'Cat Napping',
+              visible: store.research.rest.catNapping.visible,
+              known: store.research.rest.catNapping.known,
+              seen: store.research.rest.catNapping.seen,
+              complete: store.research.rest.catNapping.complete,
+              children: {
+                lucidDreams: {
+                  key: 'lucidDreams',
+                  title: 'Lucid Dreams',
+                  visible: store.research.rest.lucidDreams.visible,
+                  known: store.research.rest.lucidDreams.known,
+                  seen: store.research.rest.lucidDreams.seen,
+                  complete: store.research.rest.lucidDreams.complete,
+                  children: {
+                    deepRest: {
+                      key: 'deepRest',
+                      title: 'Deep Rest',
+                      visible: store.research.rest.deepRest.visible,
+                      known: store.research.rest.deepRest.known,
+                      seen: store.research.rest.deepRest.seen,
+                      complete: store.research.rest.deepRest.complete,
+                    },
+                    sheepTechnique: {
+                      key: 'sheepTechnique',
+                      title: 'Sheep Technique',
+                      visible: store.research.rest.sheepTechnique.visible,
+                      known: store.research.rest.sheepTechnique.known,
+                      seen: store.research.rest.sheepTechnique.seen,
+                      complete: store.research.rest.sheepTechnique.complete,
+                    }
+                  },
+                },
+              },
             },
-          }
+          },
         },
       },
     },
