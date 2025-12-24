@@ -91,7 +91,7 @@ const buildTree = (node: any, parentColorDark?: string): any => ({
 let treeData = reactive(buildTree(rootNode));
 
 const truncatedLabel = (label: string) => {
-  return label.length > 8 ? label.slice(0, 8) : label;
+  return label.length > 12 ? label.slice(0, 12) : label;
 };
 
 const handleResearchProgressed = (event: { researchKey: string; progress: number }) => {
