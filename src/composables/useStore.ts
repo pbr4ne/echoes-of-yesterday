@@ -118,7 +118,7 @@ const initialState = (): GameState => ({
       iconomancy: { visible: true, known: true, seen: false, complete: false },
       seance: { visible: true, known: true, seen: false, complete: false },
       capnomancy: { visible: true, known: true, seen: false, complete: false },
-      paranormal9: { visible: true, known: true, seen: false, complete: false },
+      pyromancy: { visible: true, known: true, seen: false, complete: false },
       parapsychology: { visible: true, known: true, seen: false, complete: false },
       spiritBox: { visible: true, known: true, seen: false, complete: false },
       scrying: { visible: true, known: true, seen: false, complete: false },
