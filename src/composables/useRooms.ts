@@ -129,8 +129,8 @@ export const useRooms = () => {
       title: 'Bed',
       cat: catSleeping,
       actions: [
-        { actionKey: 'nap', label: 'Nap', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
         { actionKey: 'sleep', label: 'Sleep', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
+        { actionKey: 'lucidDream', label: 'Lucid Dream', duration: 10000, affected: [{ key: 'fatigue', amount: -10 }] },
         { actionKey: 'read', label: 'Read', duration: 10000, affected: [{ key: 'boredom', amount: -10 }] },
       ],
     },
