@@ -78,13 +78,13 @@ const initialState = (): GameState => ({
   calendar: { days: 0, hours: 0, minutes: 0, accumulatedTime: 0 },
   research: {
     sustenance: {
-      sustenance1: { visible: true, known: true, seen: false, complete: false },
-      sustenance2: { visible: true, known: true, seen: false, complete: false },
-      sustenance3: { visible: true, known: true, seen: false, complete: false },
-      sustenance4: { visible: true, known: true, seen: false, complete: false },
-      sustenance5: { visible: true, known: true, seen: false, complete: false },
-      sustenance6: { visible: true, known: true, seen: false, complete: false },
-      sustenance7: { visible: true, known: true, seen: false, complete: false },
+      herbalism: { visible: true, known: true, seen: false, complete: false },
+      catFood: { visible: true, known: true, seen: false, complete: false },
+      fruit: { visible: true, known: true, seen: false, complete: false },
+      hungerCues: { visible: true, known: true, seen: false, complete: false },
+      kitchenEfficiency: { visible: true, known: true, seen: false, complete: false },
+      grains: { visible: true, known: true, seen: false, complete: false },
+      satiety: { visible: true, known: true, seen: false, complete: false },
     },
     fitness: {
       calisthenics: { visible: true, known: true, seen: false, complete: false },

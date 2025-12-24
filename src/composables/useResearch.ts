@@ -20,65 +20,65 @@ export const useResearch = () => {
       colorLight: '#805e7c',
       icon: markRaw(SustenanceIcon),
       children: { 
-        sustenance1: {
-          key: 'sustenance1',
+        herbalism: {
+          key: 'herbalism',
           title: 'Herbalism',
-          visible: store.research.sustenance.sustenance1.visible,
-          known: store.research.sustenance.sustenance1.known,
-          seen: store.research.sustenance.sustenance1.seen,
-          complete: store.research.sustenance.sustenance1.complete,
+          visible: store.research.sustenance.herbalism.visible,
+          known: store.research.sustenance.herbalism.known,
+          seen: store.research.sustenance.herbalism.seen,
+          complete: store.research.sustenance.herbalism.complete,
           children: {
-            sustenance2: {
-              key: 'sustenance2',
+            catFood: {
+              key: 'catFood',
               title: 'Gourmet Cat Food',
-              visible: store.research.sustenance.sustenance2.visible,
-              known: store.research.sustenance.sustenance2.known,
-              seen: store.research.sustenance.sustenance2.seen,
-              complete: store.research.sustenance.sustenance2.complete,
+              visible: store.research.sustenance.catFood.visible,
+              known: store.research.sustenance.catFood.known,
+              seen: store.research.sustenance.catFood.seen,
+              complete: store.research.sustenance.catFood.complete,
               children: {
-                sustenance3: {
-                  key: 'sustenance3',
+                fruit: {
+                  key: 'fruit',
                   title: 'Miniature Fruit Trees',
-                  visible: store.research.sustenance.sustenance3.visible,
-                  known: store.research.sustenance.sustenance3.known,
-                  seen: store.research.sustenance.sustenance3.seen,
-                  complete: store.research.sustenance.sustenance3.complete,
+                  visible: store.research.sustenance.fruit.visible,
+                  known: store.research.sustenance.fruit.known,
+                  seen: store.research.sustenance.fruit.seen,
+                  complete: store.research.sustenance.fruit.complete,
                   children: {
-                    sustenance4: {
-                      key: 'sustenance4',
+                    hungerCues: {
+                      key: 'hungerCues',
                       title: 'Hunger Cues',
-                      visible: store.research.sustenance.sustenance4.visible,
-                      known: store.research.sustenance.sustenance4.known,
-                      seen: store.research.sustenance.sustenance4.seen,
-                      complete: store.research.sustenance.sustenance4.complete,
+                      visible: store.research.sustenance.hungerCues.visible,
+                      known: store.research.sustenance.hungerCues.known,
+                      seen: store.research.sustenance.hungerCues.seen,
+                      complete: store.research.sustenance.hungerCues.complete,
                     },
                   },
                 },
               }
             },
-            sustenance5: {
-              key: 'sustenance5',
+            kitchenEfficiency: {
+              key: 'kitchenEfficiency',
               title: 'Kitchen Efficiency',
-              visible: store.research.sustenance.sustenance5.visible,
-              known: store.research.sustenance.sustenance5.known,
-              seen: store.research.sustenance.sustenance5.seen,
-              complete: store.research.sustenance.sustenance5.complete,
+              visible: store.research.sustenance.kitchenEfficiency.visible,
+              known: store.research.sustenance.kitchenEfficiency.known,
+              seen: store.research.sustenance.kitchenEfficiency.seen,
+              complete: store.research.sustenance.kitchenEfficiency.complete,
               children: {
-                sustenance6: {
-                  key: 'sustenance6',
+                grains: {
+                  key: 'grains',
                   title: 'Whole Grains',
-                  visible: store.research.sustenance.sustenance6.visible,
-                  known: store.research.sustenance.sustenance6.known,
-                  seen: store.research.sustenance.sustenance6.seen,
-                  complete: store.research.sustenance.sustenance6.complete,
+                  visible: store.research.sustenance.grains.visible,
+                  known: store.research.sustenance.grains.known,
+                  seen: store.research.sustenance.grains.seen,
+                  complete: store.research.sustenance.grains.complete,
                   children: {
-                    sustenance7: {
-                      key: 'sustenance7',
+                    satiety: {
+                      key: 'satiety',
                       title: 'Satiety',
-                      visible: store.research.sustenance.sustenance7.visible,
-                      known: store.research.sustenance.sustenance7.known,
-                      seen: store.research.sustenance.sustenance7.seen,
-                      complete: store.research.sustenance.sustenance7.complete,
+                      visible: store.research.sustenance.satiety.visible,
+                      known: store.research.sustenance.satiety.known,
+                      seen: store.research.sustenance.satiety.seen,
+                      complete: store.research.sustenance.satiety.complete,
                     },
                   },
                 },
