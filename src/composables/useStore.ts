@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { emitter } from '../utilities/emitter';
 import { useTime } from '../composables/useTime';
-import { ActionKey, DeviceKey, GhostKey, InventoryKey, StatKey, ResearchEffect, GameState, OneTimeAction, PersistentAction } from '../utilities/types';
+import { ActionKey, DeviceKey, GhostKey, InventoryKey, StatKey, ResearchEffect, GameState, OneTimeAction, PersistentAction, RoomKey } from '../utilities/types';
 import { researchEffects } from '../composables/useResearchEffects';
 import { useDevices } from '../composables/useDevices';
 import { useGhosts } from '../composables/useGhosts';
@@ -351,6 +351,21 @@ export const useStore = defineStore('gameState', {
         if (node) {
           node.seen = true;
         }
+      });
+    },
+
+    unlockAll() {
+      Object.keys(this.devices).forEach((deviceKey) => {
+        this.devices[deviceKey as DeviceKey].known = true;
+      });
+      Object.keys(this.rooms).forEach((roomKey) => {
+        this.rooms[roomKey as RoomKey].known = true;
+        this.rooms[roomKey as RoomKey].locked = false;
+      });
+      Object.values(this.research).forEach(group => {
+        Object.keys(group).forEach((researchKey) => {
+          this.unlockResearch(researchKey);
+        });
       });
     },
 

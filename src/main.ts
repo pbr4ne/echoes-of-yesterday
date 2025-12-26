@@ -22,6 +22,12 @@ app.use(pinia);
 app.use(VueBlocksTree, defaultoptions);
 
 const store = useStore();
+
+const url = new URLSearchParams(window.location.search);
+if (url.get('UNLOCK_ALL') === 'true') {
+  store.unlockAll();
+}
+
 store.listenForEvents();
 
 const { pause, resume } = useTime();
