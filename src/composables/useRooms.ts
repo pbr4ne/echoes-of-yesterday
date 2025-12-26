@@ -138,7 +138,6 @@ export const useRooms = () => {
       title: 'Rug',
       actions: [
         { actionKey: 'doCalisthenics', label: 'Do Calisthenics', duration: 10000, affected: [{ key: 'frailty', amount: -10 }] },
-        { actionKey: 'lightCandles', label: 'Light Candles', duration: 10000, deviceKey: 'candles', affected: [] },
       ],
     },
     {
